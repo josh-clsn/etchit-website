@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>etchit — Terms of Use</title>
+<meta name="description" content="etchit's acceptable-use policy. Stable, never-changing, copyright and legal compliance only.">
+<link rel="icon" type="image/png" href="etchit-favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --copper: #c9732b;
+    --bone: #f5f2eb;
+    --ash: #8a8a8a;
+    --line: #222;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  header.brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+
+  .wordmark {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .wordmark .slash { color: var(--copper); }
+  .wordmark a { color: var(--bone); text-decoration: none; }
+
+  .back {
+    font-size: 12px;
+    color: var(--ash);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .back:hover {
+    color: var(--bone);
+    border-bottom-color: var(--copper);
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    color: var(--ash);
+    font-size: 13px;
+    margin-bottom: 40px;
+  }
+
+  .lead {
+    color: var(--bone);
+    font-size: 14px;
+    margin-bottom: 32px;
+    padding: 16px 18px;
+    border-left: 2px solid var(--copper);
+    background: var(--ink-2);
+  }
+
+  ol.terms {
+    list-style: none;
+    counter-reset: term;
+  }
+  ol.terms li {
+    counter-increment: term;
+    padding: 18px 0 18px 56px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    font-size: 14px;
+    color: var(--bone);
+  }
+  ol.terms li::before {
+    content: counter(term, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 18px;
+    color: var(--copper);
+    font-weight: 600;
+    font-size: 13px;
+  }
+  ol.terms li b {
+    font-weight: 600;
+    color: var(--bone);
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--ash);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer a { color: var(--ash); text-decoration: none; }
+  footer a:hover { color: var(--bone); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <div class="wordmark">
+      <a href="/">etch<span class="slash">/</span>it</a>
+    </div>
+    <a href="/" class="back">← back</a>
+  </header>
+
+  <h1>Terms of Use</h1>
+  <div class="subtitle">v1 — these terms will not change</div>
+
+  <div class="lead">
+    By using etchit you agree to the following. These rules are about legal compliance only — not accounts, surveillance, or anything we'd ever tighten on you later.
+  </div>
+
+  <ol class="terms">
+    <li><b>You own what you etch.</b> Don't upload material that infringes copyright, violates the law, or that you don't have the right to share.</li>
+    <li><b>No illegal content.</b> No CSAM, no malware, no content that harms others.</li>
+    <li><b>Etches are permanent.</b> Once written to the Autonomi network, content cannot be deleted — by you, by us, or by anyone.</li>
+    <li><b>Your data map is the only key to a private etch.</b> Treat it like a password — keep it secure, don't expose it. Loss or compromise means loss of privacy, and we cannot revoke access.</li>
+    <li><b>Your wallet, your keys, your costs.</b> etchit never holds your private keys. You sign every transaction yourself, and you pay the gas and ANT cost.</li>
+    <li><b>No warranty.</b> etchit is provided as-is. The Autonomi network and Arbitrum RPC are operated by third parties; we don't guarantee uptime, data availability, or recoverability.</li>
+    <li><b>No data recovery.</b> If you lose a private data map, the content is gone. We cannot recover it.</li>
+    <li><b>You are responsible for what you post.</b> etchit is a client app, not a host. We do not monitor, scan, or moderate content. Misuse is your liability.</li>
+    <li><b>No refunds for failed uploads.</b> Network errors, app crashes, transaction failures, or any other technical issue during an etch may result in spent ANT or gas with no content stored. Blockchain transactions cannot be reversed and we cannot refund.</li>
+  </ol>
+
+  <footer>
+    <span>© 2026 — Permanent by design</span>
+    <span><a href="/">etchit.io</a> · <a href="https://github.com/etchit-io/etchit">github</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
