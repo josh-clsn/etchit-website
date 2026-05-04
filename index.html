@@ -501,7 +501,7 @@
   }
   .what-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1px;
     background: var(--line);
     border: 1px solid var(--line);
@@ -883,9 +883,10 @@
     <span>etchit</span>
   </a>
   <div class="nav-links">
-    <a href="library.html" class="nav-lib">library</a>
+    <a href="chainmarks.html" class="nav-lib">chain/it</a>
     <a href="#ideas">Ideas</a>
     <a href="#how">How</a>
+    <a href="learn.html">Learn</a>
     <a href="#specs">Specs</a>
     <a href="https://github.com/etchit-io" target="_blank">Github ↗</a>
   </div>
@@ -896,7 +897,7 @@
   <div class="hero-inner">
     <div class="hero-meta">
       <span class="dot"></span>
-      <span>Built on Autonomi · Android beta · iOS &amp; desktop on the roadmap</span>
+      <span>Built on Autonomi · Android &amp; desktop beta · iOS on the roadmap</span>
     </div>
 
     <h1 class="hero-headline">
@@ -961,7 +962,7 @@
       <span class="terminal-line out">→ wallet: <span class="ok">connected · one-time fee paid</span></span>
       <span class="terminal-line out"><span class="ok">✓ etched.</span> permanent address:</span>
       <span class="terminal-line out"><span class="addr">bebb4f16bc23aa4581bff5fec471829959c1edbe4485eb4cf0d853a62f5406f0</span></span>
-      <span class="terminal-line out" style="margin-top: 8px;">share the address. anyone can fetch it. no wallet needed.</span>
+      <span class="terminal-line out" style="margin-top: 8px;">use this address to fetch from any client. no wallet to read.</span>
     </div>
   </div>
 </section>
@@ -1078,9 +1079,9 @@
     <div class="section-kicker">// What works today</div>
     <h2 class="section-title">What you can actually <em>do</em>, right now.</h2>
     <p class="section-lead">
-      Android first. Text etches, private etches, and fetches of images,
-      files, and text from <strong>any client on the network</strong> —
-      all verified working.
+      Android and desktop, both in beta. Text etches, private etches,
+      chain/it sync across devices, encrypted backups — all verified
+      working against the public Autonomi network and Arbitrum One.
     </p>
   </div>
   <div class="what-grid">
@@ -1090,9 +1091,9 @@
         <div class="wcard-verb">Etch <em>text</em>.</div>
       </div>
       <p class="wcard-body">
-        Notes, code, long-form — <strong>anything that fits as a string</strong>.
-        You get a permanent address you can share. Public or private;
-        private etches stay locked behind biometric auth on your device.
+        Notes, code, long-form — <strong>anything that fits as text</strong>.
+        You get a permanent address. Public or private; private etches
+        stay locked behind biometric auth on your device.
       </p>
     </div>
     <div class="wcard">
@@ -1102,8 +1103,8 @@
       </div>
       <p class="wcard-body">
         Paste any address on the network. etchit <strong>auto-detects</strong>
-        what comes back: text renders inline, images display, other files
-        save to Downloads, encrypted backups prompt for decryption.
+        what comes back: text renders inline, files save to Downloads,
+        encrypted backups prompt for decryption.
       </p>
     </div>
     <div class="wcard">
@@ -1112,9 +1113,21 @@
         <div class="wcard-verb">Back up <em>your keys</em>.</div>
       </div>
       <p class="wcard-body">
-        Export your private-etch keys as an <strong>encrypted blob</strong>
-        you can restore on a new device with your passphrase. Lose your
-        phone, not your etches.
+        A 6-word passphrase encrypts your private-etch data maps and
+        ships them to the network as one more etch. <strong>Restore on
+        a new device</strong> with the backup address + passphrase.
+      </p>
+    </div>
+    <div class="wcard">
+      <div>
+        <div class="wcard-tag">04 / SYNC</div>
+        <div class="wcard-verb">Sync via <em>chain/it</em>.</div>
+      </div>
+      <p class="wcard-body">
+        Your most important etch addresses, <strong>encrypted and pinned
+        to your wallet</strong> on Arbitrum. Connect the same wallet on
+        any device, tap Sync chainmarks, your list reappears. There's a
+        web viewer too — no install required to read.
       </p>
     </div>
   </div>
@@ -1210,13 +1223,18 @@
     </h2>
     <p class="cta-sub">
       etchit is open source and in active development. No waitlist, no
-      email capture. Download for Android, or star the repo to follow along.
+      email capture. Pick a build below, or star the repo to follow along.
     </p>
     <div class="cta-actions">
       <a href="https://github.com/etchit-io/etchit/releases/latest/download/app-release.apk"
          class="dl-btn">
         <span class="dl-icon">↓</span>
-        <span class="dl-text">Download for Android</span>
+        <span class="dl-text">Android APK</span>
+      </a>
+      <a href="https://github.com/etchit-io/etchit-desktop/releases/latest"
+         class="dl-btn">
+        <span class="dl-icon">↓</span>
+        <span class="dl-text">Desktop (Linux)</span>
       </a>
       <a href="https://github.com/etchit-io/etchit" target="_blank" class="star-btn">
         <span class="star-icon">★</span>
@@ -1225,11 +1243,12 @@
       </a>
     </div>
     <div class="cta-status">
-      <strong>Status:</strong> Android first.
+      <strong>Status:</strong> Android &amp; desktop in beta.
       <span class="ok">✓</span> Text etches ·
-      <span class="ok">✓</span> Private etches ·
-      <span class="ok">✓</span> Fetches of images, files, and text from any client on the network.
-      iOS and desktop on the roadmap.
+      <span class="ok">✓</span> Private etches with biometric unlock ·
+      <span class="ok">✓</span> Encrypted backup &amp; restore ·
+      <span class="ok">✓</span> chain/it cross-device sync ·
+      <span class="ok">✓</span> Fetch from any client. iOS still on the roadmap.
     </div>
   </div>
 </section>
@@ -1244,7 +1263,8 @@
     <div class="foot-links">
       <a href="https://github.com/etchit-io" target="_blank">Github</a>
       <a href="https://autonomi.com" target="_blank">Autonomi ↗</a>
-      <a href="library.html" class="footnote-link">library</a>
+      <a href="chainmarks.html" class="footnote-link">chain/it</a>
+      <a href="learn.html">Learn</a>
       <a href="ios.html" class="footnote-link">ios?</a>
       <a href="terms.html">Terms</a>
       <a href="#cta">Contact</a>

@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>etchit — learn</title>
+<meta name="description" content="A plain-English walkthrough of etchit: public etches, fetches, private etches, backups, and chain/it sync. Try it yourself.">
+<link rel="icon" type="image/png" href="etchit-favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --ink-3: #1c1c1c;
+    --copper: #c9732b;
+    --copper-bright: #e58a3f;
+    --copper-dim: #8a4e1d;
+    --bone: #f5f2eb;
+    --bone-dim: #d6cfc0;
+    --ash: #8a8a8a;
+    --ash-dim: #3a3a3a;
+    --line: #222;
+    --signal-ok: #6ab04c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--copper);
+    font-size: 0.9em;
+    background: var(--ink-2);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+  }
+
+  /* ==================== NAV ==================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .mark { color: var(--copper); }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 13px;
+    color: var(--ash);
+  }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--copper); }
+  .nav-links .nav-lib {
+    color: var(--copper);
+    font-weight: 600;
+    padding: 4px 10px;
+    border: 1px solid var(--copper-dim);
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .nav-links .nav-lib:hover { color: var(--ink); background: var(--copper); border-color: var(--copper); }
+  .nav-links .here { color: var(--bone); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ==================== HERO ==================== */
+  .learn-hero {
+    padding: 160px 32px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-kicker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+  .section-kicker::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--copper);
+  }
+  h1.learn-title {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  h1.learn-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .lead {
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.7;
+    color: var(--ash);
+    max-width: 720px;
+  }
+  .lead strong { color: var(--bone); font-weight: 500; }
+
+  /* ==================== BETA NOTICE ==================== */
+  .notice {
+    margin-top: 36px;
+    max-width: 720px;
+    padding: 14px 18px;
+    background: var(--ink-2);
+    border: 1px solid var(--copper-dim);
+    border-left: 3px solid var(--copper);
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--bone-dim);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px 14px;
+  }
+  .notice-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--copper);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .notice-body { flex: 1 1 320px; }
+  .notice strong { color: var(--bone); font-weight: 500; }
+  .notice .terms-link {
+    color: var(--copper);
+    border-bottom: 1px solid var(--copper-dim);
+    transition: border-color 0.15s;
+    white-space: nowrap;
+  }
+  .notice .terms-link:hover { border-bottom-color: var(--copper); }
+
+  /* ==================== TOC ==================== */
+  .toc {
+    margin-top: 60px;
+    padding: 24px 28px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    max-width: 720px;
+  }
+  .toc-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 16px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+  }
+  @media (max-width: 600px) { .toc ol { grid-template-columns: 1fr; } }
+  .toc li {
+    counter-increment: toc;
+    font-size: 14px;
+    color: var(--ash);
+    transition: color 0.2s;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero) "  ";
+    color: var(--copper);
+  }
+  .toc li:hover { color: var(--bone); }
+
+  /* ==================== SECTIONS ==================== */
+  section.learn {
+    padding: 80px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-top: 1px solid var(--line);
+  }
+  h2.section-h {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    max-width: 820px;
+  }
+  h2.section-h em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .section-lead {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ash);
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+  .section-lead strong { color: var(--bone); font-weight: 500; }
+
+  .prose p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--bone-dim);
+    margin-bottom: 18px;
+    max-width: 720px;
+  }
+  .prose p strong { color: var(--bone); font-weight: 500; }
+  .prose ul {
+    list-style: none;
+    margin: 12px 0 24px;
+    padding-left: 0;
+    max-width: 720px;
+  }
+  .prose ul li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--bone-dim);
+    margin-bottom: 10px;
+  }
+  .prose ul li::before {
+    content: '/';
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+    font-weight: 700;
+  }
+  .prose ul li strong { color: var(--bone); font-weight: 500; }
+
+  /* ==================== ACTION CARDS ==================== */
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    margin-top: 28px;
+  }
+  @media (max-width: 880px) { .actions-grid { grid-template-columns: 1fr; } }
+  .action-card {
+    padding: 40px 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .action-num {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .action-title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .action-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .action-svg {
+    width: 100%;
+    height: 180px;
+    margin: 8px 0 24px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .action-card p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--bone-dim);
+    margin-bottom: 12px;
+  }
+  .action-card p strong { color: var(--bone); font-weight: 500; }
+  .action-cost {
+    font-size: 12px;
+    color: var(--ash);
+    border-top: 1px dashed var(--ash-dim);
+    padding-top: 12px;
+    margin-top: 14px;
+  }
+  .action-cost strong { color: var(--copper); font-weight: 600; }
+
+  /* ==================== STEPS ==================== */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    max-width: 820px;
+    margin: 36px 0;
+  }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 18px 22px 18px 80px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--bone-dim);
+  }
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 22px;
+    top: 18px;
+    color: var(--copper);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+  .steps li strong { color: var(--bone); font-weight: 500; }
+
+  .walk-svg {
+    width: 100%;
+    margin-top: 32px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px;
+  }
+
+  /* ==================== TABLE ==================== */
+  .cost-table {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 14px;
+  }
+  .cost-table th {
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--copper);
+    color: var(--copper);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .cost-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--bone-dim);
+    vertical-align: top;
+  }
+  .cost-table td:first-child {
+    color: var(--bone);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .cost-table .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--copper);
+  }
+  .cost-table .pill.free { color: var(--signal-ok); border-color: var(--signal-ok); }
+  .cost-note {
+    font-size: 13px;
+    color: var(--ash);
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--ash-dim);
+    max-width: 720px;
+  }
+  .cost-note strong { color: var(--bone); font-weight: 500; }
+
+  /* ==================== FAQ ==================== */
+  .faq {
+    margin-top: 28px;
+    max-width: 820px;
+  }
+  .faq details {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq summary {
+    padding: 16px 22px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14.5px;
+    color: var(--bone);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: background 0.2s;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { background: var(--ink-3); }
+  .faq summary::before {
+    content: '?';
+    color: var(--copper);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .faq details[open] summary { border-bottom: 1px solid var(--line); }
+  .faq details[open] summary::before { content: '/'; }
+  .faq-body {
+    padding: 18px 22px 22px 50px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--bone-dim);
+  }
+  .faq-body p { margin-bottom: 10px; }
+  .faq-body strong { color: var(--bone); font-weight: 500; }
+  .faq-body code { font-size: 12.5px; }
+
+  /* ==================== FOOTER ==================== */
+  footer {
+    padding: 80px 32px 60px;
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+  }
+  .foot-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .foot-brand .mark { color: var(--copper); }
+  .foot-links {
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    color: var(--ash);
+  }
+  .foot-links a { transition: color 0.2s; }
+  .foot-links a:hover { color: var(--copper); }
+  .foot-meta {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+  }
+
+  /* SVG shared styles */
+  .svg-stroke { stroke: var(--bone-dim); stroke-width: 1.4; fill: none; }
+  .svg-stroke-dim { stroke: var(--ash-dim); stroke-width: 1.2; fill: none; }
+  .svg-fill { fill: var(--bone-dim); }
+  .svg-fill-dim { fill: var(--ash); }
+  .svg-copper-stroke { stroke: var(--copper); stroke-width: 1.4; fill: none; }
+  .svg-copper-fill { fill: var(--copper); }
+  .svg-copper-soft { fill: var(--copper); opacity: 0.18; }
+  .svg-text { fill: var(--bone); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .svg-text-mono-sm { fill: var(--ash); font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+  .svg-text-copper { fill: var(--copper); font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">
+    <span class="mark">[/]</span>
+    <span>etchit</span>
+  </a>
+  <div class="nav-links">
+    <a href="chainmarks.html" class="nav-lib">chain/it</a>
+    <a href="index.html#ideas">Ideas</a>
+    <a href="index.html#how">How</a>
+    <a href="learn.html" class="here">Learn</a>
+    <a href="index.html#specs">Specs</a>
+    <a href="https://github.com/etchit-io" target="_blank">Github ↗</a>
+  </div>
+</nav>
+
+<header class="learn-hero">
+  <div class="section-kicker">// Learn etchit</div>
+  <h1 class="learn-title">How to use <em>etchit</em></h1>
+  <p class="lead">
+    Read this once. Try the walkthrough. There are <strong>four things</strong>
+    the app does — etch, fetch, backup, sync — and a couple of small costs to
+    understand. That's it.
+  </p>
+
+  <div class="notice">
+    <span class="notice-tag">Beta · as-is</span>
+    <span class="notice-body">
+      etchit is beta software provided <strong>as-is</strong>. The Autonomi network
+      and Arbitrum RPC are run by third parties — we don't guarantee uptime,
+      data availability, or recoverability. <strong>Failed or partial transactions
+      can cause loss of funds</strong> (gas or tokens spent without delivering an etch),
+      and losing your wallet seed or backup passphrase means losing access to
+      anything they protect. <a href="terms.html" class="terms-link">Full terms ↗</a>
+    </span>
+  </div>
+
+  <div class="toc">
+    <div class="toc-label">// What's on this page</div>
+    <ol>
+      <li><a href="#what">What etchit is</a></li>
+      <li><a href="#actions">The four actions</a></li>
+      <li><a href="#walkthrough">Walkthrough — try it yourself</a></li>
+      <li><a href="#cost">What things cost</a></li>
+      <li><a href="#troubleshoot">When things go wrong</a></li>
+    </ol>
+  </div>
+</header>
+
+<!-- ==================== § 1 ==================== -->
+<section class="learn" id="what">
+  <div class="section-kicker">§ 01 // The mental model</div>
+  <h2 class="section-h">What <em>etchit</em> is.</h2>
+  <p class="section-lead">
+    etchit saves text and text-based files (notes, code, configs, docs) to a
+    peer-to-peer network so they live forever, without an account, server, or
+    middleman. Every save returns a 64-character address. <strong>The address
+    is also the read-key</strong> — whoever has it can fetch what you saved.
+  </p>
+
+  <div class="prose">
+    <p>Three things to keep in your head:</p>
+    <ul>
+      <li><strong>The network is public.</strong> What you etch publicly is visible to anyone with the address. There is no concept of "delete later".</li>
+      <li><strong>Nobody can take it down.</strong> Not us, not a court, not a hosting provider — there is no host. The data is replicated across a peer-to-peer network and stays reachable as long as the network runs. <strong>Take this seriously: only etch content you have the right to publish.</strong> Once it's on the network, you can't pull it back.</li>
+      <li><strong>You hold the keys.</strong> Your wallet is the only thing tying anything to "you". Lose the wallet and there is no recovery email or password reset — that's the trade-off for not having an account.</li>
+    </ul>
+    <p>
+      Reading is free. Writing costs a tiny one-time payment from your wallet,
+      paid in <code>ANT</code> (the network's storage token). chain/it sync is
+      separately paid in <code>ETH</code> on Arbitrum (a small gas fee). More on
+      both below.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== § 2 ==================== -->
+<section class="learn" id="actions">
+  <div class="section-kicker">§ 02 // The four actions</div>
+  <h2 class="section-h">Everything etchit does, in <em>four cards</em>.</h2>
+  <p class="section-lead">
+    If you understand these four flows, you understand the whole app. Each one
+    works the same on Android and on the desktop client.
+  </p>
+
+  <div class="actions-grid">
+
+    <!-- Card 1: Public etch -->
+    <article class="action-card">
+      <div class="action-num">A // Public etch</div>
+      <div class="action-title">Etch <em>once.</em></div>
+      <svg class="action-svg" viewBox="0 0 380 160" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Type text, sign with wallet, get an address">
+        <!-- phone -->
+        <rect class="svg-stroke" x="16" y="20" width="96" height="120" rx="8"/>
+        <rect class="svg-stroke-dim" x="26" y="34" width="76" height="24" rx="3"/>
+        <text class="svg-text-mono-sm" x="32" y="50">hello world</text>
+        <rect class="svg-copper-stroke" x="26" y="68" width="76" height="20" rx="3"/>
+        <text class="svg-text-copper" x="50" y="82">etch</text>
+        <text class="svg-text-mono-sm" x="26" y="108">phone</text>
+        <!-- arrow 1 -->
+        <line class="svg-stroke" x1="120" y1="80" x2="148" y2="80" marker-end="url(#arr-a)"/>
+        <!-- wallet -->
+        <rect class="svg-stroke" x="156" y="44" width="74" height="72" rx="6"/>
+        <text class="svg-text-mono-sm" x="166" y="60">wallet</text>
+        <rect class="svg-copper-stroke" x="166" y="70" width="54" height="18" rx="3"/>
+        <text class="svg-text-copper" x="180" y="83">sign?</text>
+        <text class="svg-text-mono-sm" x="166" y="106">~ANT fee</text>
+        <!-- arrow 2 -->
+        <line class="svg-stroke" x1="238" y1="80" x2="266" y2="80" marker-end="url(#arr-a)"/>
+        <!-- address -->
+        <rect class="svg-stroke" x="274" y="40" width="98" height="80" rx="6"/>
+        <text class="svg-text-mono-sm" x="284" y="58">address</text>
+        <rect class="svg-copper-soft" x="284" y="64" width="78" height="38" rx="3"/>
+        <text class="svg-text-copper" x="288" y="78">bebb4f16</text>
+        <text class="svg-text-copper" x="288" y="90">bc23aa45</text>
+        <text class="svg-text-copper" x="288" y="102">81bff5fe…</text>
+        <defs>
+          <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#d6cfc0"/>
+          </marker>
+        </defs>
+      </svg>
+      <p>Type something. Tap <strong>Etch to network</strong>. Sign once in your wallet. When the network finishes confirming, you get a 64-hex address.</p>
+      <p>The address is how you fetch this etch back from any device. <strong>It's also a public read-key</strong> — treat it like a secret if what you wrote is sensitive.</p>
+      <div class="action-cost"><strong>Cost:</strong> tiny one-time ANT chunk fee from your wallet. The first prompt asks you to approve a session budget (default 20 ANT) so subsequent etches don't ask again until it's spent.</div>
+    </article>
+
+    <!-- Card 2: Fetch -->
+    <article class="action-card">
+      <div class="action-num">B // Fetch</div>
+      <div class="action-title">Fetch <em>forever.</em></div>
+      <svg class="action-svg" viewBox="0 0 380 160" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Paste address, fetch, get content back">
+        <!-- input -->
+        <rect class="svg-stroke" x="20" y="36" width="140" height="88" rx="6"/>
+        <text class="svg-text-mono-sm" x="30" y="54">paste address</text>
+        <rect class="svg-stroke-dim" x="30" y="60" width="120" height="22" rx="3"/>
+        <text class="svg-text-copper" x="36" y="75">bebb4f16bc23…</text>
+        <rect class="svg-copper-stroke" x="30" y="90" width="60" height="20" rx="3"/>
+        <text class="svg-text-copper" x="46" y="104">fetch</text>
+        <!-- network cloud -->
+        <line class="svg-stroke" x1="166" y1="80" x2="194" y2="80" marker-end="url(#arr-b)"/>
+        <g transform="translate(202, 50)">
+          <circle class="svg-stroke-dim" cx="20" cy="30" r="14"/>
+          <circle class="svg-stroke-dim" cx="40" cy="20" r="10"/>
+          <circle class="svg-stroke-dim" cx="56" cy="36" r="12"/>
+          <circle class="svg-stroke-dim" cx="34" cy="46" r="10"/>
+          <text class="svg-text-mono-sm" x="14" y="76">network</text>
+        </g>
+        <line class="svg-stroke" x1="276" y1="80" x2="304" y2="80" marker-end="url(#arr-b)"/>
+        <!-- output -->
+        <rect class="svg-stroke" x="312" y="36" width="56" height="88" rx="6"/>
+        <text class="svg-text-mono-sm" x="320" y="54">content</text>
+        <rect class="svg-copper-soft" x="320" y="60" width="40" height="50" rx="3"/>
+        <text class="svg-text-copper" x="324" y="78">hello</text>
+        <text class="svg-text-copper" x="324" y="92">world</text>
+        <defs>
+          <marker id="arr-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#d6cfc0"/>
+          </marker>
+        </defs>
+      </svg>
+      <p>Paste a 64-hex address. Tap <strong>Fetch</strong>. Get the content back.</p>
+      <p>No wallet, no signing, no payment. As long as you have the address, fetching is open and free.</p>
+      <div class="action-cost"><strong>Cost:</strong> <span style="color: var(--signal-ok);">free.</span> Reads don't pay.</div>
+    </article>
+
+    <!-- Card 3: Private etch + backup -->
+    <article class="action-card">
+      <div class="action-num">C // Private + Backup</div>
+      <div class="action-title">Encrypt, then <em>backup.</em></div>
+      <svg class="action-svg" viewBox="0 0 380 160" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Private etches stay on device; backup encrypts with passphrase and uploads">
+        <!-- private set on device -->
+        <rect class="svg-stroke" x="14" y="20" width="100" height="120" rx="6"/>
+        <text class="svg-text-mono-sm" x="22" y="38">private etches</text>
+        <g transform="translate(24, 46)">
+          <rect class="svg-stroke-dim" x="0" y="0" width="80" height="14" rx="2"/>
+          <text class="svg-text-mono-sm" x="6" y="10">notes</text>
+          <rect class="svg-copper-fill" x="64" y="2" width="14" height="10" rx="1"/>
+          <text style="font-family: monospace; font-size: 8px; fill: #0a0a0a;" x="68" y="10">🔒</text>
+
+          <rect class="svg-stroke-dim" x="0" y="20" width="80" height="14" rx="2"/>
+          <text class="svg-text-mono-sm" x="6" y="30">api keys</text>
+          <rect class="svg-copper-fill" x="64" y="22" width="14" height="10" rx="1"/>
+
+          <rect class="svg-stroke-dim" x="0" y="40" width="80" height="14" rx="2"/>
+          <text class="svg-text-mono-sm" x="6" y="50">draft</text>
+          <rect class="svg-copper-fill" x="64" y="42" width="14" height="10" rx="1"/>
+        </g>
+        <text class="svg-text-mono-sm" x="22" y="130">on this device</text>
+        <!-- arrow 1 (encrypt with passphrase) -->
+        <line class="svg-stroke" x1="120" y1="80" x2="148" y2="80" marker-end="url(#arr-c)"/>
+        <!-- 6 word boxes -->
+        <g transform="translate(154, 56)">
+          <text class="svg-text-mono-sm" x="0" y="-4">6-word passphrase</text>
+          <rect class="svg-copper-stroke" x="0" y="2" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="3" y="12">boat</text>
+          <rect class="svg-copper-stroke" x="24" y="2" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="27" y="12">song</text>
+          <rect class="svg-copper-stroke" x="48" y="2" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="51" y="12">cake</text>
+          <rect class="svg-copper-stroke" x="0" y="20" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="3" y="30">leaf</text>
+          <rect class="svg-copper-stroke" x="24" y="20" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="27" y="30">silk</text>
+          <rect class="svg-copper-stroke" x="48" y="20" width="22" height="14" rx="2"/>
+          <text class="svg-text-copper" x="51" y="30">dawn</text>
+        </g>
+        <!-- arrow 2 -->
+        <line class="svg-stroke" x1="232" y1="80" x2="260" y2="80" marker-end="url(#arr-c)"/>
+        <!-- network with encrypted blob -->
+        <g transform="translate(264, 36)">
+          <circle class="svg-stroke-dim" cx="50" cy="46" r="40"/>
+          <circle class="svg-stroke-dim" cx="50" cy="46" r="28"/>
+          <rect class="svg-copper-fill" x="40" y="36" width="20" height="20" rx="2"/>
+          <text style="fill: var(--ink); font-family: monospace; font-size: 8px;" x="44" y="50">█▓▒</text>
+          <text class="svg-text-mono-sm" x="20" y="100">encrypted blob</text>
+        </g>
+        <defs>
+          <marker id="arr-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#d6cfc0"/>
+          </marker>
+        </defs>
+      </svg>
+      <p>A <strong>private etch</strong> encrypts on your device first, then stores only the encrypted blob on the network. By default the decryption key — the <em>data map</em> — lives only on this device's encrypted storage. <strong>Lose or wipe the device and the data is unrecoverable.</strong></p>
+      <p><strong>Back up to fix that.</strong> Tap "Back up to network", let the app generate a 6-word passphrase, write it down, sign one more etch. The whole private set is re-encrypted with that passphrase and uploaded. Now the passphrase is your recovery key — it lives wherever <em>you</em> put it (paper, password manager, head). On any device: backup address + passphrase = restored private etches.</p>
+      <div class="action-cost"><strong>Cost:</strong> same one-time ANT fee as a public etch — the backup is just one more etch, the bytes are encrypted.</div>
+    </article>
+
+    <!-- Card 4: chain/it sync -->
+    <article class="action-card">
+      <div class="action-num">D // chain/it sync</div>
+      <div class="action-title">One <em>list,</em> all your devices.</div>
+      <svg class="action-svg" viewBox="0 0 380 160" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Phone and desktop both showing the same list, synced via wallet on Arbitrum">
+        <!-- phone -->
+        <rect class="svg-stroke" x="14" y="22" width="78" height="116" rx="8"/>
+        <text class="svg-text-mono-sm" x="22" y="40">phone</text>
+        <rect class="svg-stroke-dim" x="22" y="48" width="62" height="10" rx="1"/>
+        <rect class="svg-stroke-dim" x="22" y="62" width="62" height="10" rx="1"/>
+        <rect class="svg-stroke-dim" x="22" y="76" width="62" height="10" rx="1"/>
+        <rect class="svg-stroke-dim" x="22" y="90" width="62" height="10" rx="1"/>
+        <text class="svg-text-mono-sm" x="22" y="118">3 etches</text>
+        <!-- desktop -->
+        <rect class="svg-stroke" x="288" y="36" width="80" height="68" rx="4"/>
+        <line class="svg-stroke" x1="288" y1="48" x2="368" y2="48"/>
+        <rect class="svg-stroke-dim" x="296" y="56" width="64" height="8" rx="1"/>
+        <rect class="svg-stroke-dim" x="296" y="68" width="64" height="8" rx="1"/>
+        <rect class="svg-stroke-dim" x="296" y="80" width="64" height="8" rx="1"/>
+        <rect class="svg-stroke-dim" x="296" y="92" width="64" height="8" rx="1"/>
+        <line class="svg-stroke" x1="312" y1="106" x2="344" y2="106"/>
+        <line class="svg-stroke" x1="324" y1="106" x2="324" y2="120"/>
+        <line class="svg-stroke" x1="306" y1="124" x2="350" y2="124"/>
+        <text class="svg-text-mono-sm" x="290" y="138">desktop · 3 etches</text>
+        <!-- middle: wallet identity + Arbitrum -->
+        <g transform="translate(110, 30)">
+          <text class="svg-text-mono-sm" x="32" y="14">your wallet</text>
+          <circle class="svg-copper-stroke" cx="48" cy="34" r="14"/>
+          <text class="svg-text-copper" x="40" y="38">0x86…</text>
+          <!-- chain link -->
+          <line class="svg-stroke-dim" x1="14" y1="34" x2="34" y2="34"/>
+          <line class="svg-stroke-dim" x1="62" y1="34" x2="82" y2="34"/>
+          <!-- Arbitrum block -->
+          <rect class="svg-copper-soft" x="6" y="60" width="86" height="46" rx="4"/>
+          <text class="svg-text-copper" x="22" y="78">arbitrum</text>
+          <text class="svg-text-mono-sm" x="14" y="92">encrypted entries</text>
+          <text class="svg-text-mono-sm" x="20" y="102">written as txs</text>
+          <line class="svg-stroke-dim" x1="48" y1="48" x2="48" y2="60"/>
+        </g>
+        <defs>
+          <marker id="arr-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8a8a8a"/>
+          </marker>
+        </defs>
+      </svg>
+      <p><strong>chain/it</strong> stores your most important etch addresses on Arbitrum so you can reach them from any device — just connect the wallet you used to pay for the etches, tap <strong>Sync chainmarks</strong>, and your list reappears. No address book to email yourself, no notes-app entries to lose.</p>
+      <p>Each entry is encrypted with a key derived from a signature from that same wallet, then written as a tiny self-transaction. The chain sees encrypted bytes and your wallet address — nothing else.</p>
+      <p>No app installed? The <a href="chainmarks.html" style="color: var(--copper); border-bottom: 1px solid var(--copper-dim);">web viewer at etchit.io/chainmarks</a> reads the same data straight from a browser — connect the same wallet, view the same list.</p>
+      <div class="action-cost"><strong>Cost:</strong> small Arbitrum gas fee per change (no ANT, this isn't on the Autonomi network). Your wallet shows the exact estimate before you sign.</div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ==================== § 3 ==================== -->
+<section class="learn" id="walkthrough">
+  <div class="section-kicker">§ 03 // Try it yourself</div>
+  <h2 class="section-h">Walkthrough — <em>try it yourself.</em></h2>
+  <p class="section-lead">
+    The fastest way to internalise the four actions is to do them once. You'll
+    need a phone, a desktop or laptop, and a wallet (MetaMask Mobile is the
+    easiest). Each step waits on a network or wallet confirmation, so pace
+    yourself — durations vary with peer health and gas conditions.
+  </p>
+
+  <ol class="steps">
+    <li><strong>Install etchit on Android.</strong> Grab the latest APK from <code>github.com/etchit-io/etchit/releases</code>. (Desktop client is at <code>github.com/etchit-io/etchit-desktop/releases</code>.)</li>
+    <li><strong>Connect your wallet.</strong> Open Settings → <strong>Connect Wallet</strong>. Pair via QR with MetaMask Mobile. When the wallet prompts, approve <strong>Arbitrum One</strong> as the network.</li>
+    <li><strong>Etch your first thing.</strong> Tap <strong>Etch</strong>. Type <code>hello from my phone</code>. Tap <strong>Etch to network</strong>. Sign in your wallet. When the address appears, copy the 64 hex characters.</li>
+    <li><strong>Fetch from another device.</strong> Open the desktop client (or another phone). Tap <strong>Fetch</strong>, paste the address, tap go. Your text appears. No wallet needed for fetching.</li>
+    <li><strong>Turn on chain/it.</strong> Back on the phone, Settings → chain/it → <strong>Set up chain/it</strong>. Sign once. (This signature derives an encryption key — it's a sign-message, not a send-transaction.)</li>
+    <li><strong>Sync from desktop.</strong> Connect the same wallet on the desktop, expand chain/it, tap <strong>Sync chainmarks</strong>. The same list appears.</li>
+    <li><strong>Make a private etch + back it up.</strong> On the etch panel, toggle <strong>private</strong> first, then type something secret and tap <strong>Etch</strong>. Once it's stored, tap <strong>Back up to network</strong>, let the app generate a 6-word passphrase, write it down, tap encrypt + etch.</li>
+    <li><strong>Restore on a different device.</strong> On the desktop (or a fresh install), Settings → <strong>Restore from backup</strong>, paste the backup address, type the 6-word passphrase into the boxes, tap Restore. Your private etches return.</li>
+  </ol>
+
+  <svg class="walk-svg" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="Phone etches, address travels through the network, desktop fetches the same content">
+    <!-- phone -->
+    <g transform="translate(20, 30)">
+      <rect class="svg-stroke" x="0" y="0" width="100" height="140" rx="10"/>
+      <text class="svg-text-mono-sm" x="8" y="18">phone · etch</text>
+      <rect class="svg-stroke-dim" x="10" y="26" width="80" height="22" rx="3"/>
+      <text class="svg-text-mono-sm" x="16" y="40">hello from</text>
+      <text class="svg-text-mono-sm" x="16" y="54">  my phone</text>
+      <rect class="svg-copper-stroke" x="10" y="62" width="80" height="20" rx="3"/>
+      <text class="svg-text-copper" x="38" y="76">etch</text>
+      <text class="svg-text-mono-sm" x="10" y="100">→ wallet sign</text>
+      <text class="svg-text-mono-sm" x="10" y="114">→ ANT fee</text>
+      <text class="svg-text-mono-sm" x="10" y="128">→ address out</text>
+    </g>
+    <!-- arrow -->
+    <line class="svg-stroke" x1="130" y1="100" x2="180" y2="100" marker-end="url(#arr-w)"/>
+    <text class="svg-text-mono-sm" x="138" y="92">etch</text>
+    <!-- network cloud -->
+    <g transform="translate(190, 40)">
+      <circle class="svg-stroke-dim" cx="60" cy="60" r="50"/>
+      <circle class="svg-stroke-dim" cx="40" cy="50" r="22"/>
+      <circle class="svg-stroke-dim" cx="78" cy="42" r="18"/>
+      <circle class="svg-stroke-dim" cx="78" cy="78" r="20"/>
+      <circle class="svg-stroke-dim" cx="42" cy="80" r="16"/>
+      <text class="svg-text-mono-sm" x="22" y="138">peer-to-peer network</text>
+      <rect class="svg-copper-soft" x="40" y="50" width="44" height="22" rx="3"/>
+      <text class="svg-text-copper" x="44" y="64">bebb4f16…</text>
+    </g>
+    <!-- arrow -->
+    <line class="svg-stroke" x1="320" y1="100" x2="370" y2="100" marker-end="url(#arr-w)"/>
+    <text class="svg-text-mono-sm" x="328" y="92">fetch</text>
+    <!-- desktop -->
+    <g transform="translate(380, 30)">
+      <rect class="svg-stroke" x="0" y="0" width="180" height="120" rx="6"/>
+      <line class="svg-stroke" x1="0" y1="18" x2="180" y2="18"/>
+      <circle class="svg-fill-dim" cx="10" cy="9" r="3"/>
+      <circle class="svg-fill-dim" cx="22" cy="9" r="3"/>
+      <circle class="svg-fill-dim" cx="34" cy="9" r="3"/>
+      <text class="svg-text-mono-sm" x="8" y="36">desktop · fetch</text>
+      <rect class="svg-stroke-dim" x="8" y="44" width="160" height="22" rx="3"/>
+      <text class="svg-text-copper" x="14" y="58">bebb4f16bc23aa…</text>
+      <rect class="svg-copper-soft" x="8" y="74" width="160" height="36" rx="3"/>
+      <text class="svg-text-copper" x="14" y="92">hello from my phone</text>
+      <text class="svg-text-mono-sm" x="80" y="138">↑ same content</text>
+    </g>
+    <!-- bottom: chain/it lane -->
+    <g transform="translate(580, 30)">
+      <rect class="svg-stroke" x="0" y="0" width="200" height="140" rx="6"/>
+      <text class="svg-text-mono-sm" x="8" y="18">+ chain/it</text>
+      <rect class="svg-stroke-dim" x="8" y="26" width="184" height="14" rx="2"/>
+      <text class="svg-text-mono-sm" x="14" y="36">your wallet identity</text>
+      <text class="svg-text-mono-sm" x="8" y="60">phone etches sync to chain</text>
+      <text class="svg-text-mono-sm" x="8" y="76">desktop pulls same list</text>
+      <rect class="svg-copper-stroke" x="8" y="86" width="184" height="20" rx="3"/>
+      <text class="svg-text-copper" x="50" y="100">sync chainmarks</text>
+      <text class="svg-text-mono-sm" x="8" y="124">arbitrum gas · wallet shows estimate</text>
+    </g>
+    <defs>
+      <marker id="arr-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#d6cfc0"/>
+      </marker>
+    </defs>
+  </svg>
+</section>
+
+<!-- ==================== § 4 ==================== -->
+<section class="learn" id="cost">
+  <div class="section-kicker">§ 04 // The bill</div>
+  <h2 class="section-h">What things <em>cost.</em></h2>
+  <p class="section-lead">
+    Two kinds of payment, two different reasons. Storage on the Autonomi network
+    is paid in <code>ANT</code>. chain/it sync is paid in <code>ETH</code> on
+    Arbitrum (gas). Reading anything is free.
+  </p>
+
+  <table class="cost-table">
+    <thead>
+      <tr>
+        <th>Action</th>
+        <th>Pays in</th>
+        <th>Goes to</th>
+        <th>Roughly</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Public etch</td>
+        <td><span class="pill">ANT</span></td>
+        <td>network nodes that store your chunks</td>
+        <td>one-time chunk fee</td>
+      </tr>
+      <tr>
+        <td>Private etch</td>
+        <td><span class="pill">ANT</span></td>
+        <td>same as public — bytes are encrypted client-side</td>
+        <td>same as public</td>
+      </tr>
+      <tr>
+        <td>Backup to network</td>
+        <td><span class="pill">ANT</span></td>
+        <td>network nodes — backup is just another etch</td>
+        <td>same as public</td>
+      </tr>
+      <tr>
+        <td>Fetch (anything)</td>
+        <td><span class="pill free">free</span></td>
+        <td>—</td>
+        <td>nothing</td>
+      </tr>
+      <tr>
+        <td>chain/it sync</td>
+        <td><span class="pill">ETH</span></td>
+        <td>Arbitrum block producers (gas)</td>
+        <td>tiny per-tx fee</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="cost-note">
+    <strong>Your wallet always shows the exact estimate before you sign.</strong>
+    If a chain/it sync looks more expensive than you expected, feel free to wait
+    and try again later — the entry stays in your queue locally.
+  </p>
+</section>
+
+<!-- ==================== § 5 ==================== -->
+<section class="learn" id="troubleshoot">
+  <div class="section-kicker">§ 05 // Things break sometimes</div>
+  <h2 class="section-h">When things <em>go wrong.</em></h2>
+  <p class="section-lead">
+    Everything below has happened to a real person at least once. None of it is
+    a permanent failure unless explicitly noted.
+  </p>
+
+  <div class="faq">
+
+    <details>
+      <summary>I lost my 6-word backup passphrase. What now?</summary>
+      <div class="faq-body">
+        <p>Permanent. The passphrase is the only key to the encrypted backup blob; nobody — not us, not the wallet provider, not the network — can recover it. The encrypted bytes stay on the network forever, but they look like noise without the passphrase.</p>
+        <p><strong>Make a new backup</strong> with a fresh passphrase from your current device, write it down on paper, and put it somewhere physical you trust. The old backup blob is harmless.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>I lost my wallet seed phrase. What about my chain/it list?</summary>
+      <div class="faq-body">
+        <p>Without the wallet, you can't sign the chainmark-derive message, and without that signature you can't reproduce the encryption key. The entries are still on Arbitrum but they look like random bytes.</p>
+        <p>If you backed up the chainmark key separately (Settings → chain/it → <strong>Back up chainmark key</strong>), you can paste it on a new device and decrypt without the wallet. If not — the list is gone, but your underlying public etches are still fetchable by their addresses.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>"Sync chainmarks" fails with "Missing or invalid. request() chainId: eip155:42161".</summary>
+      <div class="faq-body">
+        <p>Your wallet's WalletConnect session was paired against a different chain than Arbitrum One. The desktop client now switches the wallet to Arbitrum automatically before signing — if it still fails, the session was approved against networks that don't include Arbitrum at all.</p>
+        <p>Fix: in your wallet app, revoke etchit's pairing (in MetaMask: Settings → Connections → revoke), reconnect from etchit, and confirm Arbitrum One when the wallet asks which networks to approve.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>The app is stuck on "Connecting…" or peers don't seem to attach.</summary>
+      <div class="faq-body">
+        <p>The Autonomi peer-to-peer network is still a live thing — some bootstrap peers go offline. The app dials several in parallel and only needs one to attach.</p>
+        <p>If the spinner sticks: open Settings → <strong>Bootstrap peers</strong>, replace the list with the current published one (linked from the etchit GitHub README), tap <strong>Save &amp; Reconnect</strong>.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>A fetch returns nothing or hangs forever.</summary>
+      <div class="faq-body">
+        <p>Two possible causes. Most common: <strong>transient peer routing issues</strong> — wait a moment and try again. The data is replicated; another peer almost certainly has it.</p>
+        <p>Less common: the address is malformed (wrong length, extra spaces, bad copy-paste). A valid etch address is exactly 64 lowercase hex characters with no <code>0x</code> prefix.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>My private etches disappeared after reinstalling the app.</summary>
+      <div class="faq-body">
+        <p>Expected — private etch data maps live in the app's encrypted local storage, which Android wipes when you uninstall. They're not on any server and not on chain/it (only public etch addresses sync).</p>
+        <p>If you backed up to the network beforehand: <strong>Restore from backup</strong> with the address + 6-word passphrase. If you didn't back up: the data maps are gone, and the encrypted blobs on the network are unreachable without them.</p>
+        <p>Habit to build: back up after every batch of private etches you'd be sad to lose.</p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <span class="mark">[/]</span>
+      <span>etchit</span>
+    </div>
+    <div class="foot-links">
+      <a href="index.html">Home</a>
+      <a href="https://github.com/etchit-io" target="_blank">Github</a>
+      <a href="https://autonomi.com" target="_blank">Autonomi ↗</a>
+      <a href="chainmarks.html">chain/it</a>
+      <a href="learn.html">Learn</a>
+      <a href="terms.html">Terms</a>
+    </div>
+    <div class="foot-meta">© 2026 — Permanent by design</div>
+  </div>
+</footer>
+
+</body>
+</html>
