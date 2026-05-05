@@ -1,0 +1,2845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>etch/it — brand system v1.0</title>
+<meta name="description" content="The etchit brand system — logo, name treatments, color, typography, voice, components, applications.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  /* =================================================================
+     CANONICAL BRAND TOKENS
+     These are the source of truth. Everything downstream references them.
+     ================================================================= */
+  :root {
+    /* --- ink scale (near-black surfaces) --- */
+    --ink:         #0a0a0a;  /* canvas / primary background */
+    --ink-2:       #141414;  /* raised surface / cards */
+    --ink-3:       #1c1c1c;  /* highest surface / code blocks */
+    --line:        #222222;  /* dividers, hairlines */
+    --line-2:      #2a2a2a;  /* borders on elevated surfaces */
+
+    /* --- copper (primary accent) --- */
+    --copper:        #c9732b; /* the accent — used on bone/ink */
+    --copper-bright: #e58a3f; /* hover / active */
+    --copper-dim:    #8a4e1d; /* pressed / shadow */
+    --copper-glow:   rgba(201,115,43,0.15);
+
+    /* --- bone (warm parchment foreground) --- */
+    --bone:      #f5f2eb;    /* primary text on ink */
+    --bone-dim:  #d6cfc0;    /* secondary text on ink */
+
+    /* --- ash (neutral grays) --- */
+    --ash:       #8a8a8a;    /* tertiary text, labels */
+    --ash-dim:   #3a3a3a;    /* disabled text, subtle borders */
+
+    /* --- semantic (use sparingly, never as brand) --- */
+    --signal-ok:   #6ab04c;
+    --signal-warn: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  code, kbd {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--ink-3);
+    border: 1px solid var(--line);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+    color: var(--copper);
+  }
+
+  /* =================================================================
+     LAYOUT PRIMITIVES
+     ================================================================= */
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .wrap-narrow { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+
+  /* Side rail — index of chapters, fixed on desktop */
+  .rail {
+    position: fixed;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 14px;
+    border: 1px solid var(--line);
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(10px);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .rail a {
+    color: var(--ash);
+    padding: 3px 4px;
+    transition: color 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .rail a:hover { color: var(--copper); }
+  .rail .num { color: var(--copper); margin-right: 6px; }
+  @media (max-width: 1100px) { .rail { display: none; } }
+
+  /* =================================================================
+     COVER
+     ================================================================= */
+  .cover {
+    min-height: 100vh;
+    padding: 120px 32px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '[';
+    position: absolute;
+    left: -80px; top: -40px;
+    font-size: clamp(500px, 110vh, 1200px);
+    line-height: 0.75;
+    color: var(--copper);
+    opacity: 0.035;
+    font-weight: 300;
+    pointer-events: none;
+  }
+  .cover::after {
+    content: ']';
+    position: absolute;
+    right: -80px; bottom: -120px;
+    font-size: clamp(500px, 110vh, 1200px);
+    line-height: 0.75;
+    color: var(--copper);
+    opacity: 0.035;
+    font-weight: 300;
+    pointer-events: none;
+  }
+  .cover-inner { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+  .cover-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 40px;
+  }
+  .cover-meta .dot {
+    width: 6px; height: 6px;
+    background: var(--copper);
+    border-radius: 50%;
+  }
+  .cover-title {
+    font-size: clamp(60px, 12vw, 180px);
+    font-weight: 800;
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    margin-bottom: 28px;
+  }
+  .cover-title .slash { color: var(--copper); }
+  .cover-sub {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(24px, 4vw, 44px);
+    font-style: italic;
+    line-height: 1.15;
+    margin-bottom: 40px;
+    max-width: 800px;
+  }
+  .cover-sub .sep { color: var(--copper); font-style: normal; }
+  .cover-lead {
+    max-width: 640px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ash);
+    margin-bottom: 48px;
+  }
+  .cover-lead strong { color: var(--bone); font-weight: 500; }
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    border: 1px solid var(--line);
+    max-width: 760px;
+  }
+  .cover-meta-grid > div {
+    padding: 18px 20px;
+    border-right: 1px solid var(--line);
+  }
+  .cover-meta-grid > div:last-child { border-right: none; }
+  .cmg-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .cmg-value {
+    font-size: 14px;
+    color: var(--bone);
+    font-weight: 500;
+  }
+
+  /* =================================================================
+     CHAPTER
+     ================================================================= */
+  .chapter { padding: 120px 32px; border-bottom: 1px solid var(--line); position: relative; }
+  .chapter-inner { max-width: 1200px; margin: 0 auto; }
+  .chapter-head {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    margin-bottom: 80px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 700px) { .chapter-head { grid-template-columns: 1fr; gap: 12px; margin-bottom: 56px; } }
+  .chapter-num {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--copper);
+    font-weight: 600;
+  }
+  .chapter-title {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+  }
+  .chapter-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .chapter-lead {
+    max-width: 720px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ash);
+    margin-top: 16px;
+  }
+  .chapter-lead strong { color: var(--bone); font-weight: 500; }
+
+  /* Sub-section */
+  .sub {
+    margin-top: 80px;
+  }
+  .sub-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .sub-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    color: var(--bone);
+  }
+
+  /* =================================================================
+     01 — PRINCIPLES
+     ================================================================= */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    border: 1px solid var(--line);
+  }
+  .principle {
+    padding: 40px 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .principle:last-child { border-right: none; }
+  @media (max-width: 900px) {
+    .principle { border-right: none; }
+    .principle:last-child { border-bottom: none; }
+  }
+  .principle-num {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--copper);
+    margin-bottom: 32px;
+  }
+  .principle-head {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .principle-head em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .principle-body {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.7;
+  }
+
+  /* =================================================================
+     02 — LOGO SYSTEM
+     ================================================================= */
+  .logo-hero {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 900px) { .logo-hero { grid-template-columns: 1fr; padding: 60px 32px; } }
+  .logo-wordmark-big {
+    font-size: clamp(72px, 12vw, 180px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+  }
+  .logo-wordmark-big .slash { color: var(--copper); }
+  .logo-meta {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.7;
+    max-width: 360px;
+  }
+  .logo-meta dl { display: grid; grid-template-columns: 110px 1fr; gap: 8px 16px; margin-top: 20px; }
+  .logo-meta dt { color: var(--ash); }
+  .logo-meta dd { color: var(--bone); }
+
+  .logo-variants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .lv {
+    background: var(--ink);
+    padding: 40px 32px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .lv.on-bone { background: var(--bone); color: var(--ink); }
+  .lv.on-bone .lv-label { color: #666; }
+  .lv-sample {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 24px 0;
+  }
+  .lv-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .lv-note {
+    font-size: 12px;
+    color: var(--ash);
+    margin-top: 8px;
+  }
+  .lv.on-bone .lv-note { color: #666; }
+
+  .mark-sample {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--copper);
+    letter-spacing: -0.05em;
+  }
+  .mark-sample.ink { color: var(--ink); }
+  .wordmark-sample {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 44px;
+    letter-spacing: -0.04em;
+  }
+  .wordmark-sample .slash { color: var(--copper); }
+  .wordmark-sample.mono .slash { color: inherit; }
+
+  /* Construction diagram */
+  .construction {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 48px 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 280px;
+  }
+  .construction-grid {
+    position: relative;
+    display: inline-block;
+  }
+  .construction-grid .letters {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 120px;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--bone);
+    position: relative;
+    z-index: 2;
+  }
+  .construction-grid .letters .slash { color: var(--copper); }
+  .construction-grid .gridline {
+    position: absolute;
+    background: var(--copper);
+    opacity: 0.3;
+    z-index: 1;
+  }
+  .construction-grid .gridline.h {
+    left: -30px; right: -30px; height: 1px;
+  }
+  .construction-grid .gridline.v {
+    top: -30px; bottom: -30px; width: 1px;
+  }
+  .construction-grid .tag {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--copper);
+    letter-spacing: 0.1em;
+    background: var(--ink-2);
+    padding: 2px 6px;
+    z-index: 3;
+  }
+
+  /* Clear space */
+  .clear-space {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 60px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .clear-space-box {
+    border: 1px dashed var(--copper);
+    padding: 60px 80px;
+    position: relative;
+  }
+  .clear-space-box::before {
+    content: 'x';
+    position: absolute;
+    top: -10px; left: -10px;
+    background: var(--ink-2);
+    color: var(--copper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 0 6px;
+  }
+  .clear-space-box .wordmark {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 64px;
+    letter-spacing: -0.04em;
+  }
+  .clear-space-box .wordmark .slash { color: var(--copper); }
+  .clear-space-note {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--ash);
+    text-align: center;
+  }
+
+  /* Don'ts */
+  .donts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .dont {
+    background: var(--ink-2);
+    padding: 32px 24px;
+    position: relative;
+  }
+  .dont-sample {
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    margin-bottom: 16px;
+  }
+  .dont-x {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--signal-warn);
+    border: 1px solid var(--signal-warn);
+    width: 24px; height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .dont-label {
+    font-size: 12px;
+    color: var(--ash);
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* =================================================================
+     03 — NAME TREATMENTS
+     ================================================================= */
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .option {
+    background: var(--ink);
+    padding: 32px 28px;
+    transition: background 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .option:hover { background: var(--ink-2); }
+  .option-name {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 18px;
+  }
+  .option-display {
+    font-weight: 800;
+    font-size: 40px;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+  .option-display .slash { color: var(--copper); }
+  .option-display .dim { color: var(--ash); font-weight: 500; }
+  .option-notes {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .option-notes strong { color: var(--bone); font-weight: 500; }
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line-2);
+  }
+  .pc-col { font-size: 12px; line-height: 1.5; }
+  .pc-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .pc-pro .pc-label { color: var(--signal-ok); }
+  .pc-con .pc-label { color: var(--signal-warn); }
+  .pc-col p { color: var(--ash); }
+
+  /* Rules table */
+  .rules {
+    border: 1px solid var(--line);
+    margin-top: 32px;
+  }
+  .rule-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+  .rule-row:last-child { border-bottom: none; }
+  .rule-row.head {
+    background: var(--ink-2);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .rule-row.head > div { padding: 14px 20px; }
+  .rule-row > div {
+    padding: 18px 20px;
+    border-right: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .rule-row > div:last-child { border-right: none; }
+  .rule-row .r-form {
+    color: var(--bone);
+    font-weight: 500;
+  }
+  .rule-row .r-form code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--copper);
+    font-size: 15px;
+  }
+  .rule-row .r-use { color: var(--bone); }
+  .rule-row .r-never { color: var(--ash); }
+  @media (max-width: 800px) {
+    .rule-row { grid-template-columns: 1fr; }
+    .rule-row > div { border-right: none; border-bottom: 1px solid var(--line); }
+    .rule-row > div:last-child { border-bottom: none; }
+  }
+
+  /* Context mockups */
+  .contexts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .ctx {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 24px;
+  }
+  .ctx-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 16px;
+  }
+  .ctx-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+  .ctx-note strong { color: var(--bone); font-weight: 500; }
+
+  /* iOS home */
+  .ios-wallpaper {
+    background: linear-gradient(160deg, #1f2937 0%, #0f172a 60%, #000 100%);
+    border-radius: 18px;
+    padding: 32px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .ios-icon {
+    width: 68px; height: 68px;
+    border-radius: 16px;
+    background: var(--ink);
+    border: 1px solid var(--line-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--copper);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .ios-label {
+    font-family: -apple-system, 'SF Pro Text', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  /* App Store */
+  .appstore {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .as-icon {
+    width: 56px; height: 56px;
+    border-radius: 13px;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--copper);
+    flex-shrink: 0;
+  }
+  .as-text { flex: 1; min-width: 0; }
+  .as-name {
+    font-family: -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 2px;
+  }
+  .as-tagline {
+    font-size: 12px; color: #666;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .as-get {
+    background: #0071e3;
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, sans-serif;
+  }
+  /* Social */
+  .social {
+    background: #000;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .social-ava {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 1px solid var(--line-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--copper);
+  }
+  .social-text .name {
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .social-text .handle { font-size: 12px; color: var(--ash); }
+  /* Browser */
+  .browser { background: #2a2a2a; border-radius: 10px 10px 0 0; padding: 10px 10px 0; }
+  .tab {
+    background: var(--ink);
+    border-radius: 8px 8px 0 0;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 240px;
+    border-bottom: 2px solid var(--copper);
+  }
+  .tab-fav {
+    width: 16px; height: 16px;
+    background: var(--copper);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    color: var(--ink);
+    font-size: 11px;
+  }
+  .tab-title {
+    font-family: system-ui, sans-serif;
+    font-size: 12px;
+    color: #ddd;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .browser-body {
+    background: var(--ink);
+    padding: 20px 14px;
+    border-radius: 0 0 10px 10px;
+    font-size: 13px;
+    color: var(--ash);
+  }
+  .browser-body .url { color: var(--signal-ok); }
+  /* Voice */
+  .voice {
+    background: var(--ink-3);
+    border-left: 3px solid var(--copper);
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.7;
+  }
+  .voice .prompt { color: var(--copper); }
+  .voice .you { color: var(--bone); }
+  /* Hero mini */
+  .hero-mini {
+    background: #000;
+    border-radius: 12px;
+    padding: 36px 20px;
+    text-align: center;
+  }
+  .hero-mini .wm {
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -0.04em;
+  }
+  .hero-mini .wm .slash { color: var(--copper); }
+  .hero-mini .tl {
+    font-size: 11px;
+    color: var(--ash);
+    margin-top: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* =================================================================
+     04 — COLOR
+     ================================================================= */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .swatch {
+    background: var(--ink);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .swatch-chip {
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    position: relative;
+  }
+  .swatch-chip.lg { height: 240px; }
+  .swatch-name {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .swatch-body {
+    padding: 18px 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+  .swatch-hex {
+    font-size: 14px;
+    color: var(--bone);
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .swatch-use { color: var(--ash); }
+  .swatch-contrast {
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .swatch-contrast .ok { color: var(--signal-ok); }
+  .swatch-contrast .warn { color: var(--signal-warn); }
+
+  /* Ratio demo */
+  .ratio-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 24px;
+  }
+  .ratio-cell {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+  }
+  .ratio-cell .rc-sample {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+  .ratio-cell .rc-meta {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* =================================================================
+     05 — TYPOGRAPHY
+     ================================================================= */
+  .type-spec {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 48px;
+    margin-bottom: 32px;
+  }
+  .type-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    font-size: 12px;
+  }
+  .type-meta dl { display: flex; gap: 10px; }
+  .type-meta dt {
+    color: var(--ash);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 10px;
+    padding-top: 2px;
+  }
+  .type-meta dd { color: var(--bone); }
+  .type-display-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: clamp(80px, 14vw, 200px);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--bone);
+  }
+  .type-display-mono .slash { color: var(--copper); }
+  .type-display-serif {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(60px, 10vw, 140px);
+    line-height: 1.0;
+    color: var(--bone);
+    letter-spacing: -0.02em;
+  }
+  .type-display-serif .copper { color: var(--copper); }
+
+  .type-weights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    margin-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .type-weight {
+    padding: 24px 0;
+    border-right: 1px solid var(--line);
+    padding-right: 20px;
+  }
+  .type-weight:last-child { border-right: none; }
+  .type-weight-sample {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    line-height: 1.0;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .type-weight-meta {
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Type scale */
+  .scale-table {
+    border: 1px solid var(--line);
+  }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 100px 120px 100px 1fr;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    gap: 24px;
+  }
+  .scale-row:last-child { border-bottom: none; }
+  .scale-row.head {
+    background: var(--ink-2);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .scale-token {
+    color: var(--copper);
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .scale-size {
+    font-size: 12px;
+    color: var(--ash);
+  }
+  .scale-use {
+    font-size: 12px;
+    color: var(--ash);
+  }
+  .scale-sample {
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: -0.02em;
+    line-height: 1.0;
+  }
+  @media (max-width: 800px) {
+    .scale-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .scale-row.head { display: none; }
+    .scale-row > * { font-size: 11px; }
+    .scale-sample { grid-column: 1 / -1; order: -1; }
+  }
+
+  /* =================================================================
+     06 — VOICE
+     ================================================================= */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .voice-grid { grid-template-columns: 1fr; } }
+  .voice-col {
+    padding: 40px 32px;
+    border-right: 1px solid var(--line);
+  }
+  .voice-col:last-child { border-right: none; }
+  @media (max-width: 800px) {
+    .voice-col { border-right: none; border-bottom: 1px solid var(--line); }
+    .voice-col:last-child { border-bottom: none; }
+  }
+  .voice-head {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .voice-head.yes { color: var(--signal-ok); }
+  .voice-head.no  { color: var(--signal-warn); }
+  .voice-example {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--bone);
+    padding: 16px 20px;
+    background: var(--ink-3);
+    border-left: 3px solid var(--line-2);
+    margin-bottom: 14px;
+  }
+  .voice-example.yes { border-left-color: var(--signal-ok); }
+  .voice-example.no  { border-left-color: var(--signal-warn); color: var(--ash); text-decoration: line-through; text-decoration-color: var(--signal-warn); }
+  .voice-caption {
+    font-size: 12px;
+    color: var(--ash);
+    margin-bottom: 28px;
+    line-height: 1.6;
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+    font-size: 15px;
+  }
+
+  /* =================================================================
+     07 — SLASH SYSTEM
+     ================================================================= */
+  .slash-hero {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 80px 32px;
+    text-align: center;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slash-giant {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: clamp(200px, 36vw, 500px);
+    line-height: 0.85;
+    color: var(--copper);
+    letter-spacing: -0.08em;
+  }
+  .slash-label {
+    margin-top: 24px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  /* =================================================================
+     08 — MOTION
+     ================================================================= */
+  .motion-list { border: 1px solid var(--line); }
+  .motion-row {
+    display: grid;
+    grid-template-columns: 200px 140px 1fr;
+    padding: 24px;
+    border-bottom: 1px solid var(--line);
+    gap: 20px;
+    align-items: baseline;
+  }
+  .motion-row:last-child { border-bottom: none; }
+  .motion-row .m-name { color: var(--bone); font-weight: 600; font-size: 14px; }
+  .motion-row .m-tech { color: var(--copper); font-size: 12px; }
+  .motion-row .m-use  { color: var(--ash); font-size: 13px; line-height: 1.6; }
+  @media (max-width: 700px) { .motion-row { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* =================================================================
+     09 — COMPONENTS
+     ================================================================= */
+  .comp {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    margin-bottom: 24px;
+  }
+  .comp-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .comp-name {
+    font-size: 13px;
+    color: var(--bone);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .comp-meta {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+    text-transform: uppercase;
+  }
+  .comp-stage {
+    padding: 32px 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons (from index.html) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  .btn-primary {
+    background: var(--copper);
+    color: var(--ink);
+    border-color: var(--copper);
+  }
+  .btn-primary:hover {
+    background: var(--copper-bright);
+    border-color: var(--copper-bright);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink-3), 4px 4px 0 1px var(--copper-dim);
+  }
+  .btn-ghost { color: var(--bone); border-color: var(--ash-dim); }
+  .btn-ghost:hover { border-color: var(--bone); color: var(--copper); }
+
+  /* Terminal */
+  .terminal {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 720px;
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--ink-3);
+    border-bottom: 1px solid var(--line);
+  }
+  .terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ash-dim);
+  }
+  .terminal-title {
+    margin-left: 12px;
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.1em;
+  }
+  .terminal-body {
+    padding: 24px 20px;
+    font-size: 13px;
+    line-height: 1.9;
+  }
+  .terminal-body .prompt { color: var(--copper); margin-right: 8px; }
+  .terminal-body .cmd { color: var(--bone); }
+  .terminal-body .out { color: var(--ash); display: block; }
+  .terminal-body .addr {
+    color: var(--bone);
+    background: var(--ink-3);
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    display: inline-block;
+    margin-top: 4px;
+    border: 1px solid var(--line);
+    word-break: break-all;
+  }
+
+  /* Marquee (from index.html) */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-3);
+    overflow: hidden;
+    padding: 14px 0;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: scroll 40s linear infinite;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .marquee-track span { margin: 0 28px; }
+  .marquee-track .sep { color: var(--copper); margin: 0 14px; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* =================================================================
+     10 — APPLICATIONS
+     ================================================================= */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .app {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 28px 24px;
+  }
+  .app-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 20px;
+  }
+  .app-stage {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  .app-desc {
+    font-size: 12px;
+    color: var(--ash);
+    line-height: 1.6;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+  }
+  .app-desc strong { color: var(--bone); font-weight: 500; }
+
+  /* Merch mockups */
+  .merch-tee {
+    background: var(--ink);
+    border-radius: 14px;
+    padding: 40px 20px;
+    width: 160px;
+    text-align: center;
+    position: relative;
+  }
+  .merch-tee-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.04em;
+  }
+  .merch-tee-mark .slash { color: var(--copper); }
+  .sticker {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--copper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+    transform: rotate(-4deg);
+    box-shadow: 3px 3px 0 var(--ink-3);
+  }
+
+  /* =================================================================
+     11 — ASSET INDEX
+     ================================================================= */
+  .assets {
+    border: 1px solid var(--line);
+  }
+  .asset-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    gap: 20px;
+    font-size: 13px;
+    align-items: center;
+  }
+  .asset-row:last-child { border-bottom: none; }
+  .asset-row.head {
+    background: var(--ink-2);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .asset-file {
+    color: var(--copper);
+    font-weight: 500;
+    word-break: break-all;
+  }
+  .asset-purpose { color: var(--ash); line-height: 1.5; }
+  .asset-size { color: var(--bone); font-size: 12px; }
+  @media (max-width: 800px) {
+    .asset-row { grid-template-columns: 1fr; gap: 6px; }
+    .asset-row.head { display: none; }
+  }
+
+  /* =================================================================
+     FOOTER
+     ================================================================= */
+  footer {
+    padding: 80px 32px 48px;
+    border-top: 1px solid var(--line);
+    background: var(--ink);
+  }
+  .foot-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  @media (max-width: 700px) { .foot-inner { grid-template-columns: 1fr; } }
+  .foot-mark {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .foot-mark .slash { color: var(--copper); }
+  .foot-meta {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    line-height: 1.8;
+  }
+  .foot-meta .v { color: var(--copper); }
+
+  /* Callout */
+  .callout {
+    background: linear-gradient(135deg, var(--copper-glow) 0%, rgba(201,115,43,0.02) 100%);
+    border: 1px solid rgba(201,115,43,0.35);
+    padding: 40px 36px;
+    margin-top: 48px;
+  }
+  .callout-tag {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .callout-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .callout-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--copper);
+  }
+  .callout p {
+    color: var(--ash);
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 12px;
+    max-width: 720px;
+  }
+  .callout p strong { color: var(--bone); font-weight: 500; }
+  .callout ul { list-style: none; padding: 0; margin-top: 18px; }
+  .callout li {
+    font-size: 14px;
+    color: var(--ash);
+    padding: 6px 0 6px 24px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .callout li::before {
+    content: '/';
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+    font-weight: 800;
+  }
+  .callout li strong {
+    color: var(--bone);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .chapter { padding: 80px 24px; }
+    .cover { padding: 100px 24px 60px; }
+    .logo-hero, .clear-space, .construction, .type-spec, .comp, .slash-hero { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================ SIDE RAIL ================ -->
+<div class="rail">
+  <a href="#cover"><span class="num">00</span>Cover</a>
+  <a href="#principles"><span class="num">01</span>Principles</a>
+  <a href="#logo"><span class="num">02</span>Logo</a>
+  <a href="#name"><span class="num">03</span>Name</a>
+  <a href="#color"><span class="num">04</span>Color</a>
+  <a href="#type"><span class="num">05</span>Type</a>
+  <a href="#voice"><span class="num">06</span>Voice</a>
+  <a href="#slash"><span class="num">07</span>Slash</a>
+  <a href="#motion"><span class="num">08</span>Motion</a>
+  <a href="#components"><span class="num">09</span>Comps</a>
+  <a href="#applications"><span class="num">10</span>Apps</a>
+  <a href="#assets"><span class="num">11</span>Assets</a>
+</div>
+
+<!-- ================ COVER ================ -->
+<section class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-meta">
+      <span class="dot"></span>
+      <span>Brand system · v1.0 · April 2026</span>
+    </div>
+    <h1 class="cover-title">etch<span class="slash">/</span>it</h1>
+    <p class="cover-sub">
+      The brand system.<span class="sep"> · </span>
+      <span style="font-style:normal;font-family:'JetBrains Mono',monospace;font-size:0.55em;letter-spacing:0.15em;text-transform:uppercase;color:var(--ash);">One document. One source of truth.</span>
+    </p>
+    <p class="cover-lead">
+      This is the complete brand system for etchit — <strong>logo, name, color,
+      typography, voice, components, and applications</strong>. It exists because
+      permanent infrastructure deserves a permanent visual identity: one that
+      reads the same in a terminal, on an app icon, and on the side of a
+      t-shirt ten years from now. Everything in this document is canonical.
+      If a file in the repo disagrees with what's here, the file is wrong.
+    </p>
+    <div class="cover-meta-grid">
+      <div>
+        <div class="cmg-label">Product</div>
+        <div class="cmg-value">etchit</div>
+      </div>
+      <div>
+        <div class="cmg-label">Wordmark</div>
+        <div class="cmg-value">etch<span style="color:var(--copper)">/</span>it</div>
+      </div>
+      <div>
+        <div class="cmg-label">Tagline</div>
+        <div class="cmg-value">Etch it. Fetch it.</div>
+      </div>
+      <div>
+        <div class="cmg-label">Platform</div>
+        <div class="cmg-value">Autonomi · ANT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 01 — PRINCIPLES ================ -->
+<section class="chapter" id="principles">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">01 / Principles</div>
+      <div>
+        <h2 class="chapter-title">Five rules, <em>one feeling</em>.</h2>
+        <p class="chapter-lead">
+          Every design decision in this system answers to these five principles.
+          When in doubt, pick the one closest to <strong>permanent</strong> and
+          the one furthest from <strong>decorative</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div class="principles">
+      <div class="principle">
+        <div>
+          <div class="principle-num">01</div>
+          <div class="principle-head">Permanent <em>by default</em>.</div>
+        </div>
+        <p class="principle-body">
+          Nothing we design should look like it expires. No trend-chasing
+          gradients, no seasonal refreshes, no illustrations that read
+          2024-but-not-2030. If it can't still feel right a decade from
+          now, it's wrong today.
+        </p>
+      </div>
+      <div class="principle">
+        <div>
+          <div class="principle-num">02</div>
+          <div class="principle-head">Terminal, <em>not tech</em>.</div>
+        </div>
+        <p class="principle-body">
+          We speak monospace, not marketing. Glyphs over icons, brackets
+          over buttons, addresses over avatars. The interface should feel
+          like something a developer left running — precise, confident,
+          a little unfinished on purpose.
+        </p>
+      </div>
+      <div class="principle">
+        <div>
+          <div class="principle-num">03</div>
+          <div class="principle-head">Editorial <em>restraint</em>.</div>
+        </div>
+        <p class="principle-body">
+          One italic serif, used sparingly, does more than a dozen flourishes.
+          Instrument Serif is the only non-mono voice in the system — and it
+          only speaks to emphasize, never to decorate.
+        </p>
+      </div>
+      <div class="principle">
+        <div>
+          <div class="principle-num">04</div>
+          <div class="principle-head">One color <em>that matters</em>.</div>
+        </div>
+        <p class="principle-body">
+          Copper. Not orange, not amber, not rust — copper. It's the only
+          chromatic color in the system. Everything else is ink, bone, or
+          ash. If you need a second accent, you don't need a second accent.
+        </p>
+      </div>
+      <div class="principle">
+        <div>
+          <div class="principle-num">05</div>
+          <div class="principle-head">The slash <em>is the brand</em>.</div>
+        </div>
+        <p class="principle-body">
+          <code>/</code> is not a stylistic choice, it's the identity. It
+          appears in the wordmark, the mark, the favicon, the copy, the code.
+          Treat it like a logomark: never tilt it, never color it anything
+          but copper, never replace it with a substitute character.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 02 — LOGO ================ -->
+<section class="chapter" id="logo">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">02 / Logo</div>
+      <div>
+        <h2 class="chapter-title">The wordmark, <em>the mark, the lockup</em>.</h2>
+        <p class="chapter-lead">
+          Two forms. One ink-on-bone, one bone-on-ink, plus the reductive
+          <code>[/]</code> mark for anywhere the wordmark can't fit.
+        </p>
+      </div>
+    </div>
+
+    <!-- primary wordmark -->
+    <div class="logo-hero">
+      <div class="logo-wordmark-big">etch<span class="slash">/</span>it</div>
+      <div class="logo-meta">
+        <div><strong style="color:var(--bone)">Primary wordmark.</strong> Use whenever you control the typography.</div>
+        <dl>
+          <dt>Face</dt><dd>JetBrains Mono 800</dd>
+          <dt>Tracking</dt><dd>−0.05em</dd>
+          <dt>Slash</dt><dd>Copper (#c9732b)</dd>
+          <dt>Letters</dt><dd>Bone (#f5f2eb)</dd>
+          <dt>Case</dt><dd>Always lowercase</dd>
+        </dl>
+      </div>
+    </div>
+
+    <!-- variants grid -->
+    <div class="logo-variants">
+      <div class="lv">
+        <div class="lv-label">A / Primary</div>
+        <div class="lv-sample"><span class="wordmark-sample">etch<span class="slash">/</span>it</span></div>
+        <div class="lv-note">Bone letters, copper slash, ink ground.</div>
+      </div>
+      <div class="lv on-bone">
+        <div class="lv-label">B / Inverted</div>
+        <div class="lv-sample"><span class="wordmark-sample" style="color:var(--ink)">etch<span class="slash">/</span>it</span></div>
+        <div class="lv-note">For bone/paper grounds. Keep copper.</div>
+      </div>
+      <div class="lv">
+        <div class="lv-label">C / Monochrome</div>
+        <div class="lv-sample"><span class="wordmark-sample mono" style="color:var(--bone)">etch<span class="slash">/</span>it</span></div>
+        <div class="lv-note">Engraving, embossing, single-color print only.</div>
+      </div>
+      <div class="lv">
+        <div class="lv-label">D / Mark</div>
+        <div class="lv-sample"><span class="mark-sample">[/]</span></div>
+        <div class="lv-note">Favicon, app icon, avatar, in-text accent.</div>
+      </div>
+      <div class="lv on-bone">
+        <div class="lv-label">E / Mark (inverted)</div>
+        <div class="lv-sample"><span class="mark-sample ink">[/]</span></div>
+        <div class="lv-note">Only when the ground is bone.</div>
+      </div>
+      <div class="lv">
+        <div class="lv-label">F / Slash alone</div>
+        <div class="lv-sample"><span class="mark-sample" style="font-size:64px">/</span></div>
+        <div class="lv-note">The atomic unit. Never as a standalone logo — only as ornament.</div>
+      </div>
+    </div>
+
+    <!-- construction -->
+    <div class="sub">
+      <div class="sub-label">// construction</div>
+      <div class="sub-title">Proportions are fixed, not stylized.</div>
+      <div class="construction">
+        <div class="construction-grid">
+          <div class="gridline h" style="top: 0;"></div>
+          <div class="gridline h" style="bottom: 0;"></div>
+          <div class="gridline v" style="left: 0;"></div>
+          <div class="gridline v" style="right: 0;"></div>
+          <div class="gridline v" style="left: 52%;"></div>
+          <div class="tag" style="top:-22px;left:0;">cap-height</div>
+          <div class="tag" style="bottom:-22px;right:0;">baseline</div>
+          <div class="tag" style="top:-22px;left:52%;">optical center</div>
+          <div class="letters">etch<span class="slash">/</span>it</div>
+        </div>
+      </div>
+      <p style="margin-top:20px;max-width:720px;font-size:13px;color:var(--ash);line-height:1.7;">
+        The slash sits at the optical center of the wordmark, not the mathematical
+        middle — JetBrains Mono's <code>/</code> has enough inherent lean that it
+        visually centers slightly left of the literal midpoint. Do not kern it
+        out. Do not replace it with a division symbol, backslash, or pipe.
+      </p>
+    </div>
+
+    <!-- clear space -->
+    <div class="sub">
+      <div class="sub-label">// clear space &amp; minimum size</div>
+      <div class="sub-title">Breathing room equal to one <code>x</code>-height.</div>
+      <div class="clear-space">
+        <div class="clear-space-box">
+          <div class="wordmark">etch<span class="slash">/</span>it</div>
+        </div>
+      </div>
+      <p class="clear-space-note">
+        Minimum reserve on all sides = the height of a lowercase <code>x</code> in the wordmark itself.<br>
+        Minimum legible size: <strong style="color:var(--bone)">14px</strong> digital · <strong style="color:var(--bone)">10mm</strong> print.
+        Below those, use the <code>[/]</code> mark instead.
+      </p>
+    </div>
+
+    <!-- don'ts -->
+    <div class="sub">
+      <div class="sub-label">// don'ts</div>
+      <div class="sub-title">Six things that break the mark.</div>
+      <div class="donts">
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px;transform:skewX(-10deg);display:inline-block;">etch<span class="slash">/</span>it</span></div>
+          <div class="dont-label">Don't skew, italicize, or warp.</div>
+        </div>
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px;color:#4a9dff"><span style="color:inherit">etch</span><span style="color:#4a9dff">/</span>it</span></div>
+          <div class="dont-label">Don't recolor the slash. Copper only.</div>
+        </div>
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px;font-family:Georgia,serif;font-weight:700">etch<span class="slash">/</span>it</span></div>
+          <div class="dont-label">Don't substitute the typeface.</div>
+        </div>
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px;text-transform:uppercase">ETCH<span class="slash">/</span>IT</span></div>
+          <div class="dont-label">Don't uppercase the wordmark.</div>
+        </div>
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px">etch<span style="color:var(--copper)">\</span>it</span></div>
+          <div class="dont-label">Don't use a backslash, pipe, or division symbol.</div>
+        </div>
+        <div class="dont">
+          <div class="dont-x">×</div>
+          <div class="dont-sample"><span class="wordmark-sample" style="font-size:32px;letter-spacing:0.15em">etch<span class="slash">/</span>it</span></div>
+          <div class="dont-label">Don't track-out or letterspace.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 03 — NAME ================ -->
+<section class="chapter" id="name">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">03 / Name</div>
+      <div>
+        <h2 class="chapter-title">One name, <em>four spellings</em>.</h2>
+        <p class="chapter-lead">
+          The slash is the brand — but it can't go in a URL, a package name,
+          or your mouth. So we run a <strong>four-tier system</strong>: one
+          spelling per surface, and rules that make it obvious which is which.
+        </p>
+      </div>
+    </div>
+
+    <!-- options -->
+    <div class="sub">
+      <div class="sub-label">// the five candidates we considered</div>
+      <div class="sub-title">Four make the system. One is banned. One is for speech.</div>
+      <div class="option-grid">
+        <div class="option">
+          <div class="option-name">01 · lowercase — canonical</div>
+          <div class="option-display">etchit</div>
+          <div class="option-notes">The default typed form. Monospace-native, matches the terminal/dev aesthetic. What you type as a command or handle.</div>
+          <div class="pros-cons">
+            <div class="pc-col pc-pro"><div class="pc-label">Works</div><p>URLs, CLI, handles, packages, filenames</p></div>
+            <div class="pc-col pc-con"><div class="pc-label">Risk</div><p>reads as "etchitt" on first pass — tagline mitigates</p></div>
+          </div>
+        </div>
+        <div class="option">
+          <div class="option-name">02 · wordmark</div>
+          <div class="option-display">etch<span class="slash">/</span>it</div>
+          <div class="option-notes">The logo. Use anywhere you control type — hero, display name, merch, title tags. Never in input fields or unstyled body copy.</div>
+          <div class="pros-cons">
+            <div class="pc-col pc-pro"><div class="pc-label">Works</div><p>logo, hero, display name, signage, merch</p></div>
+            <div class="pc-col pc-con"><div class="pc-label">Risk</div><p>breaks filenames, URLs, form validators</p></div>
+          </div>
+        </div>
+        <div class="option">
+          <div class="option-name">03 · mark</div>
+          <div class="option-display">[/]</div>
+          <div class="option-notes">The reductive form. Three characters that still read as etchit to anyone who knows the brand. App icon, favicon, avatar.</div>
+          <div class="pros-cons">
+            <div class="pc-col pc-pro"><div class="pc-label">Works</div><p>favicon, app icon, avatar, bullets, ornament</p></div>
+            <div class="pc-col pc-con"><div class="pc-label">Risk</div><p>unreadable without prior context — never standalone intro</p></div>
+          </div>
+        </div>
+        <div class="option">
+          <div class="option-name">04 · spoken</div>
+          <div class="option-display"><span class="dim">etch </span>it</div>
+          <div class="option-notes">Two words. Two syllables. Always followed by the tagline once per conversation so listeners lock in pronunciation.</div>
+          <div class="pros-cons">
+            <div class="pc-col pc-pro"><div class="pc-label">Works</div><p>podcast, talks, voice, radio, video voice-over</p></div>
+            <div class="pc-col pc-con"><div class="pc-label">Risk</div><p>not a brand — never registered or written this way</p></div>
+          </div>
+        </div>
+        <div class="option" style="opacity:0.55;">
+          <div class="option-name" style="color:var(--signal-warn)">✕ · banned</div>
+          <div class="option-display" style="text-decoration:line-through;text-decoration-color:var(--signal-warn);text-decoration-thickness:3px;">ETCHIT</div>
+          <div class="option-notes">All-caps actively harms pronunciation. The wordmark is lowercase; the cap form reads as a single mashed syllable. <strong>Do not use, ever.</strong></div>
+          <div class="pros-cons">
+            <div class="pc-col pc-pro"><div class="pc-label">Works</div><p>— nothing —</p></div>
+            <div class="pc-col pc-con"><div class="pc-label">Risk</div><p>destroys the two-syllable read we've worked for</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- rules table -->
+    <div class="sub">
+      <div class="sub-label">// the rules</div>
+      <div class="sub-title">One surface, one spelling. No exceptions.</div>
+      <div class="rules">
+        <div class="rule-row head">
+          <div>Form</div><div>Use</div><div>Never</div>
+        </div>
+        <div class="rule-row">
+          <div class="r-form"><code>etch/it</code></div>
+          <div class="r-use">Logo, hero, social display name, title tags, merch, signage, pitch decks, video bugs — anywhere you own the typography.</div>
+          <div class="r-never">URLs, package names, CLI, filenames, form inputs, environment variables, anywhere a parser will touch it.</div>
+        </div>
+        <div class="rule-row">
+          <div class="r-form"><code>etchit</code></div>
+          <div class="r-use">Domain (etchit.io), App Store name, social handles (@etchit), npm / crates package, repo name, CLI binary, GitHub org.</div>
+          <div class="r-never">Hero display, logo, marketing headlines — the wordmark does those.</div>
+        </div>
+        <div class="rule-row">
+          <div class="r-form"><code>[/]</code></div>
+          <div class="r-use">Favicon, app icon, avatar, list bullets, section ornament, loading glyph, in-text brand shorthand <em>after first reference</em>.</div>
+          <div class="r-never">As the first appearance of the brand to a new reader. It's a shorthand, not an intro.</div>
+        </div>
+        <div class="rule-row">
+          <div class="r-form"><code>etch it</code></div>
+          <div class="r-use">Spoken — podcasts, talks, voice-over. Always followed by the tagline <em>"etch it, fetch it"</em> once per conversation.</div>
+          <div class="r-never">Anywhere written. Don't put "etch it" in body copy; use <code>etchit</code> or the wordmark.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- contexts -->
+    <div class="sub">
+      <div class="sub-label">// in the wild</div>
+      <div class="sub-title">The same name, across every surface.</div>
+      <div class="contexts">
+        <div class="ctx">
+          <div class="ctx-label">iOS home screen</div>
+          <div class="ios-wallpaper">
+            <div class="ios-icon">[/]</div>
+            <div class="ios-label">etchit</div>
+          </div>
+          <div class="ctx-note">iOS caps labels at ~10 chars. Use <strong>etchit</strong>; the <code>[/]</code> icon carries the brand.</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-label">App Store listing</div>
+          <div class="appstore">
+            <div class="as-icon">[/]</div>
+            <div class="as-text">
+              <div class="as-name">etchit</div>
+              <div class="as-tagline">Etch it. Fetch it.</div>
+            </div>
+            <div class="as-get">GET</div>
+          </div>
+          <div class="ctx-note">App Store name: <strong>etchit</strong>. Subtitle always does the pronunciation lift.</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-label">browser tab + url</div>
+          <div class="browser">
+            <div class="tab">
+              <div class="tab-fav">/</div>
+              <div class="tab-title">etch/it — etch it. fetch it.</div>
+            </div>
+          </div>
+          <div class="browser-body"><span class="url">etchit.io</span></div>
+          <div class="ctx-note">URL: <strong>etchit.io</strong>. Page <code>&lt;title&gt;</code>: the wordmark.</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-label">social handles</div>
+          <div class="social">
+            <div class="social-ava">/</div>
+            <div class="social-text">
+              <div class="name">etch/it</div>
+              <div class="handle">@etchit</div>
+            </div>
+          </div>
+          <div class="ctx-note">Handle: <strong>@etchit</strong>. Display name: <strong>etch/it</strong>. Platforms let you style display names freely.</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-label">voice / podcast</div>
+          <div class="voice">
+            <span class="prompt">&gt; </span><span class="you">"I built it on etchit —<br>&nbsp;&nbsp;&nbsp;you know, etch it, fetch it."</span>
+          </div>
+          <div class="ctx-note">Spoken: <strong>"etch it"</strong> — always two syllables. Pair with the tagline once per conversation.</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-label">hero / marketing</div>
+          <div class="hero-mini">
+            <div class="wm">etch<span class="slash">/</span>it</div>
+            <div class="tl">Etch it · Fetch it</div>
+          </div>
+          <div class="ctx-note">Where you control type: full wordmark with copper slash.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-tag">// the system</div>
+      <div class="callout-title">Keep the <em>slash</em>. Drop it only when the parser will.</div>
+      <p>
+        The slash isn't a problem to work around — it's the brand. Everything else
+        follows from one question: <strong>does this surface let me style type?</strong>
+      </p>
+      <ul>
+        <li><strong>etch/it</strong> — wherever you control the typography</li>
+        <li><strong>etchit</strong> — wherever a parser, URL bar, or form will touch it</li>
+        <li><strong>[/]</strong> — wherever there's no room for the full wordmark</li>
+        <li><strong>"etch it"</strong> — whenever it's spoken, never written</li>
+      </ul>
+      <p style="margin-top: 20px;">
+        The tagline <strong>"Etch it. Fetch it."</strong> is the secret weapon. Put it in
+        the App Store subtitle, the meta description, and every intro — it teaches
+        pronunciation without effort. After someone sees it once, <code>etchit</code>
+        reads correctly forever.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 04 — COLOR ================ -->
+<section class="chapter" id="color">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">04 / Color</div>
+      <div>
+        <h2 class="chapter-title">One copper, <em>three inks, two bones</em>.</h2>
+        <p class="chapter-lead">
+          The entire palette is eleven values. Copper is the only chromatic
+          color; everything else is a warm neutral. If you find yourself
+          reaching for a fifth hue, you're designing the wrong thing.
+        </p>
+      </div>
+    </div>
+
+    <!-- copper family -->
+    <div class="sub">
+      <div class="sub-label">// accent · copper</div>
+      <div class="sub-title">The only chromatic color. Use intentionally.</div>
+      <div class="palette">
+        <div class="swatch">
+          <div class="swatch-chip lg" style="background:#c9732b;">
+            <div class="swatch-name" style="color:#0a0a0a;">Copper</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#c9732b</div>
+            <div class="swatch-use">Primary accent. Slash, CTAs, focus states, prompts, signal. <strong style="color:var(--bone)">Never for body copy.</strong></div>
+            <div class="swatch-contrast">on ink <span class="ok">5.5:1 AA large</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#e58a3f;">
+            <div class="swatch-name" style="color:#0a0a0a;">Copper Bright</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#e58a3f</div>
+            <div class="swatch-use">Hover / active. Never static — always a transition destination.</div>
+            <div class="swatch-contrast">on ink <span class="ok">7.1:1 AA</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#8a4e1d;">
+            <div class="swatch-name" style="color:#f5f2eb;">Copper Dim</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#8a4e1d</div>
+            <div class="swatch-use">Pressed states, drop-shadow offset, de-emphasized accent lines.</div>
+            <div class="swatch-contrast">on ink <span class="warn">3.0:1 decorative only</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:rgba(201,115,43,0.15);border:1px solid var(--line);">
+            <div class="swatch-name" style="color:var(--bone);">Copper Glow</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">rgba(201,115,43,0.15)</div>
+            <div class="swatch-use">Gradient backgrounds, halo behind letters, callout fills.</div>
+            <div class="swatch-contrast">decorative only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ink family -->
+    <div class="sub">
+      <div class="sub-label">// ground · ink scale</div>
+      <div class="sub-title">Near-black with warm undertone. Never pure #000.</div>
+      <div class="palette">
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#0a0a0a;border:1px solid var(--line);">
+            <div class="swatch-name" style="color:var(--bone);">Ink</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#0a0a0a</div>
+            <div class="swatch-use">Canvas. Page background. The default surface.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#141414;">
+            <div class="swatch-name" style="color:var(--bone);">Ink 2</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#141414</div>
+            <div class="swatch-use">Raised surface. Cards, terminals, elevated panels.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#1c1c1c;">
+            <div class="swatch-name" style="color:var(--bone);">Ink 3</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#1c1c1c</div>
+            <div class="swatch-use">Highest surface. Code blocks, terminal bars, inline code.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#222222;">
+            <div class="swatch-name" style="color:var(--bone);">Line</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#222222</div>
+            <div class="swatch-use">Hairline dividers, borders. 1px only.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- foreground family -->
+    <div class="sub">
+      <div class="sub-label">// foreground · bone &amp; ash</div>
+      <div class="sub-title">Warm parchment for text. Never pure white.</div>
+      <div class="palette">
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#f5f2eb;">
+            <div class="swatch-name" style="color:#0a0a0a;">Bone</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#f5f2eb</div>
+            <div class="swatch-use">Primary text on ink. Headlines, body copy, display type.</div>
+            <div class="swatch-contrast">on ink <span class="ok">17:1 AAA</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#d6cfc0;">
+            <div class="swatch-name" style="color:#0a0a0a;">Bone Dim</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#d6cfc0</div>
+            <div class="swatch-use">Secondary text, long-form reading passages, quotes.</div>
+            <div class="swatch-contrast">on ink <span class="ok">12.4:1 AAA</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#8a8a8a;">
+            <div class="swatch-name" style="color:#0a0a0a;">Ash</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#8a8a8a</div>
+            <div class="swatch-use">Tertiary text, labels, captions, meta. Never below 12px.</div>
+            <div class="swatch-contrast">on ink <span class="ok">4.7:1 AA</span></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#3a3a3a;">
+            <div class="swatch-name" style="color:var(--bone);">Ash Dim</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#3a3a3a</div>
+            <div class="swatch-use">Disabled text, terminal chrome dots, subtle borders on elevated surfaces.</div>
+            <div class="swatch-contrast">decorative only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- semantic -->
+    <div class="sub">
+      <div class="sub-label">// semantic · use sparingly</div>
+      <div class="sub-title">Not brand colors. Only for UI signal.</div>
+      <div class="palette" style="grid-template-columns:repeat(2,1fr);">
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#6ab04c;">
+            <div class="swatch-name" style="color:#0a0a0a;">Signal OK</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#6ab04c</div>
+            <div class="swatch-use">Success confirmations, <code>✓ etched</code>, URL status. <strong style="color:var(--bone)">Never decorative.</strong></div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-chip" style="background:#c0392b;">
+            <div class="swatch-name" style="color:var(--bone);">Signal Warn</div>
+          </div>
+          <div class="swatch-body">
+            <div class="swatch-hex">#c0392b</div>
+            <div class="swatch-use">Errors, dont-do markers, destructive CTAs. Never on body copy.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ratio demo -->
+    <div class="sub">
+      <div class="sub-label">// color ratio</div>
+      <div class="sub-title">How much of each color, roughly.</div>
+      <div class="ratio-demo">
+        <div class="ratio-cell" style="background:var(--ink);">
+          <div class="rc-sample" style="color:var(--bone);">~80% <em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--ash);">ink</em></div>
+          <div class="rc-meta" style="color:var(--ash);">Grounds, surfaces, chrome</div>
+        </div>
+        <div class="ratio-cell" style="background:var(--bone);">
+          <div class="rc-sample" style="color:var(--ink);">~15% <em style="font-family:'Instrument Serif',serif;font-style:italic;color:#666;">bone</em></div>
+          <div class="rc-meta" style="color:#666;">Typography, readable surfaces</div>
+        </div>
+        <div class="ratio-cell" style="background:var(--copper);">
+          <div class="rc-sample" style="color:var(--ink);">~5% <em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--ink);">copper</em></div>
+          <div class="rc-meta" style="color:var(--ink);">Accent, slash, CTA, focus</div>
+        </div>
+      </div>
+      <p style="margin-top:24px;font-size:13px;color:var(--ash);max-width:720px;line-height:1.7;">
+        If more than ~5% of a layout is copper, it's wrong. Copper earns its
+        salience by being rare. A single copper slash on a 2000-pixel hero is
+        doing more work than a copper button, copper heading, and copper border
+        combined.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 05 — TYPOGRAPHY ================ -->
+<section class="chapter" id="type">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">05 / Type</div>
+      <div>
+        <h2 class="chapter-title">Two faces. <em>That's the system.</em></h2>
+        <p class="chapter-lead">
+          <strong>JetBrains Mono</strong> is the voice of the product —
+          headings, body, UI, code. <strong>Instrument Serif</strong> italic
+          is the voice of the aside — quotes, emphasis, editorial moments.
+          There is no third face. Inter is not the system. System-UI is not
+          the system.
+        </p>
+      </div>
+    </div>
+
+    <!-- primary specimen -->
+    <div class="type-spec">
+      <div class="type-meta">
+        <dl><dt>Primary</dt><dd>JetBrains Mono</dd></dl>
+        <dl><dt>Designer</dt><dd>Philipp Nurullin · JetBrains</dd></dl>
+        <dl><dt>Weights</dt><dd>300 · 400 · 500 · 600 · 700 · 800</dd></dl>
+        <dl><dt>License</dt><dd>OFL · open source</dd></dl>
+      </div>
+      <div class="type-display-mono">etch<span class="slash">/</span>it</div>
+      <div class="type-weights">
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:300;">etchit</div>
+          <div class="type-weight-meta">300 / Light · unused in product</div>
+        </div>
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:400;">etchit</div>
+          <div class="type-weight-meta">400 / Regular · body copy</div>
+        </div>
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:500;">etchit</div>
+          <div class="type-weight-meta">500 / Medium · emphasis</div>
+        </div>
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:600;">etchit</div>
+          <div class="type-weight-meta">600 / Semi · UI labels, buttons</div>
+        </div>
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:700;">etchit</div>
+          <div class="type-weight-meta">700 / Bold · subheads</div>
+        </div>
+        <div class="type-weight">
+          <div class="type-weight-sample" style="font-weight:800;">etchit</div>
+          <div class="type-weight-meta">800 / ExtraBold · display, wordmark</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- editorial specimen -->
+    <div class="type-spec">
+      <div class="type-meta">
+        <dl><dt>Editorial</dt><dd>Instrument Serif</dd></dl>
+        <dl><dt>Style</dt><dd>Italic only</dd></dl>
+        <dl><dt>Weight</dt><dd>400 only</dd></dl>
+        <dl><dt>License</dt><dd>OFL · open source</dd></dl>
+      </div>
+      <div class="type-display-serif"><em>Etch it.<span class="copper"> · </span>Fetch it.</em></div>
+      <p style="margin-top:32px;max-width:720px;font-size:13px;color:var(--ash);line-height:1.7;">
+        Instrument Serif italic is used <strong style="color:var(--bone)">only</strong> for
+        emphasis — pull quotes, taglines, <code>&lt;em&gt;</code> inside headlines,
+        editorial asides. Never for body copy, never for UI labels, never at
+        weights other than 400, never upright. If you find yourself setting
+        a paragraph in it, you're using it wrong.
+      </p>
+    </div>
+
+    <!-- type scale -->
+    <div class="sub">
+      <div class="sub-label">// type scale</div>
+      <div class="sub-title">Fluid, tracked tight, proportional.</div>
+      <div class="scale-table">
+        <div class="scale-row head">
+          <div>Token</div><div>Size</div><div>Weight</div><div>Sample</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">display / 01</div>
+          <div class="scale-size">clamp(60px, 14vw, 220px)</div>
+          <div class="scale-use">800 / −0.05em</div>
+          <div class="scale-sample" style="font-size:64px;font-weight:800;">etch<span style="color:var(--copper)">/</span>it</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">display / 02</div>
+          <div class="scale-size">clamp(40px, 7vw, 110px)</div>
+          <div class="scale-use">700 / −0.04em</div>
+          <div class="scale-sample" style="font-size:48px;font-weight:700;">Permanent.</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">headline</div>
+          <div class="scale-size">clamp(36px, 6vw, 72px)</div>
+          <div class="scale-use">700 / −0.03em</div>
+          <div class="scale-sample" style="font-size:32px;font-weight:700;">Three verbs.</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">title</div>
+          <div class="scale-size">22–28px</div>
+          <div class="scale-use">600 / −0.01em</div>
+          <div class="scale-sample" style="font-size:22px;font-weight:600;">How it works</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">lead</div>
+          <div class="scale-size">15–18px</div>
+          <div class="scale-use">400 / 1.65 line-height</div>
+          <div class="scale-sample" style="font-size:15px;font-weight:400;">Permanent, censorship-resistant.</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">body</div>
+          <div class="scale-size">14px</div>
+          <div class="scale-use">400 / 1.7 line-height</div>
+          <div class="scale-sample" style="font-size:14px;">A permanent address on Autonomi.</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">caption</div>
+          <div class="scale-size">13px</div>
+          <div class="scale-use">400 / var(--ash)</div>
+          <div class="scale-sample" style="font-size:13px;color:var(--ash);">no servers · no accounts</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">eyebrow</div>
+          <div class="scale-size">11px</div>
+          <div class="scale-use">600 / +0.2em / UPPER</div>
+          <div class="scale-sample" style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--copper);">// THE PROBLEM</div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-token">micro</div>
+          <div class="scale-size">10px</div>
+          <div class="scale-use">600 / +0.2em / UPPER</div>
+          <div class="scale-sample" style="font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);">v1.0 · APR 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 06 — VOICE ================ -->
+<section class="chapter" id="voice">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">06 / Voice</div>
+      <div>
+        <h2 class="chapter-title">Short. <em>Declarative.</em> Slightly severe.</h2>
+        <p class="chapter-lead">
+          We write like a thing that doesn't need you. Not cold — confident.
+          Permanent infrastructure shouldn't apologize, explain itself twice,
+          or ask for your email.
+        </p>
+      </div>
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice-col">
+        <div class="voice-head yes">✓ Do</div>
+        <div class="voice-example yes">It stays exactly as you etched it.</div>
+        <div class="voice-caption">Direct. Declarative. Makes a promise without hedging.</div>
+        <div class="voice-example yes">Pay once. Stored forever.</div>
+        <div class="voice-caption">Short. Two fragments do the work of a paragraph.</div>
+        <div class="voice-example yes">No accounts. No moderators. No delete button.</div>
+        <div class="voice-caption">Lists of absences. Shows the product by showing what it doesn't have.</div>
+        <div class="voice-example yes">The link will still work in ten years.</div>
+        <div class="voice-caption">Concrete. A decade is a vivid number; "forever" is an abstraction.</div>
+      </div>
+      <div class="voice-col">
+        <div class="voice-head no">✕ Don't</div>
+        <div class="voice-example no">Welcome to etchit — the revolutionary new way to store text!</div>
+        <div class="voice-caption">"Revolutionary" and "new" both date us. Welcome-copy is saas energy.</div>
+        <div class="voice-example no">We believe data should be permanent, so we built...</div>
+        <div class="voice-caption">No first-person plural. The product speaks, not the company.</div>
+        <div class="voice-example no">Please sign up to get started with your first etch!</div>
+        <div class="voice-caption">There are no signups. Excited punctuation is begging.</div>
+        <div class="voice-example no">Seamlessly store, share, and manage your permanent content.</div>
+        <div class="voice-caption">"Seamlessly" and "manage" are both banned. We use verbs, not adverbs.</div>
+      </div>
+    </div>
+
+    <!-- Vocabulary -->
+    <div class="sub">
+      <div class="sub-label">// vocabulary</div>
+      <div class="sub-title">The words we own. And the ones we don't say.</div>
+      <div class="voice-grid">
+        <div class="voice-col">
+          <div class="voice-head yes">Lexicon</div>
+          <p style="color:var(--ash);font-size:13px;line-height:1.8;">
+            <strong style="color:var(--bone)">etch</strong> · to write permanently ·
+            <strong style="color:var(--bone)">fetch</strong> · to read by address ·
+            <strong style="color:var(--bone)">address</strong> · the 64-char handle ·
+            <strong style="color:var(--bone)">permanent</strong> · preferred over "immutable" in marketing ·
+            <strong style="color:var(--bone)">immutable</strong> · preferred over "permanent" in technical copy ·
+            <strong style="color:var(--bone)">the network</strong> · Autonomi, shortened after first mention ·
+            <strong style="color:var(--bone)">ANT</strong> · the token, always all-caps ·
+            <strong style="color:var(--bone)">etcetera</strong> · the catch-all use case · .
+          </p>
+        </div>
+        <div class="voice-col">
+          <div class="voice-head no">Banned</div>
+          <p style="color:var(--ash);font-size:13px;line-height:1.8;">
+            <span style="text-decoration:line-through;">blockchain</span> (say "the network") ·
+            <span style="text-decoration:line-through;">crypto</span> (say "ANT" or nothing) ·
+            <span style="text-decoration:line-through;">web3</span> ·
+            <span style="text-decoration:line-through;">platform</span> (we're a primitive) ·
+            <span style="text-decoration:line-through;">solution</span> ·
+            <span style="text-decoration:line-through;">seamlessly</span> ·
+            <span style="text-decoration:line-through;">revolutionary</span> ·
+            <span style="text-decoration:line-through;">user</span> (say "you" or "anyone") ·
+            <span style="text-decoration:line-through;">content</span> (say "text" or "paste") ·
+            <span style="text-decoration:line-through;">leverage</span> ·
+            <span style="text-decoration:line-through;">empower</span>.
+          </p>
+          <p style="color:var(--ash);font-size:12px;line-height:1.8;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-2);">
+            <strong style="color:var(--bone)">Note on <code style="color:var(--copper);">decentralized</code>:</strong>
+            allowed. Use when it's the most accurate word for the architecture —
+            especially in top-of-funnel copy where readers already have a mental
+            model for it. Pair with concrete alternatives like <em style="font-family:'Instrument Serif',serif;">public peer-to-peer network</em>
+            when describing internals.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Punctuation -->
+    <div class="sub">
+      <div class="sub-label">// punctuation as design</div>
+      <div class="sub-title">Three marks do most of the work.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);">
+        <div style="background:var(--ink-2);padding:28px;">
+          <div style="font-size:48px;color:var(--copper);font-weight:800;margin-bottom:12px;line-height:1;">/</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">The brand mark. Separator in the wordmark, bullet in the mark, title-tag decoration.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:28px;">
+          <div style="font-size:48px;color:var(--copper);font-weight:800;margin-bottom:12px;line-height:1;">·</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Middle dot. Separates tagline halves, marketing specs ("no accounts · no servers · no delete button").</div>
+        </div>
+        <div style="background:var(--ink-2);padding:28px;">
+          <div style="font-size:48px;color:var(--copper);font-weight:800;margin-bottom:12px;line-height:1;">.</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">The period. Our single favorite mark. End fragments. Full stops. "Etch it. Fetch it." is half built out of it.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:28px;">
+          <div style="font-size:48px;color:var(--copper);font-weight:800;margin-bottom:12px;line-height:1;font-family:'JetBrains Mono',monospace;">[/]</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">The mark in text. Use in eyebrows, bullet lists, ornamental dividers between paragraphs.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 07 — SLASH SYSTEM ================ -->
+<section class="chapter" id="slash">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">07 / Slash</div>
+      <div>
+        <h2 class="chapter-title">The <em>character</em> that carries everything.</h2>
+        <p class="chapter-lead">
+          The forward slash isn't ornament — it's the entire visual identity
+          compressed into one character. Protect it.
+        </p>
+      </div>
+    </div>
+
+    <div class="slash-hero">
+      <div class="slash-giant">/</div>
+      <div class="slash-label">JetBrains Mono · 800 · #c9732b</div>
+    </div>
+
+    <div class="sub">
+      <div class="sub-label">// where the slash lives</div>
+      <div class="sub-title">Six roles, one glyph.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);">
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">01 · pivot</div>
+          <div style="font-size:28px;font-weight:800;letter-spacing:-0.03em;margin-bottom:12px;">etch<span style="color:var(--copper)">/</span>it</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Inside the wordmark. Copper on bone. The identity itself.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">02 · mark</div>
+          <div style="font-size:28px;font-weight:800;color:var(--copper);margin-bottom:12px;letter-spacing:-0.03em;">[/]</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Bracketed — the reductive mark. App icons, favicons.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">03 · bullet</div>
+          <div style="font-size:14px;color:var(--ash);line-height:1.7;margin-bottom:8px;"><span style="color:var(--copper);font-weight:800;margin-right:8px;">/</span>Permanent storage</div>
+          <div style="font-size:14px;color:var(--ash);line-height:1.7;margin-bottom:12px;"><span style="color:var(--copper);font-weight:800;margin-right:8px;">/</span>No accounts</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">List-marker in feature lists. Replaces the disc/dash.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">04 · eyebrow</div>
+          <div style="font-size:12px;color:var(--copper);letter-spacing:0.2em;text-transform:uppercase;font-weight:600;margin-bottom:12px;">// HOW IT WORKS</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Doubled as <code>//</code> — a section label, a code-comment aside.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">05 · separator</div>
+          <div style="font-size:13px;color:var(--bone);margin-bottom:12px;">etchit <span style="color:var(--copper)">/</span> brand <span style="color:var(--copper)">/</span> v1.0</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Breadcrumbs, versioning, nested context.</div>
+        </div>
+        <div style="background:var(--ink-2);padding:32px 24px;">
+          <div style="font-size:13px;color:var(--copper);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:14px;">06 · ornament</div>
+          <div style="font-size:24px;color:var(--copper);letter-spacing:0.2em;font-weight:800;margin-bottom:12px;">/ / /</div>
+          <div style="font-size:12px;color:var(--ash);line-height:1.6;">Triple-slash as section break in long-form prose. Never in UI.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 08 — MOTION ================ -->
+<section class="chapter" id="motion">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">08 / Motion</div>
+      <div>
+        <h2 class="chapter-title">Type in. <em>Fade up.</em> Never bounce.</h2>
+        <p class="chapter-lead">
+          Motion should feel mechanical — a thing being printed, not a thing
+          being performed. No spring physics, no overshoots, no easing that
+          smiles.
+        </p>
+      </div>
+    </div>
+
+    <div class="motion-list">
+      <div class="motion-row">
+        <div class="m-name">Terminal type-in</div>
+        <div class="m-tech">0.4s · ease-out · staggered 0.2–0.4s</div>
+        <div class="m-use">Lines appear in sequence, each one slightly left-then-resting. Used in the hero terminal demo and anywhere showing a "just ran this" state.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Fade-up (scroll)</div>
+        <div class="m-tech">0.8s · ease-out · translateY(30 → 0)</div>
+        <div class="m-use">Section reveal triggered by IntersectionObserver at ~15% visibility. One section at a time; no cascading.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Cursor blink</div>
+        <div class="m-tech">1.1s · step-end · on/off</div>
+        <div class="m-use">A single copper block cursor following the wordmark. Step-end, not ease — terminals don't fade.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Pulse</div>
+        <div class="m-tech">2s · infinite · opacity + scale(1 → 1.3)</div>
+        <div class="m-use">The status dot in the eyebrow. Slow, quiet — signal of life, not attention-grab.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Button press</div>
+        <div class="m-tech">0.2s · translate + offset-shadow</div>
+        <div class="m-use">Primary buttons shift up-and-left with a hard copper-dim drop-shadow. Stamping, not floating.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Marquee</div>
+        <div class="m-tech">40s · linear · infinite · translateX(0 → −50%)</div>
+        <div class="m-use">Horizontal band of all-caps claims. Slow enough to read, not so slow it feels broken.</div>
+      </div>
+      <div class="motion-row">
+        <div class="m-name">Item hover</div>
+        <div class="m-tech">0.3s · ease · padding-left + background</div>
+        <div class="m-use">List items (uses, specs) shift right and darken. Indicates the item is actionable without introducing a button.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:40px;max-width:720px;font-size:14px;color:var(--ash);line-height:1.7;">
+      <strong style="color:var(--bone)">Rule of thumb:</strong> if you'd describe the motion with a
+      verb like "pops", "bounces", "springs", or "wobbles", it's wrong for this
+      brand. Correct verbs: <em style="font-family:'Instrument Serif',serif;">prints, stamps, reveals, slides, fades, blinks</em>.
+    </p>
+  </div>
+</section>
+
+<!-- ================ 09 — COMPONENTS ================ -->
+<section class="chapter" id="components">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">09 / Components</div>
+      <div>
+        <h2 class="chapter-title">The parts that <em>ship</em>.</h2>
+        <p class="chapter-lead">
+          Canonical versions of the UI components used across the product and
+          site. Copy these; don't improvise variants.
+        </p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="comp">
+      <div class="comp-head">
+        <div class="comp-name">Button · primary + ghost</div>
+        <div class="comp-meta">.btn .btn-primary · .btn .btn-ghost</div>
+      </div>
+      <div class="comp-stage">
+        <button class="btn btn-primary">Etch something <span class="arrow">↗</span></button>
+        <button class="btn btn-ghost">Read the docs <span class="arrow">↗</span></button>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="comp">
+      <div class="comp-head">
+        <div class="comp-name">Terminal · demo surface</div>
+        <div class="comp-meta">.terminal · 8px radius · ink-2 on ink</div>
+      </div>
+      <div class="comp-stage">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot"></div>
+            <div class="terminal-dot"></div>
+            <div class="terminal-dot"></div>
+            <div class="terminal-title">~ etchit</div>
+          </div>
+          <div class="terminal-body">
+            <div><span class="prompt">$</span> <span class="cmd">etch "hello, forever"</span></div>
+            <div class="out">→ encrypting · chunking · quoting...</div>
+            <div class="out"><span style="color:var(--copper);">✓ etched.</span> permanent address:</div>
+            <div class="out"><span class="addr">bebb4f16bc23aa4581bff5fec471829959c1edbe4485eb4cf0d853a62f5406f0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Marquee -->
+    <div class="comp">
+      <div class="comp-head">
+        <div class="comp-name">Marquee · horizontal claims band</div>
+        <div class="comp-meta">.marquee · 40s scroll · ink-3 band</div>
+      </div>
+      <div class="comp-stage" style="display:block;padding:0;">
+        <div class="marquee">
+          <div class="marquee-track">
+            <span>PERMANENT BY DEFAULT</span><span class="sep">[/]</span>
+            <span>NO ACCOUNTS</span><span class="sep">[/]</span>
+            <span>NO MODERATORS</span><span class="sep">[/]</span>
+            <span>OPEN PROTOCOL</span><span class="sep">[/]</span>
+            <span>READ FREE · PAY TO WRITE</span><span class="sep">[/]</span>
+            <span>PERMANENT BY DEFAULT</span><span class="sep">[/]</span>
+            <span>NO ACCOUNTS</span><span class="sep">[/]</span>
+            <span>NO MODERATORS</span><span class="sep">[/]</span>
+            <span>OPEN PROTOCOL</span><span class="sep">[/]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address pill -->
+    <div class="comp">
+      <div class="comp-head">
+        <div class="comp-name">Address · content-addressed handle</div>
+        <div class="comp-meta">.addr · 64-char hex · ink-3 pill</div>
+      </div>
+      <div class="comp-stage">
+        <span style="color:var(--bone);background:var(--ink-3);padding:6px 12px;border-radius:3px;font-size:12px;border:1px solid var(--line);word-break:break-all;max-width:100%;font-family:'JetBrains Mono',monospace;">
+          bebb4f16bc23aa4581bff5fec471829959c1edbe4485eb4cf0d853a62f5406f0
+        </span>
+      </div>
+    </div>
+
+    <!-- Eyebrow + headline -->
+    <div class="comp">
+      <div class="comp-head">
+        <div class="comp-name">Section opener · eyebrow + headline</div>
+        <div class="comp-meta">uppercase 0.25em · display headline with serif em</div>
+      </div>
+      <div class="comp-stage" style="flex-direction:column;align-items:flex-start;gap:16px;">
+        <div style="font-size:11px;color:var(--copper);letter-spacing:0.25em;text-transform:uppercase;font-weight:600;">// The problem</div>
+        <div style="font-size:40px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;color:var(--bone);">Built like <em style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--copper);">infrastructure</em>, not a service.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 10 — APPLICATIONS ================ -->
+<section class="chapter" id="applications">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">10 / Applications</div>
+      <div>
+        <h2 class="chapter-title">Where it all <em>lands</em>.</h2>
+        <p class="chapter-lead">
+          The brand in context — app icons, favicons, social, merch, signage.
+          Each one picks the right name form from chapter 03.
+        </p>
+      </div>
+    </div>
+
+    <div class="app-grid">
+      <!-- app icon -->
+      <div class="app">
+        <div class="app-label">iOS / Android app icon</div>
+        <div class="app-stage">
+          <div style="width:120px;height:120px;border-radius:26px;background:var(--ink);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:48px;color:var(--copper);letter-spacing:-0.04em;box-shadow:0 12px 28px rgba(0,0,0,0.5);">[/]</div>
+        </div>
+        <div class="app-desc">
+          <strong>[/] mark</strong> on ink ground, copper tint. Exported at
+          1024, 512, 256, 180, 120, 87, 80, 60, 40. Label: <code>etchit</code>.
+        </div>
+      </div>
+      <!-- alt app icon -->
+      <div class="app">
+        <div class="app-label">Alt icon · copper on bone</div>
+        <div class="app-stage">
+          <div style="width:120px;height:120px;border-radius:26px;background:linear-gradient(145deg,#e58a3f 0%,#8a4e1d 100%);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:48px;color:var(--ink);letter-spacing:-0.04em;box-shadow:0 12px 28px rgba(0,0,0,0.5);">[/]</div>
+        </div>
+        <div class="app-desc">
+          For the second device — reserve for seasonal or anniversary drops.
+          Gradient is <code>#e58a3f → #8a4e1d</code>, 145°.
+        </div>
+      </div>
+      <!-- favicon -->
+      <div class="app">
+        <div class="app-label">Favicon</div>
+        <div class="app-stage">
+          <div style="display:flex;align-items:flex-end;gap:20px;">
+            <div style="width:16px;height:16px;background:var(--copper);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--ink);font-size:11px;">/</div>
+            <div style="width:32px;height:32px;background:var(--copper);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--ink);font-size:20px;">/</div>
+            <div style="width:64px;height:64px;background:var(--copper);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--ink);font-size:40px;">/</div>
+          </div>
+        </div>
+        <div class="app-desc">
+          Solid copper square, slash reversed out in ink. Legible at 16px — the
+          <code>[/]</code> brackets drop away at favicon scale.
+        </div>
+      </div>
+      <!-- social avatar -->
+      <div class="app">
+        <div class="app-label">Social avatar</div>
+        <div class="app-stage">
+          <div style="width:96px;height:96px;border-radius:50%;background:var(--ink);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:40px;color:var(--copper);letter-spacing:-0.04em;">[/]</div>
+        </div>
+        <div class="app-desc">
+          Display name: <strong>etch/it</strong>. Handle: <code>@etchit</code>.
+          Same mark across X, Farcaster, GitHub, Discord.
+        </div>
+      </div>
+      <!-- social preview -->
+      <div class="app" style="grid-column:span 2;">
+        <div class="app-label">Social preview card · 1280×640</div>
+        <div class="app-stage">
+          <div style="background:var(--ink);border:1px solid var(--line);width:100%;aspect-ratio:2/1;display:flex;flex-direction:column;justify-content:space-between;padding:32px;position:relative;overflow:hidden;">
+            <div style="font-size:10px;color:var(--copper);letter-spacing:0.25em;text-transform:uppercase;font-weight:600;z-index:2;">// permanent by default</div>
+            <div style="font-size:clamp(48px,8vw,88px);font-weight:800;letter-spacing:-0.05em;line-height:0.9;z-index:2;">etch<span style="color:var(--copper)">/</span>it</div>
+            <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(18px,2.4vw,24px);color:var(--bone-dim);z-index:2;">Etch it.<span style="color:var(--copper);font-style:normal;"> · </span>Fetch it.</div>
+            <div style="position:absolute;right:-80px;bottom:-120px;font-size:400px;color:var(--copper);opacity:0.04;font-weight:300;line-height:0.75;">]</div>
+          </div>
+        </div>
+        <div class="app-desc">
+          <strong>Og-image composition:</strong> eyebrow (top-left) · wordmark (center-left) · tagline (bottom-left) · muted bracket in corner. No URL, no logo-plus-text lockups, no gradients.
+        </div>
+      </div>
+      <!-- merch -->
+      <div class="app">
+        <div class="app-label">Merch · t-shirt front</div>
+        <div class="app-stage">
+          <div class="merch-tee">
+            <div class="merch-tee-mark">etch<span class="slash">/</span>it</div>
+          </div>
+        </div>
+        <div class="app-desc">
+          Wordmark centered, chest height. Copper slash on garment-dyed bone or ink tee. No version numbers, no dates.
+        </div>
+      </div>
+      <!-- sticker -->
+      <div class="app">
+        <div class="app-label">Sticker · conference drop</div>
+        <div class="app-stage">
+          <div class="sticker">etch/it</div>
+        </div>
+        <div class="app-desc">
+          Solid copper ground, ink wordmark, hard offset shadow. Always rotated −4° — flat stickers look tentative.
+        </div>
+      </div>
+      <!-- cli -->
+      <div class="app">
+        <div class="app-label">CLI · terminal banner</div>
+        <div class="app-stage" style="display:block;padding:0;">
+          <div class="terminal" style="max-width:100%;">
+            <div class="terminal-body" style="font-size:12px;padding:18px 16px;">
+              <div style="color:var(--copper);line-height:1.3;white-space:pre;font-weight:700;">  ___  ____    ___  _  _     ____  ____
+ / __)(_  _)  / __)/ )( \   (_  _)(_  _)
+( (__   )(   ( (__ ) __ (     )(    )(
+ \___) (__)   \___)\_)(_/    (__)  (__)</div>
+              <div style="color:var(--ash);margin-top:8px;font-size:11px;">etchit v0.1 · etch it. fetch it.</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-desc">
+          ASCII logotype on first <code>etchit</code> run. JetBrains Mono in terminal, copper ANSI (31m or 38;5;173m).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 11 — ASSET INDEX ================ -->
+<section class="chapter" id="assets">
+  <div class="chapter-inner">
+    <div class="chapter-head">
+      <div class="chapter-num">11 / Assets</div>
+      <div>
+        <h2 class="chapter-title">What lives in <em>/artifacts</em>.</h2>
+        <p class="chapter-lead">
+          Physical files available today, what they're for, and what's still
+          missing. Only <code>etchit/etchit-favicon.png</code> is currently
+          served — the rest live one folder up, unreferenced.
+        </p>
+      </div>
+    </div>
+
+    <div class="assets">
+      <div class="asset-row head">
+        <div>File</div><div>Purpose</div><div>Status</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-favicon-32.png</div>
+        <div class="asset-purpose">Browser tab favicon — smallest size. Rendered on the slash alone.</div>
+        <div class="asset-size">shipped</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-favicon-64.png</div>
+        <div class="asset-purpose">Pinned tab / high-dpi favicon. Same mark, 2× assets.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-favicon-180.png</div>
+        <div class="asset-purpose">Apple touch icon for iOS home-screen bookmarks.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-app-icon-512.png</div>
+        <div class="asset-purpose">Play Store listing icon, low-density Android launcher.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-app-icon-1024.png</div>
+        <div class="asset-purpose">App Store listing icon, high-density Android launcher, press kit.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-avatar-500.png</div>
+        <div class="asset-purpose">Social avatar — Farcaster, Discord, small profile slots.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-avatar-1000.png</div>
+        <div class="asset-purpose">Social avatar — X, GitHub, higher-res profile slots.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-primary-dark.png</div>
+        <div class="asset-purpose">Primary lockup on ink ground — press kit, embed, slide template.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-wordmark-dark.png</div>
+        <div class="asset-purpose">Standalone wordmark, no lockup. Hero overrides, slide titles.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">etchit-social-preview-1280.png</div>
+        <div class="asset-purpose">Open Graph / Twitter Card image, 1280×640.</div>
+        <div class="asset-size">staged</div>
+      </div>
+      <div class="asset-row" style="background:var(--ink-2);">
+        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
+        <div class="asset-purpose">SVG versions of wordmark + mark for scalable rendering in docs, presentations, embed.</div>
+        <div class="asset-size">todo</div>
+      </div>
+      <div class="asset-row" style="background:var(--ink-2);">
+        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
+        <div class="asset-purpose">Light-ground variants (<code>-light.png</code>) for printed collateral.</div>
+        <div class="asset-size">todo</div>
+      </div>
+      <div class="asset-row" style="background:var(--ink-2);">
+        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
+        <div class="asset-purpose">Favicon.ico bundled 16/32/48 for legacy browser caches.</div>
+        <div class="asset-size">todo</div>
+      </div>
+    </div>
+    <p style="margin-top:16px;max-width:720px;font-size:13px;color:var(--ash);line-height:1.7;">
+      <strong style="color:var(--bone)">Historical — etchit-name-treatments.</strong>
+      The scratch file <code>etchit-name-treatments.html</code> in the workspace
+      root used Inter and a non-canonical copper (<code>#c87533</code>). It has
+      been superseded by this document. Treat it as an archived draft; do not
+      reference it when building new artifacts.
+    </p>
+  </div>
+</section>
+
+<!-- ================ FOOTER ================ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-mark">etch<span class="slash">/</span>it</div>
+    <div class="foot-meta">
+      Brand system <span class="v">v1.0</span><br>
+      April 2026<br>
+      Source of truth<br>
+      Supersedes all prior drafts
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
