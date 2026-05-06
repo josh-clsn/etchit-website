@@ -519,6 +519,28 @@
   .svg-text { fill: var(--bone); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
   .svg-text-mono-sm { fill: var(--ash); font-family: 'JetBrains Mono', monospace; font-size: 9px; }
   .svg-text-copper { fill: var(--copper); font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; }
+
+  /* ==================== ACTION-CARD STEPS (collapsed) ==================== */
+  .card-steps { margin-top: 14px; }
+  .card-steps summary {
+    cursor: pointer;
+    color: var(--copper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    padding: 6px 0;
+    list-style: none;
+  }
+  .card-steps summary::-webkit-details-marker { display: none; }
+  .card-steps summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1em;
+    color: var(--copper);
+  }
+  .card-steps[open] summary::before { content: '−'; }
+  .card-steps[open] summary { color: var(--bone-dim); border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+  .card-steps .steps { margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -747,6 +769,19 @@
       </svg>
       <p>A <strong>private etch</strong> encrypts on your device first, then stores only the encrypted blob on the network. By default the decryption key — the <em>data map</em> — lives only on this device's encrypted storage. <strong>Lose or wipe the device and the data is unrecoverable.</strong></p>
       <p><strong>Back up to fix that.</strong> Tap "Back up to network", let the app generate a 6-word passphrase, write it down, sign one more etch. The whole private set is re-encrypted with that passphrase and uploaded. Now the passphrase is your recovery key — it lives wherever <em>you</em> put it (paper, password manager, head). On any device: backup address + passphrase = restored private etches.</p>
+      <details class="card-steps">
+        <summary>Step-by-step</summary>
+        <ol class="steps">
+          <li><strong>Connect your wallet.</strong> Any Arbitrum One wallet — MetaMask Mobile pairs over QR.</li>
+          <li><strong>Tick "Private etch"</strong> in the etch panel, then type or paste your content and add a title.</li>
+          <li><strong>Tap Etch</strong> and approve the chunk-payment in your wallet. Encryption happens on the device before any byte leaves it.</li>
+          <li><strong>That's the private etch.</strong> The encrypted blob is on the network; the data-map (decryption key) is on this device only. Retrieving it later prompts your fingerprint / device PIN.</li>
+          <li><strong>Open Settings → Back up private etches.</strong> Tap "Generate strong passphrase" — 6 BIP-39 words. <strong>Write them down</strong>; there's no recovery if you lose them.</li>
+          <li><strong>Tap "Etch to network"</strong> and approve. Your whole private set re-encrypts with that passphrase and uploads as a single etch. Copy the backup address.</li>
+          <li><strong>Add the backup to chain/it</strong> (optional but recommended). Long-press the backup entry in <em>Etch history</em> → "Add to chainmarks". Now the backup address rides along with your wallet — no copy-paste between devices, no lost stickies. The passphrase you wrote down is still the only thing that decrypts it.</li>
+          <li><strong>To restore</strong> on a new device or after a wipe: install etchit → connect the same wallet → Sync chainmarks → tap the backup entry → enter the passphrase. Your private etches reappear. (No chain/it? Settings → Restore private etches → paste backup address + passphrase manually.)</li>
+        </ol>
+      </details>
       <div class="action-cost"><strong>Cost:</strong> same one-time ANT fee as a public etch — the backup is just one more etch, the bytes are encrypted.</div>
     </article>
 
@@ -798,6 +833,17 @@
       <p><strong>chain/it</strong> stores your most important etch addresses on Arbitrum so you can reach them from any device — just connect the wallet you used to pay for the etches, tap <strong>Sync chainmarks</strong>, and your list reappears. No address book to email yourself, no notes-app entries to lose.</p>
       <p>Each entry is encrypted with a key derived from a signature from that same wallet, then written as a tiny self-transaction. The chain sees encrypted bytes and your wallet address — nothing else.</p>
       <p>No app installed? The <a href="chainmarks.html" style="color: var(--copper); border-bottom: 1px solid var(--copper-dim);">web viewer at etchit.io/chainmarks</a> reads the same data straight from a browser — connect the same wallet, view the same list.</p>
+      <details class="card-steps">
+        <summary>Step-by-step</summary>
+        <ol class="steps">
+          <li><strong>Connect the wallet</strong> you used to pay for the etches you want indexed.</li>
+          <li><strong>Open chain/it → Sync chainmarks.</strong> Sign one derive message — that's your encryption key, derived from your wallet, never typed.</li>
+          <li><strong>Existing entries appear.</strong> First-time use: the list is empty. Otherwise your synced list reappears.</li>
+          <li><strong>Add an etch:</strong> long-press it in <em>Etch history</em> → "Add to chainmarks", or use <em>+ Add by address</em>. Approve the tiny self-tx in your wallet.</li>
+          <li><strong>Switch device.</strong> Install etchit on desktop (or open <a href="chainmarks.html">etchit.io/chainmarks</a> in a browser) → connect the <em>same</em> wallet → Sync. Same list.</li>
+          <li><strong>Optional — back up the chainmark key</strong> (Settings → Chainmark key → Show). Survives a full wipe and lets you read your chain/it given the key plus the wallet address, without the original wallet.</li>
+        </ol>
+      </details>
       <div class="action-cost"><strong>Cost:</strong> small Arbitrum gas fee per change (no ANT, this isn't on the Autonomi network). Your wallet shows the exact estimate before you sign.</div>
     </article>
 
