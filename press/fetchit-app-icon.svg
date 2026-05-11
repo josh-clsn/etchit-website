@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="fetch/it app icon">
+  <title>fetch&gt;it — app icon</title>
+  <rect width="512" height="512" rx="112" fill="#0a0a0a"/>
+  <rect x="6" y="6" width="500" height="500" rx="106" fill="none" stroke="#222222" stroke-width="2"/>
+  <path fill="#c9732b" d="M 174 116 L 244 116 L 360 256 L 244 396 L 174 396 L 290 256 Z"/>
+</svg>

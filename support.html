@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — etchit</title>
+<meta name="description" content="etchit is open source and free to read. If you want to help keep it going, send any ERC-20 token to the project's address — voluntary, non-refundable, no strings.">
+<link rel="icon" type="image/png" href="/etchit-favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --ink-3: #1c1c1c;
+    --copper: #c9732b;
+    --copper-bright: #e58a3f;
+    --copper-dim: #8a4e1d;
+    --bone: #f5f2eb;
+    --bone-dim: #d6cfc0;
+    --ash: #8a8a8a;
+    --ash-dim: #3a3a3a;
+    --line: #222;
+    --signal-ok: #6ab04c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink); color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400; line-height: 1.6; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  code { font-family: 'JetBrains Mono', monospace; color: var(--copper); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 20px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+  .brand .mark { color: var(--copper); }
+  .nav-links { display: flex; gap: 26px; font-size: 13px; color: var(--ash); align-items: center; }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--copper); }
+  .nav-links .nav-app { color: var(--bone); font-weight: 600; }
+  .nav-links .nav-app .m { color: var(--copper); }
+  .nav-links .nav-app:hover { color: var(--copper); }
+  @media (max-width: 720px) { .nav-links a:not(.nav-app) { display: none; } }
+
+  main { flex: 1; max-width: 760px; margin: 0 auto; padding: 150px 24px 80px; width: 100%; }
+  @media (max-width: 640px) { main { padding: 120px 20px 60px; } }
+
+  .kicker {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--copper);
+    margin-bottom: 24px; font-weight: 600;
+  }
+  .kicker::before { content: ''; width: 40px; height: 1px; background: var(--copper); }
+  h1 {
+    font-size: clamp(40px, 9vw, 84px); font-weight: 800; line-height: 0.95; letter-spacing: -0.04em;
+    margin-bottom: 24px;
+  }
+  h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--copper); }
+  .lead { font-size: clamp(15px, 1.8vw, 18px); color: var(--ash); line-height: 1.8; max-width: 60ch; margin-bottom: 16px; }
+  .lead strong { color: var(--bone); font-weight: 500; }
+  .lead .w { color: var(--bone); font-weight: 600; } .lead .w .m { color: var(--copper); }
+
+  .addr-card {
+    margin: 48px 0 40px; border: 1px solid var(--line); background: var(--ink-2);
+    padding: 28px 28px 24px;
+  }
+  @media (max-width: 640px) { .addr-card { padding: 22px 18px; } }
+  .addr-card .tag { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--copper); font-weight: 600; margin-bottom: 6px; }
+  .addr-card .sub { font-size: 12px; color: var(--ash); margin-bottom: 18px; }
+  .addr-row { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+  .addr-val {
+    flex: 1; min-width: 240px;
+    font-family: 'JetBrains Mono', monospace; font-size: clamp(12px, 2.6vw, 15px);
+    color: var(--bone); background: var(--ink-3); border: 1px solid var(--line);
+    padding: 14px 16px; word-break: break-all; line-height: 1.4;
+  }
+  .copy-btn {
+    font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--copper); background: transparent; border: 1px solid var(--copper);
+    padding: 0 22px; min-height: 48px; cursor: pointer; transition: all 0.22s cubic-bezier(0.2,0.8,0.2,1);
+    white-space: nowrap;
+  }
+  .copy-btn:hover { background: var(--copper); color: var(--ink); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink-3), 4px 4px 0 1px var(--copper-dim); }
+  .copy-btn.done { color: var(--signal-ok); border-color: var(--signal-ok); }
+  .copy-btn.done:hover { background: var(--signal-ok); color: var(--ink); box-shadow: none; transform: none; }
+
+  .terms { margin-top: 8px; }
+  .terms h2 {
+    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ash);
+    margin-bottom: 18px; padding-top: 32px; border-top: 1px solid var(--line); font-weight: 600;
+  }
+  .terms ol { list-style: none; counter-reset: t; }
+  .terms li {
+    counter-increment: t; position: relative; padding: 14px 0 14px 36px;
+    font-size: 14px; color: var(--bone-dim); line-height: 1.7; border-bottom: 1px dashed var(--ash-dim);
+  }
+  .terms li:last-child { border-bottom: none; }
+  .terms li::before {
+    content: counter(t, decimal-leading-zero); position: absolute; left: 0; top: 14px;
+    font-size: 11px; letter-spacing: 0.1em; color: var(--copper); font-weight: 700;
+  }
+  .terms li em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--bone); }
+  .terms .ack { color: var(--ash); font-size: 13px; }
+
+  footer { padding: 40px 32px; border-top: 1px solid var(--line); background: var(--ink); }
+  .foot-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .foot-brand { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .foot-brand .mark { color: var(--copper); }
+  .foot-meta { font-size: 11px; color: var(--ash); letter-spacing: 0.1em; text-transform: uppercase; }
+  .foot-links { display: flex; gap: 22px; font-size: 12px; color: var(--ash); align-items: center; flex-wrap: wrap; }
+  .foot-links a { transition: color 0.2s; } .foot-links a:hover { color: var(--copper); }
+  .foot-links .app-link { color: var(--bone-dim); font-weight: 600; } .foot-links .app-link .m { color: var(--copper); }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand"><span class="mark">[/]</span><span>etchit</span></a>
+  <div class="nav-links">
+    <a href="/etch/" class="nav-app">etch<span class="m">/</span>it</a>
+    <a href="/fetch/" class="nav-app">fetch<span class="m">&gt;</span>it</a>
+    <a href="/learn.html">Learn</a>
+    <a href="https://github.com/etchit-io" target="_blank">Github ↗</a>
+  </div>
+</nav>
+
+<main>
+  <div class="kicker">// Keeping it going</div>
+  <h1>Support <em>the project.</em></h1>
+
+  <p class="lead">
+    <span class="w">etchit</span> is open source and <strong>free to read</strong>. The only money
+    anywhere near it is the one-time ANT fee you pay your <em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--bone);">own</em>
+    storage peers when you etch something — none of it routes through us, and there's nothing to
+    subscribe to. So this is the honest version of a "support" page: optional, no perks, no pressure.
+  </p>
+  <p class="lead">
+    If you want to help cover the time and the costs of building the apps, running the demos on the
+    network, and keeping all of it open — you can send <strong>any ERC-20 token</strong> (on any
+    EVM chain that uses this address) to:
+  </p>
+
+  <div class="addr-card fade-in">
+    <div class="tag">Donation address</div>
+    <div class="sub">any ERC-20 token · any EVM chain</div>
+    <div class="addr-row">
+      <code class="addr-val" id="addr">0xC842451eC3454913585B885240e58aa5E4F4ed2b</code>
+      <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+    </div>
+  </div>
+
+  <div class="terms fade-in">
+    <h2>Donation terms &amp; disclaimer</h2>
+    <ol>
+      <li>All contributions are <em>voluntary and non-refundable</em>.</li>
+      <li>Funds received are used at the developer's discretion to advance etchit — currently the apps, the demos that live on the network, and keeping everything open source. There is no minimum; every contribution helps.</li>
+      <li>Donations do not constitute the purchase of a product, equity, security, token sale, or any expectation of return. You receive no special access, ownership, or rights in exchange for a contribution.</li>
+      <li>etchit will remain open source regardless of funding outcomes.</li>
+      <li class="ack">By sending tokens to the address shown, you acknowledge these terms.</li>
+    </ol>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand"><span class="mark">[/]</span><span>etchit</span></div>
+    <div class="foot-links">
+      <a href="/">etchit</a>
+      <a href="/etch/" class="app-link">etch<span class="m">/</span>it</a>
+      <a href="/fetch/" class="app-link">fetch<span class="m">&gt;</span>it</a>
+      <a href="https://github.com/etchit-io" target="_blank">Github</a>
+      <a href="https://autonomi.com" target="_blank">Autonomi ↗</a>
+      <a href="/learn.html">Learn</a>
+      <a href="/chainmarks.html">chain/it</a>
+      <a href="/presskit.html">Press kit</a>
+      <a href="/support.html">Support</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+    <div class="foot-meta">© 2026 — Permanent by design</div>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    'use strict';
+    const ADDR = document.getElementById('addr').textContent.trim();
+    const btn = document.getElementById('copyBtn');
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(ADDR);
+      } catch (_) {
+        // Fallback for browsers without the async clipboard API.
+        const r = document.createRange(); r.selectNodeContents(document.getElementById('addr'));
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        try { document.execCommand('copy'); } catch (_) {}
+        sel.removeAllRanges();
+      }
+      btn.textContent = 'Copied'; btn.classList.add('done');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1800);
+    });
+
+    const obs = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  })();
+</script>
+
+</body>
+</html>
