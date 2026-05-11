@@ -346,6 +346,11 @@
     display: block; width: 100%; max-width: 300px; height: auto;
     margin: 4px 0 26px; border: 1px solid var(--line);
   }
+  .live-cap {
+    font-size: 12px; color: var(--ash); line-height: 1.55; margin: -16px 0 24px;
+  }
+  .live-cap a { color: var(--copper); border-bottom: 1px solid var(--copper-dim); padding-bottom: 1px; }
+  .live-cap .m { color: var(--copper); }
   .live-addr {
     display: block; font-size: 12px; color: var(--copper);
     background: var(--ink-3); border: 1px solid var(--line); padding: 12px 14px;
@@ -641,6 +646,9 @@
       image, track and WebAssembly module fetched by content hash.
     </p>
     <img class="live-qr" src="/demo-city-qr.png" alt="QR code for autonomi://9604923514…aac229 — scan to open demo-city in fetch/it" loading="lazy">
+    <p class="live-cap">
+      Scan it with your phone’s camera — with <span class="m">fetch&gt;it</span> installed it opens demo-city straight away. No app yet? <a href="/fetch/">Get fetch/it</a>, then scan (or paste the address below).
+    </p>
     <code class="live-addr"><span class="sch">autonomi://</span>9604923514ca4e9c228dd4144443691c1c12094b89d1a3adecee7da0bbaac229</code>
     <div class="live-stops">
       <span>library</span><span>gallery</span><span>album</span><span>cinema</span><span>lab</span><span>brief</span><span>game</span>
