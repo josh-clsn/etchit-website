@@ -1,0 +1,7 @@
+# etchit.io — security contact (RFC 9116)
+# This site is a static page; the apps it links to live at github.com/etchit-io.
+Contact: https://github.com/etchit-io/etchit/security/advisories/new
+Contact: https://github.com/etchit-io/fetchit/security/advisories/new
+Expires: 2027-05-12T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://etchit.io/.well-known/security.txt

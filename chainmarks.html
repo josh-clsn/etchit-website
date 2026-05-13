@@ -2,116 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>etchit chain/it viewer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>etchit chain/it viewer</title>
+<meta name="description" content="A read-only, backend-free web viewer for etchit chain/it. Connect your wallet (or paste your chainmark key) and decrypt your on-chain chainmarks client-side, in the browser — with the matching ant-cli download command for each.">
+<link rel="canonical" href="https://etchit.io/chainmarks.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:url" content="https://etchit.io/chainmarks.html">
+<meta property="og:title" content="etchit chain/it viewer">
+<meta property="og:description" content="A read-only, backend-free web viewer for chain/it — decrypt your on-chain chainmarks client-side, in the browser. Connect your wallet or paste your chainmark key.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="etchit chain/it viewer">
+<meta name="twitter:description" content="A read-only, backend-free web viewer for chain/it — decrypt your on-chain chainmarks client-side, in the browser.">
+<meta name="twitter:image" content="https://etchit.io/og-image.png">
+
+<link rel="stylesheet" href="/fonts/fonts.css">
+
 <style>
   :root {
-    --ink: #0a0a0a;
-    --ink-2: #141414;
-    --ink-3: #1c1c1c;
-    --bone: #f5f2eb;
-    --ash: #8a8a8a;
-    --copper: #c9732b;
-    --green: #9ece6a;
-    --red: #f7768e;
+    --ink: #0a0a0a; --ink-2: #141414; --ink-3: #1c1c1c;
+    --copper: #c9732b; --copper-bright: #e58a3f; --copper-dim: #8a4e1d;
+    --bone: #f5f2eb; --bone-dim: #d6cfc0;
+    --ash: #8a8a8a; --ash-dim: #3a3a3a; --line: #222;
+    --signal-ok: #6ab04c; --signal-err: #c0392b;
   }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--ink); color: var(--bone); }
-  body { font: 15px/1.5 system-ui, -apple-system, Segoe UI, sans-serif; padding: 32px 16px; }
-  main { max-width: 720px; margin: 0 auto; }
-  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
-  p.sub { color: var(--ash); margin: 0 0 24px; font-size: 14px; }
-  label { display: block; margin: 14px 0 4px; font-size: 12px; color: var(--ash); letter-spacing: 0.04em; text-transform: uppercase; }
-  input[type=text] {
-    width: 100%; padding: 10px 12px;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink); color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-weight: 400; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: var(--copper); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--copper-bright); }
+  code {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--ink-3); border: 1px solid var(--line);
+    padding: 1px 6px; border-radius: 3px; font-size: 0.88em; color: var(--copper); word-break: break-all;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 16px 20px;
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .brand { font-weight: 700; font-size: 16px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; color: var(--bone); }
+  nav .brand .mark { color: var(--copper); }
+  nav .back { font-size: 12px; color: var(--ash); }
+  nav .back:hover { color: var(--copper); }
+
+  main { max-width: 720px; margin: 0 auto; padding: 48px 20px 72px; }
+
+  .kicker {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--copper); font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .kicker::before { content: ''; width: 32px; height: 1px; background: var(--copper); }
+  .kicker .m { color: var(--copper-bright); }
+  h1 { font-size: clamp(28px, 5.5vw, 42px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 16px; }
+  h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--copper); letter-spacing: -0.01em; }
+  p.sub { color: var(--ash); margin-bottom: 8px; font-size: 14px; line-height: 1.75; max-width: 640px; }
+  p.sub strong { color: var(--bone-dim); font-weight: 500; }
+
+  label { display: block; margin: 18px 0 6px; font-size: 11px; color: var(--ash); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+  input[type=text], input[type=password] {
+    width: 100%; padding: 12px 14px;
     background: var(--ink-3); color: var(--bone);
-    border: 1px solid #2a2a2a; border-radius: 6px;
-    font: inherit; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px;
+    border: 1px solid var(--line); border-radius: 4px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px;
   }
-  input[type=text]:focus { outline: 0; border-color: var(--copper); }
+  input[type=text]:focus, input[type=password]:focus { outline: 0; border-color: var(--copper); }
+  input::placeholder { color: var(--ash-dim); }
+
   button {
-    padding: 10px 18px;
+    font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 12px 22px; cursor: pointer;
     background: var(--copper); color: var(--ink);
-    border: 0; border-radius: 6px;
-    font: inherit; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--copper); border-radius: 4px;
+    transition: all 0.22s cubic-bezier(0.2,0.8,0.2,1);
   }
-  button:disabled { opacity: 0.5; cursor: default; }
+  button:hover:not(:disabled) { background: var(--copper-bright); border-color: var(--copper-bright); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink-3), 4px 4px 0 1px var(--copper-dim); }
+  button:disabled { opacity: 0.45; cursor: default; }
   button.outlined {
-    background: transparent; color: var(--bone);
-    border: 1px solid #2a2a2a;
-    font-weight: 400;
-    padding: 6px 12px;
-    font-size: 12px;
+    background: transparent; color: var(--bone-dim);
+    border: 1px solid var(--ash-dim);
+    font-weight: 600; padding: 8px 14px; font-size: 12px;
   }
-  button.outlined:hover { border-color: var(--copper); }
-  .controls { display: flex; gap: 8px; align-items: center; margin-top: 18px; }
-  details { margin-top: 14px; }
-  details summary { color: var(--ash); font-size: 12px; cursor: pointer; }
-  .status { margin-top: 18px; font-size: 13px; min-height: 1.4em; }
-  .status.err { color: var(--red); }
-  .status.ok { color: var(--green); }
-  .results { margin-top: 24px; }
-  .row {
-    background: var(--ink-2);
-    border: 1px solid #1f1f1f;
-    border-radius: 6px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
+  button.outlined:hover:not(:disabled) { color: var(--copper); border-color: var(--copper); background: transparent; transform: none; box-shadow: none; }
+
+  .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 22px; }
+  details {
+    margin-top: 16px; border: 1px solid var(--line); border-radius: 4px;
+    background: var(--ink-2); padding: 16px 18px;
   }
-  .row .title { font-size: 14px; font-weight: 500; word-break: break-word; }
-  .row .addr {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 11px;
-    color: var(--ash);
-    margin: 6px 0 10px;
-    word-break: break-all;
-  }
-  .row .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  details + details { margin-top: 12px; }
+  details summary { color: var(--ash); font-size: 12px; cursor: pointer; letter-spacing: 0.04em; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: '+ '; color: var(--copper); font-weight: 700; }
+  details[open] summary::before { content: '− '; }
+  details summary:hover { color: var(--copper); }
+  details[open] summary { color: var(--bone-dim); margin-bottom: 10px; }
+
+  .status { font-size: 13px; min-height: 1.4em; color: var(--ash); line-height: 1.5; }
+  .status.err { color: var(--signal-err); }
+  .status.ok { color: var(--signal-ok); }
+
+  .results { margin-top: 30px; display: flex; flex-direction: column; gap: 8px; }
+  .row { background: var(--ink-2); border: 1px solid var(--line); border-radius: 4px; padding: 16px 18px; }
+  .row .title { font-size: 14px; font-weight: 500; color: var(--bone); word-break: break-word; }
   .row.bookmark .title::before { content: "★ "; color: var(--copper); }
-  .empty { color: var(--ash); font-size: 13px; padding: 20px 0; text-align: center; }
-  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #1a1a1a; color: var(--ash); font-size: 12px; }
-  code { background: var(--ink-3); padding: 2px 5px; border-radius: 3px; font-size: 12px; }
+  .row .addr {
+    font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
+    color: var(--ash); margin: 8px 0 12px; word-break: break-all;
+  }
+  .row .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .empty { color: var(--ash); font-size: 13px; padding: 30px 0; text-align: center; }
+
+  .footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ash); font-size: 12px; line-height: 1.8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1>etchit chain/it viewer</h1>
-  <p class="sub">Read-only static page. Decrypts your on-chain chainmarks client-side and lists them with the matching <code>ant-cli</code> command per entry. Nothing leaves your browser except the BlockScout HTTP query.</p>
 
-  <div class="controls" style="margin-top: 0; margin-bottom: 8px;">
+<nav>
+  <a href="/" class="brand"><span class="mark">[/]</span><span>etchit</span></a>
+  <a href="/" class="back">← etchit.io</a>
+</nav>
+
+<main>
+  <div class="kicker">chain<span class="m">/</span>it · web viewer</div>
+  <h1>Your chainmarks, <em>in the browser</em>.</h1>
+  <p class="sub">A read-only static page. It decrypts your on-chain <strong>chainmarks</strong> client-side and lists each one with the matching <code>ant-cli</code> download command. Nothing leaves your browser except the BlockScout HTTP query — open it from <code>file://</code> for fully offline use after one fetch.</p>
+
+  <div class="controls" style="margin-top: 26px;">
     <button id="connect">Connect wallet</button>
     <span id="connectStatus" class="status"></span>
   </div>
-  <p class="sub" style="font-size: 12px; margin-top: 4px;">Uses your browser-extension wallet (MetaMask, Rabby, Coinbase) to sign the same chainmark-derive message the mobile app uses, so the key is recreated automatically — no copy-paste.</p>
+  <p class="sub" style="font-size: 12px; margin-top: 10px;">Uses your browser-extension wallet (MetaMask, Rabby, Coinbase) to sign the same chainmark-derive message the mobile app uses — the key is recreated automatically, no copy-paste. The signature authorizes nothing on-chain.</p>
 
   <details id="manualSection">
-    <summary>Or enter key manually</summary>
+    <summary>Or enter the key manually</summary>
     <label for="wallet">Wallet address</label>
     <input id="wallet" type="text" placeholder="0x… (40 hex chars)" autocomplete="off" spellcheck="false">
 
-    <label for="key">Chainmark key (Settings → chain/it → Back up chainmark key)</label>
+    <label for="key">Chainmark key · Settings → chain/it → Back up chainmark key</label>
     <div style="display:flex; gap:8px;">
       <input id="key" type="password" placeholder="64 hex chars" autocomplete="new-password" spellcheck="false" style="flex:1;">
-      <button id="toggleKey" type="button" class="outlined" style="padding:0 10px;">Show</button>
+      <button id="toggleKey" type="button" class="outlined" style="padding:8px 13px;">Show</button>
     </div>
-    <div class="controls" style="margin-top: 12px;">
+    <div class="controls" style="margin-top: 14px;">
       <button id="decodeManual">Decode chain/it</button>
     </div>
   </details>
 
   <details>
-    <summary>Advanced</summary>
+    <summary>Advanced — indexer endpoint</summary>
     <label for="indexer">Indexer base URL</label>
     <input id="indexer" type="text" value="https://arbitrum.blockscout.com/api" autocomplete="off" spellcheck="false">
   </details>
 
-  <div class="controls" style="margin-top: 18px;">
+  <div class="controls" style="margin-top: 22px;">
     <span id="status" class="status"></span>
   </div>
 
   <div class="results" id="results"></div>
 
-  <p class="footer">Spec: <code>docs/chainmark-format-v1.md</code>. Decrypt logic mirrors the Kotlin reference implementation; both round-trip the same wire format. Open this page from <code>file://</code> for fully offline use after one BlockScout fetch.</p>
+  <p class="footer">Wire format: <code>docs/chainmark-format-v1.md</code> (upstream). The decrypt path mirrors the Kotlin reference implementation — both round-trip the same bytes. &nbsp;·&nbsp; <a href="/learn.html#actions">How chain/it works →</a></p>
 </main>
 
 <script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>etchit — that address doesn't resolve</title>
+<meta name="description" content="No content at this path. On etchit, an address either resolves to exactly what was written, or it doesn't resolve at all.">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+  :root { --ink:#0a0a0a; --ink-2:#141414; --copper:#c9732b; --copper-bright:#e58a3f; --copper-dim:#8a4e1d; --bone:#f5f2eb; --bone-dim:#d6cfc0; --ash:#8a8a8a; --line:#222; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    background:var(--ink); color:var(--bone);
+    font-family:'JetBrains Mono', ui-monospace, monospace; line-height:1.6; -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:48px 24px; text-align:center; position:relative; overflow:hidden;
+  }
+  body::before {
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:100; opacity:0.04;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .bg404 { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); font-size:clamp(280px,46vw,640px); font-weight:800; color:var(--copper); opacity:0.035; letter-spacing:-0.06em; line-height:1; pointer-events:none; z-index:0; }
+  ::selection { background:var(--copper); color:var(--ink); }
+  a { color:inherit; text-decoration:none; }
+  .wrap { position:relative; z-index:2; max-width:640px; }
+  .mark { color:var(--copper); font-weight:700; font-size:18px; letter-spacing:-0.02em; display:inline-flex; gap:8px; align-items:center; margin-bottom:36px; }
+  .mark span { color:var(--bone); }
+  .kicker { font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--copper); font-weight:600; margin-bottom:20px; }
+  h1 { font-size:clamp(40px,9vw,96px); font-weight:800; letter-spacing:-0.045em; line-height:0.95; margin-bottom:24px; }
+  h1 em { font-family:'Instrument Serif', serif; font-style:italic; font-weight:400; color:var(--copper); letter-spacing:-0.01em; }
+  p { color:var(--ash); font-size:clamp(14px,1.8vw,16px); line-height:1.8; margin-bottom:36px; }
+  p strong { color:var(--bone-dim); font-weight:500; }
+  .links { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+  .btn { display:inline-flex; align-items:center; gap:10px; padding:14px 22px; font-size:13px; font-weight:700; letter-spacing:0.02em; border:1px solid var(--copper); transition:all .22s cubic-bezier(.2,.8,.2,1); }
+  .btn.solid { background:var(--copper); color:var(--ink); }
+  .btn.solid:hover { background:var(--copper-bright); border-color:var(--copper-bright); transform:translate(-2px,-2px); box-shadow:4px 4px 0 #1c1c1c, 4px 4px 0 1px var(--copper-dim); }
+  .btn.ghost { background:transparent; color:var(--copper); }
+  .btn.ghost:hover { background:var(--copper); color:var(--ink); transform:translate(-2px,-2px); box-shadow:4px 4px 0 #1c1c1c, 4px 4px 0 1px var(--copper-dim); }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { transition-duration:.001ms !important; animation-duration:.001ms !important; } }
+</style>
+</head>
+<body>
+<div class="bg404" aria-hidden="true">404</div>
+<div class="wrap">
+  <a href="/" class="mark"><span style="color:var(--copper)">[/]</span><span>etchit</span></a>
+  <div class="kicker">// 404</div>
+  <h1>That address<br>doesn't <em>resolve.</em></h1>
+  <p>
+    There's nothing at this path. Which is, in a small way, the whole idea:
+    on the network, <strong>an address resolves to exactly what was written, or it doesn't resolve at all</strong> —
+    no soft 404s, no "this content has been removed", no guessing.
+  </p>
+  <div class="links">
+    <a href="/" class="btn solid">→ etchit.io</a>
+    <a href="/learn.html" class="btn ghost">Learn how it works</a>
+  </div>
+</div>
+</body>
+</html>

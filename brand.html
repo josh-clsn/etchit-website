@@ -7,10 +7,24 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>etch/it — brand system v1.0</title>
 <meta name="description" content="The etchit brand system — logo, name treatments, color, typography, voice, components, applications.">
+<link rel="canonical" href="https://etchit.io/brand.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:url" content="https://etchit.io/brand.html">
+<meta property="og:title" content="etch/it — brand system v1.0">
+<meta property="og:description" content="The etchit brand system — logo, name treatments, color, typography, voice, components, applications.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<link rel="stylesheet" href="/fonts/fonts.css">
 
 <style>
   /* =================================================================
@@ -1463,6 +1477,15 @@
     .cover { padding: 100px 24px 60px; }
     .logo-hero, .clear-space, .construction, .type-spec, .comp, .slash-hero { padding: 40px 20px; }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
@@ -2676,7 +2699,7 @@
       </div>
       <!-- social preview -->
       <div class="app" style="grid-column:span 2;">
-        <div class="app-label">Social preview card · 1280×640</div>
+        <div class="app-label">Social preview card · 1200×630</div>
         <div class="app-stage">
           <div style="background:var(--ink);border:1px solid var(--line);width:100%;aspect-ratio:2/1;display:flex;flex-direction:column;justify-content:space-between;padding:32px;position:relative;overflow:hidden;">
             <div style="font-size:10px;color:var(--copper);letter-spacing:0.25em;text-transform:uppercase;font-weight:600;z-index:2;">// permanent by default</div>
@@ -2686,7 +2709,7 @@
           </div>
         </div>
         <div class="app-desc">
-          <strong>Og-image composition:</strong> eyebrow (top-left) · wordmark (center-left) · tagline (bottom-left) · muted bracket in corner. No URL, no logo-plus-text lockups, no gradients.
+          <strong>Og-image composition:</strong> eyebrow (top-left) · wordmark / headline (center-left) · tagline (bottom-left) · muted bracket in corner. A subtle host line (<code>etchit.io</code>) at the foot is allowed. No logo-plus-text lockups, no gradients. Shipped as <code>og-image.png</code> (hub) plus <code>og-etch.png</code> / <code>og-fetch.png</code>.
         </div>
       </div>
       <!-- merch -->
@@ -2739,11 +2762,10 @@
     <div class="chapter-head">
       <div class="chapter-num">11 / Assets</div>
       <div>
-        <h2 class="chapter-title">What lives in <em>/artifacts</em>.</h2>
+        <h2 class="chapter-title">What's <em>actually in the repo</em>.</h2>
         <p class="chapter-lead">
-          Physical files available today, what they're for, and what's still
-          missing. Only <code>etchit/etchit-favicon.png</code> is currently
-          served — the rest live one folder up, unreferenced.
+          Every file below ships in the repo and is served from <code>etchit.io</code>.
+          What's still on the wishlist is at the bottom.
         </p>
       </div>
     </div>
@@ -2753,77 +2775,81 @@
         <div>File</div><div>Purpose</div><div>Status</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-favicon-32.png</div>
-        <div class="asset-purpose">Browser tab favicon — smallest size. Rendered on the slash alone.</div>
+        <div class="asset-file">favicon.svg</div>
+        <div class="asset-purpose">Primary favicon — copper rounded square, slash reversed out in ink. Vector; one file, every size.</div>
         <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-favicon-64.png</div>
-        <div class="asset-purpose">Pinned tab / high-dpi favicon. Same mark, 2× assets.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">etchit-favicon.png</div>
+        <div class="asset-purpose">Raster favicon fallback for browsers that won't take an SVG icon.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-favicon-180.png</div>
-        <div class="asset-purpose">Apple touch icon for iOS home-screen bookmarks.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">icons/apple-touch-icon.png</div>
+        <div class="asset-purpose">180×180 — iOS home-screen / Safari bookmark icon. The <code>[/]</code> mark on ink.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-app-icon-512.png</div>
-        <div class="asset-purpose">Play Store listing icon, low-density Android launcher.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">icons/icon-512.png · icons/icon-192.png</div>
+        <div class="asset-purpose">PWA / Android install icons referenced from <code>site.webmanifest</code>. The <code>[/]</code> mark on ink.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-app-icon-1024.png</div>
-        <div class="asset-purpose">App Store listing icon, high-density Android launcher, press kit.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">site.webmanifest</div>
+        <div class="asset-purpose">Web app manifest — name, ink theme/background colors, the icon set above.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-avatar-500.png</div>
-        <div class="asset-purpose">Social avatar — Farcaster, Discord, small profile slots.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">og-image.png</div>
+        <div class="asset-purpose">1200×630 Open Graph / Twitter Card for the hub — eyebrow, headline, both wordmarks. Used by <code>/</code>, <code>/learn</code>, <code>/presskit</code>, <code>/support</code>, <code>/terms</code>.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-avatar-1000.png</div>
-        <div class="asset-purpose">Social avatar — X, GitHub, higher-res profile slots.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">og-etch.png · og-fetch.png</div>
+        <div class="asset-purpose">1200×630 OG cards for <code>/etch/</code> and <code>/fetch/</code> — big wordmark, role eyebrow, tagline, muted bracket / chevron.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-primary-dark.png</div>
-        <div class="asset-purpose">Primary lockup on ink ground — press kit, embed, slide template.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">press/etchit-mark.svg · .png</div>
+        <div class="asset-purpose">The <code>[/]</code> mark — vector + 1200px raster, transparent, copper.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-wordmark-dark.png</div>
-        <div class="asset-purpose">Standalone wordmark, no lockup. Hero overrides, slide titles.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">press/etchit-app-icon-mono.svg · .png</div>
+        <div class="asset-purpose">etch/it app icon — slash on ink, rounded square. SVG + 512px.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row">
-        <div class="asset-file">etchit-social-preview-1280.png</div>
-        <div class="asset-purpose">Open Graph / Twitter Card image, 1280×640.</div>
-        <div class="asset-size">staged</div>
+        <div class="asset-file">press/fetchit-mark.svg · .png · fetchit-app-icon.svg · -512.png</div>
+        <div class="asset-purpose">fetch/it sibling set — the <code>[&gt;]</code> mark (vector + raster) and the chevron-on-ink app icon (SVG + 512px).</div>
+        <div class="asset-size">shipped</div>
+      </div>
+      <div class="asset-row">
+        <div class="asset-file">fonts/*.woff2 · fonts/fonts.css</div>
+        <div class="asset-purpose">Self-hosted JetBrains Mono (300–800) + Instrument Serif (400, incl. italic), latin subset, OFL. No third-party font request anywhere on the site.</div>
+        <div class="asset-size">shipped</div>
       </div>
       <div class="asset-row" style="background:var(--ink-2);">
-        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
-        <div class="asset-purpose">SVG versions of wordmark + mark for scalable rendering in docs, presentations, embed.</div>
+        <div class="asset-file" style="color:var(--signal-warn);">— wishlist —</div>
+        <div class="asset-purpose">Light-ground (<code>-light.png</code>) lockups for printed collateral.</div>
         <div class="asset-size">todo</div>
       </div>
       <div class="asset-row" style="background:var(--ink-2);">
-        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
-        <div class="asset-purpose">Light-ground variants (<code>-light.png</code>) for printed collateral.</div>
+        <div class="asset-file" style="color:var(--signal-warn);">— wishlist —</div>
+        <div class="asset-purpose">1024px app-icon PNGs for App Store / Play Store listings.</div>
         <div class="asset-size">todo</div>
       </div>
       <div class="asset-row" style="background:var(--ink-2);">
-        <div class="asset-file" style="color:var(--signal-warn);">— missing —</div>
-        <div class="asset-purpose">Favicon.ico bundled 16/32/48 for legacy browser caches.</div>
+        <div class="asset-file" style="color:var(--signal-warn);">— wishlist —</div>
+        <div class="asset-purpose">A bundled <code>favicon.ico</code> (16/32/48) for legacy browser caches that ignore SVG/PNG icons.</div>
         <div class="asset-size">todo</div>
       </div>
     </div>
     <p style="margin-top:16px;max-width:720px;font-size:13px;color:var(--ash);line-height:1.7;">
-      <strong style="color:var(--bone)">Historical — etchit-name-treatments.</strong>
-      The scratch file <code>etchit-name-treatments.html</code> in the workspace
-      root used Inter and a non-canonical copper (<code>#c87533</code>). It has
-      been superseded by this document. Treat it as an archived draft; do not
-      reference it when building new artifacts.
+      <strong style="color:var(--bone)">Historical.</strong>
+      An early scratch file (<code>etchit-name-treatments.html</code> — never committed) used
+      Inter and a non-canonical copper (<code>#c87533</code>). This document supersedes it:
+      if anything anywhere disagrees with what's here, this wins.
     </p>
   </div>
 </section>

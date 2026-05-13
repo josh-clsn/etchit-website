@@ -5,11 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Press kit — etchit · etch/it · fetch/it</title>
 <meta name="description" content="Press kit for etchit and its two apps — etch/it (publish to Autonomi) and fetch/it (read it back). Names, one-liners, descriptions, key facts, logos, and links. Free to use.">
-<link rel="icon" type="image/png" href="/etchit-favicon.png">
+<link rel="canonical" href="https://etchit.io/presskit.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/presskit.html">
+<meta property="og:title" content="Press kit — etchit · etch/it · fetch/it">
+<meta property="og:description" content="Names, one-liners, descriptions, key facts, logos and links for etchit and its two apps — etch/it (publish to Autonomi) and fetch/it (read it back). Free to use.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Press kit — etchit · etch/it · fetch/it">
+<meta name="twitter:description" content="Names, one-liners, descriptions, key facts, logos and links for etchit and its two apps. Free to use.">
+<meta name="twitter:image" content="https://etchit.io/og-image.png">
+<meta name="twitter:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+
+<link rel="stylesheet" href="/fonts/fonts.css">
 
 <style>
   :root {
@@ -136,7 +158,18 @@
 
   .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .fade-in { opacity: 1 !important; transform: none !important; }
+  }
 </style>
+<noscript><style>.fade-in { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body>
 
@@ -287,16 +320,16 @@
         <div class="asset-note">Set it in type, like this — there's no rasterised app-wordmark file (the etchit wordmark PNG above covers the umbrella).</div>
       </div>
       <div class="asset">
-        <div class="frame checker"><img src="press/etchit-mark.svg" alt="etch/it [/] mark"></div>
+        <div class="frame checker"><img src="/press/etchit-mark.svg" alt="etch/it [/] mark"></div>
         <div class="asset-name">[/] mark</div>
         <div class="asset-meta">SVG (vector) + PNG 1200px · transparent · copper</div>
-        <a class="asset-dl" href="press/etchit-mark.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="press/etchit-mark.png" download>PNG ↓</a>
+        <a class="asset-dl" href="/press/etchit-mark.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="/press/etchit-mark.png" download>PNG ↓</a>
       </div>
       <div class="asset">
-        <div class="frame"><img src="press/etchit-app-icon-mono.svg" alt="etch/it minimal app icon"></div>
+        <div class="frame"><img src="/press/etchit-app-icon-mono.svg" alt="etch/it minimal app icon"></div>
         <div class="asset-name">app icon (mark)</div>
         <div class="asset-meta">SVG + PNG 512px · slash on ink</div>
-        <a class="asset-dl" href="press/etchit-app-icon-mono.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="press/etchit-app-icon-mono.png" download>PNG ↓</a>
+        <a class="asset-dl" href="/press/etchit-app-icon-mono.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="/press/etchit-app-icon-mono.png" download>PNG ↓</a>
       </div>
     </div>
 
@@ -309,22 +342,25 @@
         <div class="asset-note">Set it in type, like this. A full PNG wordmark/lockup set is still to come.</div>
       </div>
       <div class="asset">
-        <div class="frame checker"><img src="press/fetchit-mark.svg" alt="fetch/it [>] mark"></div>
+        <div class="frame checker"><img src="/press/fetchit-mark.svg" alt="fetch/it [>] mark"></div>
         <div class="asset-name">[&gt;] mark</div>
         <div class="asset-meta">SVG (vector) + PNG 1200px · transparent · copper</div>
-        <a class="asset-dl" href="press/fetchit-mark.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="press/fetchit-mark.png" download>PNG ↓</a>
+        <a class="asset-dl" href="/press/fetchit-mark.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="/press/fetchit-mark.png" download>PNG ↓</a>
       </div>
       <div class="asset">
-        <div class="frame"><img src="press/fetchit-app-icon.svg" alt="fetch/it app icon"></div>
+        <div class="frame"><img src="/press/fetchit-app-icon.svg" alt="fetch/it app icon"></div>
         <div class="asset-name">app icon</div>
         <div class="asset-meta">SVG + PNG 512px · chevron on ink</div>
-        <a class="asset-dl" href="press/fetchit-app-icon.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="press/fetchit-app-icon-512.png" download>PNG ↓</a>
+        <a class="asset-dl" href="/press/fetchit-app-icon.svg" download>SVG ↓</a> &nbsp;·&nbsp; <a class="asset-dl" href="/press/fetchit-app-icon-512.png" download>PNG ↓</a>
       </div>
     </div>
 
     <div class="note-box" style="margin-top:24px">
       <strong>Palette:</strong> ink <code>#0a0a0a</code> · copper <code>#c9732b</code> (bright <code>#e58a3f</code>) · bone <code>#f5f2eb</code>. &nbsp;
-      <strong>Type:</strong> JetBrains Mono (everything) + Instrument Serif italic (editorial accents). Dark background, copper accent — that's the whole system.
+      <strong>Type:</strong> JetBrains Mono (everything) + Instrument Serif italic (editorial accents) — both OFL, self-hosted on the site. Dark background, copper accent — that's the whole system.
+    </div>
+    <div class="note-box" style="margin-top:18px">
+      <strong>Social &amp; icons:</strong> <code>/og-image.png</code> · <code>/og-etch.png</code> · <code>/og-fetch.png</code> — 1200×630 Open Graph / Twitter cards. <code>/favicon.svg</code> — copper square, ink slash. <code>/icons/apple-touch-icon.png</code> — 180×180. All served from the site root alongside <code>/press</code>.
     </div>
   </section>
 

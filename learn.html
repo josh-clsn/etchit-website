@@ -5,11 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>etchit — learn</title>
 <meta name="description" content="A plain-English walkthrough of etchit: public etches, fetches, private etches, backups, and chain/it sync. Try it yourself.">
-<link rel="icon" type="image/png" href="etchit-favicon.png">
+<link rel="canonical" href="https://etchit.io/learn.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/learn.html">
+<meta property="og:title" content="How to use etchit">
+<meta property="og:description" content="A plain-English walkthrough: public etches, fetches, private etches, encrypted backups, and chain/it sync — with a hands-on walkthrough you can follow.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to use etchit">
+<meta name="twitter:description" content="A plain-English walkthrough: public etches, fetches, private etches, encrypted backups, and chain/it sync — with a hands-on walkthrough.">
+<meta name="twitter:image" content="https://etchit.io/og-image.png">
+<meta name="twitter:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+
+<link rel="preload" href="/fonts/jetbrains-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
 
 <style>
   :root {
@@ -541,6 +564,15 @@
   .card-steps[open] summary::before { content: '−'; }
   .card-steps[open] summary { color: var(--bone-dim); border-bottom: 1px solid var(--line); margin-bottom: 10px; }
   .card-steps .steps { margin-top: 8px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 <body>
@@ -553,8 +585,8 @@
   <div class="nav-links">
     <a href="/etch/" style="color:var(--bone);font-weight:600;">etch<span style="color:var(--copper);">/</span>it</a>
     <a href="/fetch/" style="color:var(--bone);font-weight:600;">fetch<span style="color:var(--copper);">&gt;</span>it</a>
-    <a href="chainmarks.html" class="nav-lib">chain/it</a>
-    <a href="learn.html" class="here">Learn</a>
+    <a href="/chainmarks.html" class="nav-lib">chain/it</a>
+    <a href="/learn.html" class="here">Learn</a>
     <a href="https://github.com/etchit-io" target="_blank">Github ↗</a>
   </div>
 </nav>
@@ -576,7 +608,7 @@
       data availability, or recoverability. <strong>Failed or partial transactions
       can cause loss of funds</strong> (gas or tokens spent without delivering an etch),
       and losing your wallet seed or backup passphrase means losing access to
-      anything they protect. <a href="terms.html" class="terms-link">Full terms ↗</a>
+      anything they protect. <a href="/terms.html" class="terms-link">Full terms ↗</a>
     </span>
   </div>
 
@@ -831,7 +863,7 @@
       </svg>
       <p><strong>chain/it</strong> stores your most important etch addresses on Arbitrum so you can reach them from any device — just connect the wallet you used to pay for the etches, tap <strong>Sync chainmarks</strong>, and your list reappears. No address book to email yourself, no notes-app entries to lose.</p>
       <p>Each entry is encrypted with a key derived from a signature from that same wallet, then written as a tiny self-transaction. The chain sees encrypted bytes and your wallet address — nothing else.</p>
-      <p>No app installed? The <a href="chainmarks.html" style="color: var(--copper); border-bottom: 1px solid var(--copper-dim);">web viewer at etchit.io/chainmarks</a> reads the same data straight from a browser — connect the same wallet, view the same list.</p>
+      <p>No app installed? The <a href="/chainmarks.html" style="color: var(--copper); border-bottom: 1px solid var(--copper-dim);">web viewer at etchit.io/chainmarks</a> reads the same data straight from a browser — connect the same wallet, view the same list.</p>
       <details class="card-steps">
         <summary>Step-by-step</summary>
         <ol class="steps">
@@ -839,7 +871,7 @@
           <li><strong>Open chain/it → Sync chainmarks.</strong> Sign one derive message — that's your encryption key, derived from your wallet, never typed.</li>
           <li><strong>Existing entries appear.</strong> First-time use: the list is empty. Otherwise your synced list reappears.</li>
           <li><strong>Add an etch:</strong> long-press it in <em>Etch history</em> → "Add to chainmarks", or use <em>+ Add by address</em>. Approve the tiny self-tx in your wallet.</li>
-          <li><strong>Switch device.</strong> Install etchit on desktop (or open <a href="chainmarks.html">etchit.io/chainmarks</a> in a browser) → connect the <em>same</em> wallet → Sync. Same list.</li>
+          <li><strong>Switch device.</strong> Install etchit on desktop (or open <a href="/chainmarks.html">etchit.io/chainmarks</a> in a browser) → connect the <em>same</em> wallet → Sync. Same list.</li>
           <li><strong>Optional — back up the chainmark key</strong> (Settings → Chainmark key → Show). Survives a full wipe and lets you read your chain/it given the key plus the wallet address, without the original wallet.</li>
         </ol>
       </details>
@@ -1071,11 +1103,11 @@
       <a href="/fetch/" style="color:var(--bone-dim);font-weight:600;">fetch<span style="color:var(--copper);">&gt;</span>it</a>
       <a href="https://github.com/etchit-io" target="_blank">Github</a>
       <a href="https://autonomi.com" target="_blank">Autonomi ↗</a>
-      <a href="chainmarks.html">chain/it</a>
-      <a href="learn.html">Learn</a>
+      <a href="/chainmarks.html">chain/it</a>
+      <a href="/learn.html">Learn</a>
       <a href="/presskit.html">Press kit</a>
       <a href="/support.html" style="color:var(--copper)">Donate</a>
-      <a href="terms.html">Terms</a>
+      <a href="/terms.html">Terms</a>
     </div>
     <div class="foot-meta">© 2026 — Permanent by design</div>
   </div>
