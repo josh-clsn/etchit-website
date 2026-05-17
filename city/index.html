@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fetch&gt;it city — a directory of the Autonomi network</title>
+<meta name="description" content="A curated index of pages, books, music, video, and games hosted on the Autonomi network. Click any address to open it in fetch>it. Free, peer-fetched, no proxy.">
+<link rel="canonical" href="https://etchit.io/city/">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/city/">
+<meta property="og:title" content="fetch>it city — a directory of the Autonomi network">
+<meta property="og:description" content="A curated index of pages, books, music, video, and games hosted on the Autonomi network. Click any address to open it in fetch>it.">
+<meta property="og:image" content="https://etchit.io/og-fetch.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fetch>it city — a directory of the Autonomi network">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="fetch>it city — a directory of the Autonomi network">
+<meta name="twitter:description" content="A curated index of pages, books, music, video, and games hosted on the Autonomi network. Click any address to open it in fetch>it.">
+<meta name="twitter:image" content="https://etchit.io/og-fetch.png">
+
+<link rel="preload" href="/fonts/jetbrains-mono-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jetbrains-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<style>
+  :root {
+    --ink:         #0a0a0a;
+    --ink-2:       #141414;
+    --ink-3:       #1c1c1c;
+    --copper:        #c9732b;
+    --copper-bright: #e58a3f;
+    --copper-dim:    #8a4e1d;
+    --bone:      #f5f2eb;
+    --bone-dim:  #d6cfc0;
+    --ash:       #8a8a8a;
+    --ash-dim:   #3a3a3a;
+    --line:      #222;
+    --line-2:    #2a2a2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink); color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400; line-height: 1.55; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  /* Brand-letter span: copper / for etch/it, copper > for fetch>it. */
+  .m { color: var(--copper); font-style: normal; }
+  code { font-family: 'JetBrains Mono', monospace; color: var(--copper); font-size: 0.88em; word-break: break-all; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+  .brand .mark { color: var(--copper); }
+  .nav-links { display: flex; gap: 22px; font-size: 13px; color: var(--ash); align-items: center; }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--copper); }
+  .nav-links .nav-app { color: var(--bone); font-weight: 600; }
+  .nav-links .nav-app .m { color: var(--copper); }
+  .nav-links .nav-app:hover { color: var(--copper); }
+  .nav-links .nav-here { color: var(--bone); font-weight: 600; border-bottom: 1px solid var(--copper); padding-bottom: 2px; }
+  @media (max-width: 720px) { .nav-links a.hide-sm { display: none; } }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 140px 28px 60px;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::before {
+    content: '+'; position: absolute; right: -60px; top: 30px;
+    font-size: clamp(280px, 60vh, 620px); line-height: 0.75;
+    color: var(--copper); opacity: 0.04;
+    font-weight: 300; pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+  .hero-meta {
+    display: flex; gap: 12px; align-items: center;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ash); margin-bottom: 28px;
+  }
+  .hero-meta .dot { width: 6px; height: 6px; background: var(--copper); border-radius: 50%; }
+  .hero-headline {
+    font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+    font-size: clamp(48px, 8vw, 92px); line-height: 1.0; letter-spacing: -0.02em;
+    color: var(--bone); margin-bottom: 24px;
+  }
+  .hero-headline .m { color: var(--copper); font-style: normal; }
+  .hero-pitch {
+    max-width: 720px; font-size: clamp(14px, 1.4vw, 16px); line-height: 1.7;
+    color: var(--bone-dim);
+  }
+  .hero-pitch strong { color: var(--bone); font-weight: 600; }
+  .hero-pitch code { color: var(--copper); }
+
+  /* ===== INSTALL BAR ===== */
+  .install {
+    background: var(--ink-2); border-bottom: 1px solid var(--line);
+    padding: 32px 28px;
+  }
+  .install-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center;
+  }
+  @media (max-width: 820px) { .install-inner { grid-template-columns: 1fr; gap: 20px; } }
+  .install-msg {
+    font-size: 13px; line-height: 1.65; color: var(--bone-dim);
+  }
+  .install-msg strong { color: var(--bone); font-weight: 600; }
+  .install-msg .pill {
+    display: inline-block; padding: 2px 8px; margin-right: 6px;
+    background: var(--copper); color: var(--ink);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    border-radius: 3px;
+  }
+  .install-msg .caveat { color: var(--ash); font-size: 12px; margin-top: 8px; display: block; }
+  .install-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ib {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    background: var(--ink-3); color: var(--bone-dim);
+    border: 1px solid var(--line-2); border-radius: 4px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .ib:hover { color: var(--bone); border-color: var(--copper-dim); background: var(--ink-2); }
+  .ib.primary { background: var(--copper); color: var(--ink); border-color: var(--copper); }
+  .ib.primary:hover { background: var(--copper-bright); border-color: var(--copper-bright); color: var(--ink); }
+  .ib .ic { color: var(--copper); }
+  .ib.primary .ic { color: var(--ink); }
+  .ib .arr { color: var(--ash); transition: color 0.2s; }
+  .ib:hover .arr { color: var(--copper); }
+  .ib.primary .arr { color: var(--ink); opacity: 0.7; }
+
+  /* ===== DIRECTORY ===== */
+  .directory {
+    padding: 60px 28px 80px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .filter-wrap {
+    margin-bottom: 36px; position: relative;
+  }
+  .filter-input {
+    width: 100%; padding: 14px 18px 14px 44px;
+    background: var(--ink-2); color: var(--bone);
+    border: 1px solid var(--line-2); border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  .filter-input:focus { outline: none; border-color: var(--copper-dim); }
+  .filter-input::placeholder { color: var(--ash); }
+  .filter-wrap::before {
+    content: '/'; position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+    color: var(--copper); font-weight: 700; font-size: 16px; pointer-events: none;
+  }
+
+  .group { margin-bottom: 56px; }
+  .group:last-of-type { margin-bottom: 0; }
+  .group-head {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ash); margin-bottom: 24px;
+  }
+  .group-head .label .c { color: var(--copper); }
+  .group-head .rule { flex: 1; height: 1px; background: var(--line); }
+  .group-head .count { color: var(--bone-dim); font-weight: 600; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 14px;
+  }
+
+  .entry {
+    display: flex; flex-direction: column;
+    padding: 22px;
+    background: var(--ink-2);
+    border: 1px solid var(--line); border-radius: 4px;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .entry:hover {
+    border-color: var(--copper-dim);
+    background: var(--ink-3);
+    transform: translateY(-2px);
+  }
+  .entry.featured { border-color: var(--copper-dim); }
+  .entry.featured::before {
+    content: 'start here'; position: absolute; top: -1px; right: 22px;
+    transform: translateY(-50%);
+    background: var(--copper); color: var(--ink);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .entry-head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    margin-bottom: 4px;
+  }
+  .entry-name {
+    font-weight: 700; font-size: 17px; letter-spacing: -0.02em; color: var(--bone);
+  }
+  .entry-name .chev { color: var(--copper); margin-right: 2px; }
+  .entry-kind {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ash); white-space: nowrap;
+  }
+  .entry-author {
+    font-size: 11px; color: var(--copper-bright);
+    margin-bottom: 12px; letter-spacing: 0.04em;
+  }
+  .entry-blurb {
+    color: var(--bone-dim); font-size: 13px; line-height: 1.6;
+    margin-bottom: 18px; flex: 1;
+  }
+  .entry-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .entry-addr {
+    font-size: 10px; color: var(--ash);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    flex: 1; min-width: 0;
+  }
+  .entry-addr .c { color: var(--copper); }
+  .entry-open {
+    color: var(--copper); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+    white-space: nowrap;
+  }
+  .entry:hover .entry-open { color: var(--copper-bright); }
+
+  .no-results {
+    display: none;
+    padding: 40px 22px; text-align: center;
+    color: var(--ash); font-size: 13px;
+    border: 1px dashed var(--line-2); border-radius: 4px;
+  }
+  .no-results.show { display: block; }
+
+  /* ===== FALLBACK TOAST ===== */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(120%);
+    background: var(--ink-2); border: 1px solid var(--copper);
+    border-radius: 6px; padding: 14px 20px;
+    font-size: 13px; color: var(--bone);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 200; max-width: calc(100vw - 48px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast .ic { color: var(--copper); font-size: 16px; }
+  .toast strong { color: var(--bone); font-weight: 600; }
+  .toast a {
+    color: var(--copper); text-decoration: underline; text-underline-offset: 3px;
+    font-weight: 600; margin-left: 4px;
+  }
+  .toast a:hover { color: var(--copper-bright); }
+  .toast .close {
+    margin-left: 8px; color: var(--ash); cursor: pointer;
+    font-size: 18px; padding: 0 4px;
+  }
+  .toast .close:hover { color: var(--bone); }
+
+  /* ===== CTA ===== */
+  .cta {
+    border-top: 1px solid var(--line);
+    padding: 70px 28px;
+    text-align: center;
+  }
+  .cta-inner { max-width: 640px; margin: 0 auto; }
+  .cta h2 {
+    font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;
+    font-size: clamp(28px, 4vw, 40px); color: var(--bone); margin-bottom: 16px;
+  }
+  .cta p {
+    color: var(--bone-dim); font-size: 14px; line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .cta p code { color: var(--copper); }
+  .cta .links { margin-top: 20px; }
+  .cta .links a {
+    display: inline-block;
+    color: var(--copper); text-decoration: underline; text-underline-offset: 4px;
+    margin: 0 12px; font-weight: 600; font-size: 13px;
+  }
+  .cta .links a:hover { color: var(--copper-bright); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 28px; border-top: 1px solid var(--line);
+    text-align: center; font-size: 11px; color: var(--ash);
+  }
+  footer .mark { font-weight: 800; color: var(--bone); }
+  footer .mark .c { color: var(--copper); }
+  footer a { color: var(--ash); transition: color 0.2s; }
+  footer a:hover { color: var(--copper); }
+  footer .sep { color: var(--ash-dim); margin: 0 10px; }
+
+  @media (max-width: 540px) {
+    .hero { padding-top: 120px; padding-bottom: 40px; }
+    .install { padding: 22px 20px; }
+    .directory { padding: 40px 20px 60px; }
+    .entry { padding: 18px; }
+  }
+
+  /* The fetch>it browser extension appends a small copper "fetch>it"
+     badge after every autonomi:// anchor it finds on a page. Each card
+     here is wrapped in such an anchor, so the badge would land between
+     cards in the grid and break the layout. The card itself already
+     reads as a fetch>it link via its "open ↗" label. */
+  .__fetchit-badge { display: none !important; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand"><span class="mark">[/]</span><span>etchit</span></a>
+  <div class="nav-links">
+    <a href="/etch/" class="nav-app hide-sm">etch<span class="m">/</span>it</a>
+    <a href="/fetch/" class="nav-app">fetch<span class="m">&gt;</span>it</a>
+    <span class="nav-here">city</span>
+    <a href="/learn.html" class="hide-sm">Learn</a>
+    <a href="https://github.com/etchit-io/fetchit" target="_blank" rel="noopener" class="hide-sm">Github&nbsp;↗</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-meta">
+      <span class="dot" aria-hidden="true"></span>
+      <span>directory · curated · peer-fetched · no proxy</span>
+    </div>
+
+    <h1 class="hero-headline">
+      browse the <span class="m">&gt;</span>city.
+    </h1>
+
+    <p class="hero-pitch">
+      An index of pages, books, music, video, and games that live on the
+      <strong>Autonomi network</strong>. Click any entry — fetch<span class="m">&gt;</span>it
+      picks it up by hash and renders it on your device. No DNS, no proxy in the middle,
+      no account, no fee for the fetch. <strong>Browse before you install</strong>;
+      install once and every link below just works.
+    </p>
+  </div>
+</section>
+
+<!-- ============ INSTALL BAR ============ -->
+<section class="install" id="install">
+  <div class="install-inner">
+    <div class="install-msg">
+      <span class="pill" id="os-pill">checking…</span>
+      <span id="os-msg">
+        Don't have fetch<span class="m">&gt;</span>it yet? Pick the one that matches your platform.
+      </span>
+      <span class="caveat">
+        On Windows / macOS / Linux the desktop app is the main install — the browser
+        extension just decorates and routes <code style="color: var(--copper);">autonomi://</code> links to it.
+        Safari and iOS aren't supported yet.
+      </span>
+    </div>
+
+    <div class="install-buttons" id="install-buttons">
+      <a class="ib" data-os="windows" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener">
+        <span class="ic">⊞</span> Windows <span class="arr">↓</span>
+      </a>
+      <a class="ib" data-os="macos" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener">
+        <span class="ic"></span> macOS <span class="arr">↓</span>
+      </a>
+      <a class="ib" data-os="linux" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener">
+        <span class="ic">◆</span> Linux <span class="arr">↓</span>
+      </a>
+      <a class="ib" data-os="android" href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">
+        <span class="ic">▴</span> Android APK <span class="arr">↓</span>
+      </a>
+      <a class="ib" data-os="extension" href="https://github.com/etchit-io/fetchit/tree/main/apps/fetchit-web" target="_blank" rel="noopener">
+        <span class="ic">◈</span> Browser extension <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIRECTORY ============ -->
+<section class="directory">
+
+  <div class="filter-wrap">
+    <input type="search" id="filter" class="filter-input" placeholder="filter by name, kind, blurb…" autocomplete="off" spellcheck="false">
+  </div>
+
+  <!-- ── the city ───────────────────────────────────────────────── -->
+  <div class="group" data-group="city">
+    <div class="group-head">
+      <span class="label">// <span class="c">the city</span></span>
+      <span class="rule"></span>
+      <span class="count" data-count="city"></span>
+    </div>
+    <div class="grid">
+
+      <a class="entry featured" href="autonomi://b9a72301e41ce695bd88a6a359bd6c9a05f041e0c5a038a8aa1670aafe9d8a11"
+         data-name="index city front door" data-kind="city">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>index</div>
+          <div class="entry-kind">city</div>
+        </div>
+        <div class="entry-blurb">
+          The hub-and-spoke front door. Eight rooms — library, gallery, album,
+          cinema, lab, brief, game, community — linked one click apart.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">b9a72301…fe9d8a11</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://d38624a876acf42b982c91a9578d494c75c1b42ad1995142234f6c9d7c53e498"
+         data-name="library books epub gutenberg" data-kind="read">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>library</div>
+          <div class="entry-kind">read</div>
+        </div>
+        <div class="entry-blurb">
+          Project Gutenberg classics rendered chapter-by-chapter — Frankenstein,
+          The Time Machine, Pride &amp; Prejudice — plus the Frankenstein EPUB.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">d38624a8…7c53e498</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://d4352b344988e13627a59272235597280e08c8a45e65e4a0482f5bf4a5b8f182"
+         data-name="gallery images nasa" data-kind="look">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>gallery</div>
+          <div class="entry-kind">look</div>
+        </div>
+        <div class="entry-blurb">
+          NASA imagery, eight plates. Each plate is a separate Autonomi address,
+          paginated and lazy-loaded.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">d4352b34…a5b8f182</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://3f4e80fde66423592bb6e03e1de767fb3bd4fb6d9b75be104edabfab052ee56c"
+         data-name="album music piano musopen" data-kind="listen">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>album</div>
+          <div class="entry-kind">listen</div>
+        </div>
+        <div class="entry-blurb">
+          Five CC0 piano tracks from Musopen with a stripped-down player. Tracks
+          download in full before play — once cached, scrub anywhere instantly.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">3f4e80fd…052ee56c</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://a6d292f5669d37669e0b01c8adf284ab6151e201b9100a639feb2a2e43bcfd85"
+         data-name="cinema video clip public domain" data-kind="watch">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>cinema</div>
+          <div class="entry-kind">watch</div>
+        </div>
+        <div class="entry-blurb">
+          A public-domain clip from the NASA archive, played with native controls
+          and full-screen support.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">a6d292f5…43bcfd85</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://c22ff1ae626ae6731df6ecd6bdaa470efc49df65a092510852d752f9690ca8de"
+         data-name="lab handler test wasm json csv" data-kind="explore">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>lab</div>
+          <div class="entry-kind">explore</div>
+        </div>
+        <div class="entry-blurb">
+          The handler testbed — text, JSON, CSV, markdown, WebAssembly, hex
+          preview. Every kind fetch<span class="m">&gt;</span>it can render, side by side.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">c22ff1ae…690ca8de</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://449198d45729f6478d3f42e199481cab7851df1388edc6d86f5d59b27de9edb5"
+         data-name="game arcade interactive spa" data-kind="play">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>game</div>
+          <div class="entry-kind">play</div>
+        </div>
+        <div class="entry-blurb">
+          A single-file in-browser game — proof that the rendered sandbox runs
+          interactive content with no outside fetches.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">449198d4…7de9edb5</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://8b3a2e7c778728519a0dad93ab3d9b6fb8397fea852670b13e1ebbef2bc0c74f"
+         data-name="brief essay explainer" data-kind="read">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>brief</div>
+          <div class="entry-kind">read</div>
+        </div>
+        <div class="entry-blurb">
+          A self-contained essay rendered straight from Autonomi — the simplest
+          possible page on the network.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">8b3a2e7c…2bc0c74f</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ── community ──────────────────────────────────────────────── -->
+  <div class="group" data-group="community">
+    <div class="group-head">
+      <span class="label">// <span class="c">community submissions</span></span>
+      <span class="rule"></span>
+      <span class="count" data-count="community"></span>
+    </div>
+    <div class="grid">
+
+      <a class="entry" href="autonomi://4664d421c704afac3e8283f853d66851449b3bb5aea1bf0989af8f7be085eb06"
+         data-name="battleships aatonnomicc retro arcade" data-kind="play">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>battleships</div>
+          <div class="entry-kind">play</div>
+        </div>
+        <div class="entry-author">@aatonnomicc</div>
+        <div class="entry-blurb">
+          Retro-arcade Battleships. Place your fleet, hunt the enemy's. One
+          screen, no scoreboard, no signup.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">4664d421…085eb06</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://aee32ced81d10c864971150dacf0daaf6add942467fd96132bd40b463864a51c"
+         data-name="hilo southside higher lower" data-kind="play">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>hi/lo</div>
+          <div class="entry-kind">play</div>
+        </div>
+        <div class="entry-author">@southside</div>
+        <div class="entry-blurb">
+          Twenty rounds of higher-or-lower. 0.5% house edge, local leaderboard,
+          ten free tokens to start.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">aee32ced…3864a51c</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+      <a class="entry" href="autonomi://90c8847c95b92463815b6d37046483e9889ee754c1fd41ff184a014ef58bccfe"
+         data-name="saloon showdown scotfc card game beat dealer" data-kind="play">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>saloon showdown</div>
+          <div class="entry-kind">play</div>
+        </div>
+        <div class="entry-author">@Scotfc</div>
+        <div class="entry-blurb">
+          Saloon-style beat-the-dealer. Three AI opponents — Doc Holliday,
+          Calamity Jane, Black Jack Sam — three rounds, $1000 stake.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">90c8847c…ef58bccfe</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="no-results" id="no-results">
+    Nothing matches that filter. Try a different word — or
+    <a href="#" id="clear-filter" style="color: var(--copper); text-decoration: underline;">clear it</a>.
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2>publish your own.</h2>
+    <p>
+      Got a page to share? Attach the HTML file in
+      <a href="/etch/" style="color: var(--copper); text-decoration: underline; text-underline-offset: 3px;">etch<span style="color: var(--copper);">/</span>it</a>,
+      send the address along, we&rsquo;ll byte-review it against the sandbox
+      contract and link it here.
+    </p>
+    <p>
+      Author rules — what works, what&rsquo;s blocked, the storage wrapper — live
+      in <code>docs/AUTONOMI-WEB.md</code> on GitHub.
+    </p>
+    <div class="links">
+      <a href="/etch/">etch<span class="m">/</span>it ↗</a>
+      <a href="https://github.com/etchit-io/fetchit/blob/main/docs/AUTONOMI-WEB.md" target="_blank" rel="noopener">SPA author docs ↗</a>
+      <a href="/fetch/">about fetch<span class="m">&gt;</span>it</a>
+      <a href="/learn.html">how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span class="ic">↗</span>
+  <span>
+    <strong>Didn&rsquo;t open?</strong>
+    You may need fetch<span class="m">&gt;</span>it for your platform —
+    <a href="#install">grab it above ↑</a>
+  </span>
+  <span class="close" id="toast-close" role="button" aria-label="Dismiss">×</span>
+</div>
+
+<footer>
+  <span class="mark">fetch<span class="c">&gt;</span>it</span>
+  <span class="sep">·</span>
+  <a href="/">etchit.io</a>
+  <span class="sep">·</span>
+  <a href="https://github.com/etchit-io/fetchit" target="_blank" rel="noopener">Github</a>
+  <span class="sep">·</span>
+  <a href="/support.html">support</a>
+  <span class="sep">·</span>
+  <a href="/terms.html">terms</a>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── OS detection: highlight the right install button ───────────
+  function detectOs() {
+    var ua = navigator.userAgent || '';
+    var plat = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+    if (/Android/i.test(ua)) return 'android';
+    if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+    if (/Win/i.test(ua) || /Win/i.test(plat)) return 'windows';
+    if (/Mac/i.test(ua) || /Mac/i.test(plat)) return 'macos';
+    if (/Linux|X11/i.test(ua)) return 'linux';
+    return 'unknown';
+  }
+
+  var OS_LABEL = {
+    windows:   'Windows',
+    macos:     'macOS',
+    linux:     'Linux',
+    android:   'Android',
+    ios:       'iOS',
+    unknown:   ''
+  };
+
+  var os = detectOs();
+  var pill = document.getElementById('os-pill');
+  var msg  = document.getElementById('os-msg');
+
+  if (os === 'ios') {
+    pill.textContent = 'iOS — not yet';
+    msg.textContent = 'No iOS build yet. The links below will open in fetch>it on a desktop or Android device.';
+  } else if (os === 'unknown') {
+    pill.textContent = 'pick one';
+    msg.textContent = "Don't have fetch>it? Pick the one for your platform.";
+  } else {
+    pill.textContent = OS_LABEL[os];
+    msg.innerHTML = "Looks like you're on <strong>" + OS_LABEL[os] +
+      "</strong>. Grab fetch<span class=\"m\">&gt;</span>it below, then any link in the city opens straight in the app.";
+    var btn = document.querySelector('.ib[data-os="' + os + '"]');
+    if (btn) {
+      btn.classList.add('primary');
+      // Reorder: put the primary button first.
+      btn.parentNode.insertBefore(btn, btn.parentNode.firstChild);
+    }
+  }
+
+  // ── Filter ─────────────────────────────────────────────────────
+  var input    = document.getElementById('filter');
+  var entries  = Array.prototype.slice.call(document.querySelectorAll('.entry'));
+  var groups   = Array.prototype.slice.call(document.querySelectorAll('.group'));
+  var noRes    = document.getElementById('no-results');
+  var clearLk  = document.getElementById('clear-filter');
+
+  function updateCounts() {
+    groups.forEach(function (g) {
+      var name = g.getAttribute('data-group');
+      var visible = g.querySelectorAll('.entry:not([hidden])').length;
+      var label = document.querySelector('[data-count="' + name + '"]');
+      if (label) label.textContent = visible + (visible === 1 ? ' entry' : ' entries');
+      g.hidden = visible === 0;
+    });
+  }
+
+  function applyFilter(q) {
+    q = (q || '').trim().toLowerCase();
+    var matchCount = 0;
+    entries.forEach(function (e) {
+      if (!q) { e.hidden = false; matchCount++; return; }
+      var hay = (e.getAttribute('data-name') || '') + ' ' +
+                (e.getAttribute('data-kind') || '') + ' ' +
+                (e.textContent || '').toLowerCase();
+      var hit = hay.toLowerCase().indexOf(q) !== -1;
+      e.hidden = !hit;
+      if (hit) matchCount++;
+    });
+    noRes.classList.toggle('show', matchCount === 0);
+    updateCounts();
+  }
+
+  input.addEventListener('input', function () { applyFilter(input.value); });
+  clearLk.addEventListener('click', function (ev) {
+    ev.preventDefault();
+    input.value = '';
+    applyFilter('');
+    input.focus();
+  });
+
+  // Initial counts
+  updateCounts();
+
+  // ── Deeplink fallback toast ────────────────────────────────────
+  // When a user clicks an autonomi:// link and no handler is registered, the
+  // browser does nothing visible (Chrome) or shows an error (Firefox). We
+  // can't reliably detect "the handler ran" across browsers, but we can
+  // detect "the page is still visible after a delay" — which is the no-handler
+  // signal. If so, surface a one-time toast pointing at the install bar.
+  var toast       = document.getElementById('toast');
+  var toastClose  = document.getElementById('toast-close');
+  var toastShown  = false;
+  var pendingHide = null;
+
+  function showToast() {
+    if (toastShown) return;
+    toastShown = true;
+    toast.classList.add('show');
+    clearTimeout(pendingHide);
+    pendingHide = setTimeout(hideToast, 9000);
+  }
+  function hideToast() {
+    toast.classList.remove('show');
+    clearTimeout(pendingHide);
+    // Reset so a second click can surface it again later.
+    setTimeout(function () { toastShown = false; }, 400);
+  }
+  toastClose.addEventListener('click', hideToast);
+
+  entries.forEach(function (a) {
+    a.addEventListener('click', function () {
+      // Don't try the fallback dance on iOS — autonomi:// reliably shows
+      // a "cannot open this link" prompt and our toast would just pile on.
+      if (os === 'ios') return;
+
+      var start = Date.now();
+      var bailed = false;
+
+      function onVis() { if (document.hidden) bailed = true; }
+      function onBlur() { bailed = true; }
+
+      document.addEventListener('visibilitychange', onVis, { once: true });
+      window.addEventListener('blur', onBlur, { once: true });
+
+      // Give the handler ~1.4s to take over. If the page is still visible
+      // after that *and* the user hasn't scrolled away (a heuristic that
+      // they're still looking at the page), assume no handler and toast.
+      setTimeout(function () {
+        document.removeEventListener('visibilitychange', onVis);
+        window.removeEventListener('blur', onBlur);
+        var elapsed = Date.now() - start;
+        if (!bailed && !document.hidden && elapsed < 2000) {
+          showToast();
+        }
+      }, 1400);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
