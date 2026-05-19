@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>etchit — what's new</title>
+<meta name="description" content="What changed in the latest etch/it and fetch/it apps, how to get them, and what to try first.">
+<link rel="canonical" href="https://etchit.io/release.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/release.html">
+<meta property="og:title" content="etchit — what's new">
+<meta property="og:description" content="The latest etch/it and fetch/it builds — what's new, how to get them, what to try.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="etchit — what's new">
+<meta name="twitter:description" content="The latest builds — what's new, how to get them, what to try.">
+<meta name="twitter:image" content="https://etchit.io/og-image.png">
+<meta name="twitter:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --ink-3: #1c1c1c;
+    --copper: #c9732b;
+    --copper-bright: #e58a3f;
+    --bone: #f5f2eb;
+    --ash: #8a8a8a;
+    --line: #222;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  header.brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .wordmark { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .wordmark .slash { color: var(--copper); }
+  .wordmark a { color: var(--bone); text-decoration: none; }
+  .back {
+    font-size: 12px; color: var(--ash); text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .back:hover { color: var(--bone); border-bottom-color: var(--copper); }
+
+  .kicker {
+    color: var(--copper); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 52px; line-height: 1.05;
+    margin-bottom: 8px; letter-spacing: -0.01em;
+  }
+  h1 em { font-style: italic; color: var(--copper); }
+
+  .subtitle { color: var(--ash); font-size: 13px; margin-bottom: 32px; }
+
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400; font-style: italic;
+    font-size: 26px;
+    margin: 48px 0 14px;
+    color: var(--bone);
+  }
+
+  p, li { font-size: 15px; }
+  p { margin-bottom: 14px; }
+  ul { padding-left: 20px; margin-bottom: 14px; list-style: none; }
+  ul li {
+    margin-bottom: 8px;
+    padding-left: 14px;
+    position: relative;
+  }
+  ul li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+    font-weight: 700;
+  }
+  b, strong { color: var(--bone); font-weight: 700; }
+  em { font-style: italic; color: var(--copper); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    color: var(--copper);
+    background: var(--ink-2);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  .pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 32px;
+  }
+  .pill {
+    font-size: 11px; padding: 4px 10px;
+    border: 1px solid var(--copper);
+    border-radius: 12px;
+    color: var(--copper);
+    letter-spacing: 0.04em;
+  }
+  .pill .m { color: var(--copper); }
+
+  .get-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 18px 0 28px;
+  }
+  @media (max-width: 560px) { .get-grid { grid-template-columns: 1fr; } }
+  .get-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    transition: border-color 0.15s, background 0.15s;
+    color: var(--bone);
+    text-decoration: none;
+  }
+  .get-btn:hover {
+    border-color: var(--copper);
+    background: var(--ink-3);
+  }
+  .get-btn .platform { font-size: 13px; font-weight: 700; }
+  .get-btn .platform .m { color: var(--copper); }
+  .get-btn .file { font-size: 11px; color: var(--ash); }
+  .get-btn .file em { color: var(--copper); font-style: italic; }
+  .get-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .wow {
+    margin: 16px 0 36px;
+    padding: 28px 28px 24px;
+    background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink-3) 100%);
+    border: 1px solid var(--copper);
+    border-radius: 8px;
+    position: relative;
+  }
+  .wow::before {
+    content: "// NEW";
+    position: absolute;
+    top: -10px;
+    left: 22px;
+    background: var(--ink);
+    padding: 0 10px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--copper);
+    font-weight: 700;
+  }
+  .wow h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    color: var(--bone);
+  }
+  .wow h3 em { color: var(--copper); font-style: italic; }
+  .wow p { margin-bottom: 10px; }
+  .wow .needs {
+    font-size: 12px;
+    color: var(--ash);
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .wow .needs b { color: var(--bone); font-weight: 600; }
+  .wow-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .wow-cta {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 9px 16px;
+    border: 1px solid var(--copper);
+    color: var(--copper);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .wow-cta:hover {
+    background: var(--copper);
+    color: var(--ink);
+  }
+  .wow-cta.primary {
+    background: var(--copper);
+    color: var(--ink);
+  }
+  .wow-cta.primary:hover {
+    background: var(--copper-bright, var(--copper));
+  }
+
+  .heads-up {
+    background: var(--ink-2);
+    border-left: 2px solid var(--ash);
+    padding: 12px 16px;
+    margin: 8px 0 22px;
+    font-size: 14px;
+  }
+
+  .archive-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .archive-row .meta { color: var(--ash); font-size: 12px; }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--ash);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer a { color: var(--ash); text-decoration: none; }
+  footer a:hover { color: var(--bone); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <div class="wordmark"><a href="/">etch<span class="slash">/</span>it</a></div>
+    <a href="/" class="back">← back</a>
+  </header>
+
+  <div class="kicker">// May 2026</div>
+  <h1>What's <em>new.</em></h1>
+  <p class="subtitle">Latest builds of <strong>etch<span style="color:var(--copper)">/</span>it</strong> (the writer) and <strong>fetch<span style="color:var(--copper)">&gt;</span>it</strong> (the reader). Cut 19 May 2026.</p>
+
+  <div class="pills">
+    <span class="pill">Mac</span>
+    <span class="pill">Windows</span>
+    <span class="pill">Linux</span>
+    <span class="pill">Android</span>
+    <span class="pill">iOS · closed beta</span>
+    <span class="pill">Browser extension</span>
+  </div>
+
+
+  <!-- ──────────── WOW: BROWSER EXTENSION ──────────── -->
+  <div class="wow">
+    <h3>Click <em>autonomi://</em> links from any web page.</h3>
+    <p>The new <strong>fetch<span style="color:var(--copper)">&gt;</span>it</strong> browser extension turns ordinary links on ordinary web pages into doorways to the Autonomi network. Visit a page, click an <code>autonomi://</code> link, fetch&gt;it opens on your computer and shows you what's there.</p>
+    <p>It also adds <strong>right-click → "Open in fetch&gt;it"</strong> on any 64-character address you've highlighted, and an address-bar shortcut: type <code>fetchit</code>, hit space, paste the address.</p>
+    <div class="needs">
+      <b>What you need:</b> fetch&gt;it desktop installed (the extension opens it), the extension itself in your browser, and a working internet connection. That's it — no account, no sign-in, nothing else.
+    </div>
+    <div class="wow-cta-row">
+      <a class="wow-cta primary" href="/fetchit-web-0.1.0-chrome.zip">Download for Chrome / Edge / Brave / Arc</a>
+      <a class="wow-cta primary" href="/fetchit-web-0.1.0-firefox.zip">Download for Firefox</a>
+      <a class="wow-cta" href="/city/">Try it on the city →</a>
+    </div>
+    <div class="needs" style="margin-top:14px">
+      <b>Install in 30 seconds:</b> unzip the file. In Chrome / Edge / Brave / Arc, open <code>chrome://extensions</code>, turn on <em>Developer mode</em> (top-right), click <em>Load unpacked</em>, pick the unzipped folder. Firefox uses <code>about:debugging</code> → <em>Load Temporary Add-on</em>. Store listings (one-click install, auto-updates) coming next — these zips work everywhere today.
+    </div>
+  </div>
+
+
+  <!-- ──────────── GET IT ──────────── -->
+  <h2>Get it</h2>
+
+  <div class="get-grid">
+    <a class="get-btn" href="https://github.com/etchit-io/etchit-desktop/releases/latest">
+      <span class="platform">etch<span class="m">/</span>it for Mac</span>
+      <span class="file">.dmg · drag to Applications</span>
+    </a>
+    <a class="get-btn" href="https://github.com/etchit-io/etchit-desktop/releases/latest">
+      <span class="platform">etch<span class="m">/</span>it for Windows</span>
+      <span class="file">.msi installer</span>
+    </a>
+    <a class="get-btn" href="https://github.com/etchit-io/etchit-desktop/releases/latest">
+      <span class="platform">etch<span class="m">/</span>it for Linux</span>
+      <span class="file">.deb / .AppImage</span>
+    </a>
+    <a class="get-btn" aria-disabled="true" href="#">
+      <span class="platform">etch<span class="m">/</span>it for Android</span>
+      <span class="file"><em>coming next</em></span>
+    </a>
+
+    <a class="get-btn" href="https://github.com/etchit-io/fetchit/releases/latest">
+      <span class="platform">fetch<span class="m">&gt;</span>it for Mac</span>
+      <span class="file">.dmg · drag to Applications</span>
+    </a>
+    <a class="get-btn" href="https://github.com/etchit-io/fetchit/releases/latest">
+      <span class="platform">fetch<span class="m">&gt;</span>it for Windows</span>
+      <span class="file">.msi · .exe installer</span>
+    </a>
+    <a class="get-btn" href="https://github.com/etchit-io/fetchit/releases/latest">
+      <span class="platform">fetch<span class="m">&gt;</span>it for Linux</span>
+      <span class="file">.deb · .rpm</span>
+    </a>
+    <a class="get-btn" aria-disabled="true" href="#">
+      <span class="platform">fetch<span class="m">&gt;</span>it for iOS</span>
+      <span class="file"><em>TestFlight — email <a style="color:inherit" href="mailto:hello@etchit.io">hello@etchit.io</a></em></span>
+    </a>
+  </div>
+
+
+  <!-- ──────────── WHAT'S NEW ──────────── -->
+  <h2>What changed</h2>
+  <ul>
+    <li><b>Click <code>autonomi://</code> links from any web page.</b> The new browser extension turns the address into a clickable doorway in Chrome / Firefox / Edge / Brave / Arc. See the box above.</li>
+    <li><b>One QR, every app.</b> Same look, same buttons, same scan — desktop or phone. Add your own title before you share.</li>
+    <li><b>Save the QR.</b> One tap saves a tidy little card with the wordmark and the address. Drop it in a chat or hang it on a wall.</li>
+    <li><b>Snap and etch.</b> Take a screenshot on your computer and etch&#47;it offers to put it on Autonomi — one click, no fuss.</li>
+    <li><b>Blog from your phone.</b> Write a post in etch&#47;it on Android and publish straight to the network.</li>
+    <li><b>Mac &amp; Windows.</b> Real installers, no terminal needed.</li>
+    <li><b>iOS coming soon.</b> Closed beta now; email <a href="mailto:hello@etchit.io" style="color:var(--copper)">hello@etchit.io</a> for an invite.</li>
+    <li><b>Twelve places to visit.</b> The demo city grew — books, images, music, video, games, a calculator, and four community-built pages.</li>
+    <li><b>Friendlier errors.</b> If your wallet stalls or a page won't load, you get a sentence in English instead of <code>[object Object]</code>.</li>
+  </ul>
+
+
+  <!-- ──────────── TRY THIS ──────────── -->
+  <h2>Try this first</h2>
+  <ul>
+    <li><b>Install fetch&gt;it desktop + the browser extension</b> (links above). Open <a href="/city/" style="color:var(--copper)">etchit.io/city</a>. Click any of the entries — each one's an <code>autonomi://</code> link. fetch&gt;it pops open and shows you what's at that address. <em>No web server is hosting that page</em>. Sit with that for a second.</li>
+    <li><b>Or just scan the QR on the home page</b> with your phone camera — same city, same content, opens in fetch&gt;it on mobile.</li>
+    <li>Wander every spoke: a book in <em>library</em>, image plates in <em>gallery</em>, a piano track in <em>album</em>, a clip in <em>cinema</em>, the handler tour in <em>lab</em>, a quick arcade in <em>game</em>, the project explainer in <em>brief</em>.</li>
+    <li>Visit <em>community</em> and play through all four: <em>battleships</em>, <em>hi/lo</em>, <em>saloon showdown</em>, and the brand-new <em>compound calculator</em>.</li>
+    <li><b>Etch something of your own.</b> Open etch&#47;it, paste in some text or drop in a photo, hit publish. You get an address. Send it anywhere — the recipient clicks the link (with the extension) or scans the QR and sees the same bytes.</li>
+    <li><b>Open the same address on a second device.</b> Same content, every time. That's the whole idea: the address is the thing.</li>
+  </ul>
+
+
+  <!-- ──────────── HEADS UP ──────────── -->
+  <h2>Heads up</h2>
+  <div class="heads-up">
+    <b>Apps cost real money to publish</b> — every etch pays a tiny fee on the Autonomi network to store your bytes forever. Reading is free.
+  </div>
+  <div class="heads-up">
+    <b>Once it's etched, it's etched.</b> Nothing can be taken back from the network. Only publish what you're prepared to leave there.
+  </div>
+
+
+  <!-- ──────────── ARCHIVE ──────────── -->
+  <h2>Older versions</h2>
+  <div class="archive-row">
+    <span><a href="https://github.com/etchit-io/etchit-desktop/releases" style="color:var(--copper)">etch&#47;it releases</a></span>
+    <span class="meta">all platforms — Mac · Windows · Linux</span>
+  </div>
+  <div class="archive-row">
+    <span><a href="https://github.com/etchit-io/fetchit/releases" style="color:var(--copper)">fetch&gt;it releases</a></span>
+    <span class="meta">all platforms — Mac · Windows · Linux · iOS soon</span>
+  </div>
+  <div class="archive-row">
+    <span><a href="https://github.com/etchit-io/etchit/releases" style="color:var(--copper)">etch&#47;it for Android</a></span>
+    <span class="meta">sideload APKs</span>
+  </div>
+
+
+  <footer>
+    <span>© 2026 — Permanent by design</span>
+    <span>
+      <a href="/">etchit.io</a> ·
+      <a href="/privacy.html">privacy</a> ·
+      <a href="/eula.html">eula</a> ·
+      <a href="/presskit.html">press</a> ·
+      <a href="/support.html" style="color:var(--copper)">donate</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
