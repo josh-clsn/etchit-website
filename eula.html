@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>etchit — End-User Licence Agreement</title>
+<meta name="description" content="fetch>it for iOS — End-User Licence Agreement, including the user-generated-content terms required by Apple Review Guideline 1.2.">
+<link rel="canonical" href="https://etchit.io/eula.html">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/eula.html">
+<meta property="og:title" content="etchit — End-User Licence Agreement">
+<meta property="og:description" content="fetch>it for iOS — End-User Licence Agreement, including the user-generated-content terms required by Apple Review Guideline 1.2.">
+<meta property="og:image" content="https://etchit.io/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="etchit — End-User Licence Agreement">
+<meta name="twitter:description" content="fetch>it for iOS EULA — open source, no warranty, zero tolerance for objectionable user-generated content.">
+<meta name="twitter:image" content="https://etchit.io/og-image.png">
+<meta name="twitter:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
+
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --copper: #c9732b;
+    --bone: #f5f2eb;
+    --ash: #8a8a8a;
+    --line: #222;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  header.brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+
+  .wordmark {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .wordmark .slash { color: var(--copper); }
+  .wordmark a { color: var(--bone); text-decoration: none; }
+
+  .back {
+    font-size: 12px;
+    color: var(--ash);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .back:hover {
+    color: var(--bone);
+    border-bottom-color: var(--copper);
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    color: var(--ash);
+    font-size: 13px;
+    margin-bottom: 40px;
+  }
+
+  .lead {
+    color: var(--bone);
+    font-size: 14px;
+    margin-bottom: 32px;
+    padding: 16px 18px;
+    border-left: 2px solid var(--copper);
+    background: var(--ink-2);
+  }
+
+  ol.eula {
+    list-style: none;
+    counter-reset: term;
+  }
+  ol.eula > li {
+    counter-increment: term;
+    padding: 18px 0 18px 56px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    font-size: 14px;
+    color: var(--bone);
+  }
+  ol.eula > li::before {
+    content: counter(term, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 18px;
+    color: var(--copper);
+    font-weight: 600;
+    font-size: 13px;
+  }
+  ol.eula > li b {
+    font-weight: 600;
+    color: var(--bone);
+  }
+  ol.eula > li p { margin-top: 8px; }
+  ol.eula ul {
+    margin-top: 8px;
+    padding-left: 18px;
+  }
+  ol.eula ul li {
+    margin-bottom: 4px;
+    color: var(--bone);
+    font-size: 13.5px;
+  }
+
+  a.inline {
+    color: var(--copper);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  a.inline:hover { border-bottom-color: var(--copper); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--ash);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer a { color: var(--ash); text-decoration: none; }
+  footer a:hover { color: var(--bone); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <div class="wordmark">
+      <a href="/">etch<span class="slash">/</span>it</a>
+    </div>
+    <a href="/" class="back">← back</a>
+  </header>
+
+  <h1>End-User Licence Agreement</h1>
+  <div class="subtitle">Last updated · 2026-05-19 · applies to fetch&gt;it for iOS</div>
+
+  <div class="lead">
+    By installing or using fetch&gt;it ("the App") for iOS, you agree to these terms. They sit on top of Apple's standard <a class="inline" href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Licensed Application End-User Licence Agreement</a>; where the two conflict, the more restrictive one applies.
+  </div>
+
+  <ol class="eula">
+    <li><b>The App is open source.</b> Source is published under the GNU Affero General Public License v3.0 (AGPL-3.0-only). Nothing in this EULA reduces the rights the AGPL grants you over the source code.</li>
+
+    <li><b>What the App does.</b> The App is a read-only viewer for content stored on the public Autonomi peer-to-peer network. It does not host content, does not upload content, and does not let you publish. It fetches and renders what is already on the network at the address you give it.</li>
+
+    <li><b>User-generated content (Apple Guideline 1.2).</b> The Autonomi network is public and decentralised. Content at any given address is uploaded and controlled by third parties, not by us. We do not pre-screen, host, or moderate that content. You agree that:
+      <ul>
+        <li>You will not use the App to view, distribute, or promote content that is illegal in your jurisdiction.</li>
+        <li>You will not use the App to facilitate harassment, threats, hate speech, sexual content involving minors, doxxing, or other content objectionable under Apple's App Review Guidelines.</li>
+        <li>You will use the in-app <b>Block</b> action to hide content you do not want to see again, and the in-app <b>Report</b> action to flag content you believe is objectionable.</li>
+      </ul>
+    </li>
+
+    <li><b>Zero tolerance for objectionable user-generated content.</b> When you report an address through the in-app Report action (sent by Mail to <a class="inline" href="mailto:reports@etchit.io">reports@etchit.io</a>) we will:
+      <ul>
+        <li>Acknowledge the report within 24 hours.</li>
+        <li>Add the address to a client-side denylist in the next released build, where appropriate.</li>
+        <li>Cooperate with law-enforcement requests where required by law.</li>
+      </ul>
+      <p>Because Autonomi is decentralised, we cannot delete content from the network itself; we can only prevent the App from rendering it.</p>
+    </li>
+
+    <li><b>Abusive use.</b> We may, at our discretion and without notice, ship updates that add or remove addresses from the built-in denylist, refuse to render content that triggers known-malicious heuristics, or remove the App from distribution. The App is a viewer; there are no user accounts to suspend, so moderation is exercised at the level of content addresses.</li>
+
+    <li><b>No warranty.</b> The App is provided "as is" and "as available", without warranty of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, or non-infringement. The App may stop working, fail to fetch content, render content incorrectly, or be discontinued at any time.</li>
+
+    <li><b>Limitation of liability.</b> To the maximum extent permitted by applicable law, the App's authors are not liable for any indirect, incidental, special, consequential, or punitive damages arising from or relating to your use of the App, even if advised of the possibility of such damages.</li>
+
+    <li><b>Privacy.</b> Your use of the App is also governed by the <a class="inline" href="/privacy.html">Privacy Policy</a>, incorporated into this EULA by reference.</li>
+
+    <li><b>Changes.</b> We may revise these terms from time to time. The most current version will always live at this URL, with the "Last updated" date reflecting the change. Continued use of the App after a change means you accept the new terms.</li>
+
+    <li><b>Contact.</b> To report objectionable content, use the in-app Report action or email <a class="inline" href="mailto:reports@etchit.io">reports@etchit.io</a>. For all other matters, open an issue on the relevant repository under <a class="inline" href="https://github.com/etchit-io">github.com/etchit-io</a>.</li>
+  </ol>
+
+  <footer>
+    <span>© 2026 — Permanent by design</span>
+    <span><a href="/">etchit.io</a> · <a href="/terms.html">terms</a> · <a href="/privacy.html">privacy</a> · <a href="/presskit.html">press</a> · <a href="/support.html" style="color:var(--copper)">donate</a> · <a href="https://github.com/etchit-io">github</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
