@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>etchit — the address is the thing</title>
-<meta name="description" content="A public, content-addressed network: pay once to put something on it, and it's reachable forever, by anyone with the address — no server, no account, no takedown. etch/it writes to it. fetch/it reads it. Open source, non-custodial, reproducible.">
+<meta name="description" content="A public, content-addressed network: pay once to put something on it, and it's reachable by anyone with the address — no server, no account, content-addressed and immutable by design. etch/it writes to it. fetch/it reads it. Open source, non-custodial, reproducible.">
 <link rel="canonical" href="https://etchit.io/">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://etchit.io/">
 <meta property="og:title" content="etchit — the address is the thing">
-<meta property="og:description" content="A public, content-addressed network: pay once to put something on it, reachable forever by anyone with the address — no server, no account, no takedown. etch/it writes to it. fetch/it reads it.">
+<meta property="og:description" content="A public, content-addressed network: pay once to put something on it, reachable by anyone with the address — no server, no account, content-addressed and immutable by design. etch/it writes to it. fetch/it reads it.">
 <meta property="og:image" content="https://etchit.io/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -27,7 +27,7 @@
 <meta property="og:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="etchit — the address is the thing">
-<meta name="twitter:description" content="A public, content-addressed network: pay once to put something on it, reachable forever by anyone with the address. etch/it writes to it. fetch/it reads it.">
+<meta name="twitter:description" content="A public, content-addressed network: pay once to put something on it, reachable by anyone with the address — content-addressed and immutable by design. etch/it writes to it. fetch/it reads it.">
 <meta name="twitter:image" content="https://etchit.io/og-image.png">
 <meta name="twitter:image:alt" content="etch/it · fetch/it — the address is the thing — etchit.io">
 
@@ -120,6 +120,57 @@
   .nav-links .nav-support { color: var(--copper); font-weight: 600; border: 1px solid var(--copper-dim); border-radius: 4px; padding: 4px 11px; transition: all 0.2s; }
   .nav-links .nav-support:hover { color: var(--ink); background: var(--copper); border-color: var(--copper); }
   @media (max-width: 720px) { .nav-links a:not(.nav-app):not(.nav-support) { display: none; } }
+
+  /* ======================== PLATFORMS ======================== */
+  .platforms { padding: 78px 24px 24px; }
+  .platforms-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: clamp(28px, 6vw, 64px);
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .plat {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--bone-dim);
+    opacity: 0.7;
+    transition: color 0.22s ease, opacity 0.22s ease, transform 0.22s ease;
+  }
+  .plat:hover, .plat:focus-visible {
+    color: var(--copper);
+    opacity: 1;
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .plat svg { width: 26px; height: 26px; fill: currentColor; display: block; }
+  .plat-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ash);
+    transition: color 0.22s ease;
+  }
+  .plat:hover .plat-label, .plat:focus-visible .plat-label { color: var(--bone-dim); }
+  .plat-tag {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--copper);
+    padding: 1px 5px;
+    border: 1px solid var(--copper-dim);
+    border-radius: 2px;
+    margin-top: -2px;
+    transition: border-color 0.22s ease;
+  }
+  .plat:hover .plat-tag, .plat:focus-visible .plat-tag { border-color: var(--copper); }
+  .plat-noop { cursor: default; pointer-events: none; }
 
   /* ======================== HERO ======================== */
   .hero {
@@ -464,6 +515,10 @@
     .cta-block { padding: 96px 22px; }
     .app { padding: 36px 24px; }
     nav { padding: 16px 18px; }
+    .platforms { padding: 72px 16px 18px; }
+    .platforms-inner { gap: 22px; }
+    .plat svg { width: 22px; height: 22px; }
+    .plat-label { font-size: 9px; letter-spacing: 0.18em; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -494,6 +549,44 @@
   </div>
 </nav>
 
+<!-- ============ PLATFORMS ============ -->
+<section class="platforms" aria-label="Supported platforms">
+  <div class="platforms-inner">
+
+    <a class="plat" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener" aria-label="fetch>it for Windows">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0v11.408h11.408V0zm12.594 0v11.408H24V0zM0 12.594V24h11.408V12.594zm12.594 0V24H24V12.594z"/></svg>
+      <span class="plat-label">Windows</span>
+    </a>
+
+    <a class="plat" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener" aria-label="fetch>it for macOS">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      <span class="plat-label">macOS</span>
+    </a>
+
+    <a class="plat" href="https://github.com/etchit-io/fetchit/releases/latest" target="_blank" rel="noopener" aria-label="fetch>it for Linux">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489.077.5.243.962.479 1.379.792 1.385 2.137 2.117 3.471 2.117 1.328 0 2.625-.7 3.42-1.911-.124-.092-.255-.181-.371-.282-.49.793-1.443 1.295-2.473 1.295-1.135 0-2.288-.624-2.949-1.794-.196-.347-.327-.722-.388-1.114-.094-.626-.011-1.292.21-1.953.466-1.396 1.495-2.94 2.273-3.872.601-.873.821-1.554.892-2.477.066-.857-.118-3.34.91-4.74.4-.55 1.034-.802 1.752-.86l.026.024c.736.059 1.366.31 1.74.825 1.064 1.382.901 3.862.948 4.706.06.913.298 1.586.871 2.45.815.954 1.852 2.477 2.32 3.87.222.661.305 1.328.21 1.954-.061.392-.192.767-.388 1.114-.66 1.17-1.814 1.794-2.949 1.794-1.029 0-1.983-.502-2.473-1.295-.116.1-.247.19-.371.282.795 1.212 2.092 1.911 3.42 1.911 1.334 0 2.679-.731 3.471-2.117.236-.417.402-.879.479-1.379.123-.805-.009-1.657-.287-2.489-.589-1.771-1.831-3.47-2.716-4.521-.75-1.067-.974-1.928-1.05-3.02-.065-1.491 1.056-5.965-3.17-6.298A6.06 6.06 0 0 0 12.504 0z"/></svg>
+      <span class="plat-label">Linux</span>
+    </a>
+
+    <a class="plat" href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk" aria-label="fetch>it for Android">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.523 15.341c-.551 0-.999-.449-.999-1 0-.551.448-.999.999-.999s.999.448.999.999c0 .551-.448 1-.999 1m-11.046 0c-.551 0-.999-.449-.999-1 0-.551.448-.999.999-.999s.999.448.999.999c0 .551-.448 1-.999 1m11.405-6.02l1.997-3.459a.416.416 0 00-.152-.568.416.416 0 00-.568.152l-2.022 3.503C15.59 8.244 13.853 7.851 12 7.851s-3.59.393-5.137 1.099L4.841 5.447a.416.416 0 00-.568-.152.416.416 0 00-.152.568l1.997 3.459C2.689 11.187.343 14.659 0 18.761h24c-.344-4.102-2.69-7.574-6.118-9.44"/></svg>
+      <span class="plat-label">Android</span>
+    </a>
+
+    <!-- iOS: invite-only TestFlight while the public link is in Apple review.
+         Intentionally non-interactive (no href, pointer-events: none) until the
+         public link is approved. When ready: swap the <span> back to an <a> with
+         href="https://testflight.apple.com/join/<CODE>" (target=_blank, rel=noopener)
+         and change the tag back to "Beta". One TestFlight build covers iPhone + iPad. -->
+    <span class="plat plat-noop" role="img" aria-label="iOS — closed TestFlight beta; public join pending Apple review">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+      <span class="plat-label">iOS</span>
+      <span class="plat-tag">Closed beta</span>
+    </span>
+
+  </div>
+</section>
+
 <!-- ============ HERO ============ -->
 <section class="hero">
   <div class="hero-inner">
@@ -512,11 +605,11 @@
 
     <p class="hero-pitch">
       <strong>Autonomi</strong> is a public, content-addressed network. Pay once to put
-      something on it and it's reachable forever, by anyone with the address —
-      no server, no account, nothing anyone (including us) can quietly take down.
+      something on it and it's reachable by anyone with the address —
+      no server, no account, just bytes addressed by their own hash.
       <span class="w">etch<span class="m">/</span>it</span> is how you <strong>write</strong> to it.
       <span class="w">fetch<span class="m">&gt;</span>it</span> is how you <strong>read</strong> it.
-      Two small apps, one idea: a link that can't rot.
+      Two apps and a big idea: a link that can't rot.
     </p>
   </div>
 </section>
@@ -526,14 +619,14 @@
   <div class="marquee-track">
     <span>NON-CUSTODIAL</span><span class="sep">[/]</span>
     <span>NO ACCOUNTS</span><span class="sep">[/]</span>
-    <span>NO TAKEDOWNS</span><span class="sep">[/]</span>
+    <span>PERMANENT BY DESIGN</span><span class="sep">[/]</span>
     <span>CONTENT-ADDRESSED</span><span class="sep">[/]</span>
     <span>REPRODUCIBLE BUILDS</span><span class="sep">[/]</span>
     <span>OPEN SOURCE</span><span class="sep">[/]</span>
     <span>READ FREE · PAY TO WRITE</span><span class="sep">[/]</span>
     <span>NON-CUSTODIAL</span><span class="sep">[/]</span>
     <span>NO ACCOUNTS</span><span class="sep">[/]</span>
-    <span>NO TAKEDOWNS</span><span class="sep">[/]</span>
+    <span>PERMANENT BY DESIGN</span><span class="sep">[/]</span>
     <span>CONTENT-ADDRESSED</span><span class="sep">[/]</span>
     <span>REPRODUCIBLE BUILDS</span><span class="sep">[/]</span>
     <span>OPEN SOURCE</span><span class="sep">[/]</span>
@@ -719,8 +812,8 @@
       </div>
     </div>
     <div class="cta-status">
-      <strong>Status:</strong> etch/it — Android &amp; desktop in beta, iOS on the roadmap. &nbsp;·&nbsp;
-      fetch/it — Android, open source. &nbsp;·&nbsp;
+      <strong>Status:</strong> etch/it — Android &amp; desktop in beta. &nbsp;·&nbsp;
+      fetch/it — Android, desktop, &amp; iOS (TestFlight, invite). &nbsp;·&nbsp;
       <span class="ok">Read is free on both.</span>
     </div>
   </div>

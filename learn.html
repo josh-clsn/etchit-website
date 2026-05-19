@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>etchit — learn</title>
-<meta name="description" content="An introduction to Autonomi — a content-addressed peer-to-peer network — and the two apps that read and write to it. No DNS, no host, no account, nothing to take down. How it works, how it differs from the clearnet, what it costs.">
+<meta name="description" content="An introduction to Autonomi — a content-addressed peer-to-peer network — and the two apps that read and write to it. No DNS, no origin server, no account; addresses are content-hashes and the bytes are immutable by design. How it works, how it differs from the clearnet, what it costs.">
 <link rel="canonical" href="https://etchit.io/learn.html">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
@@ -839,7 +839,7 @@
       <div class="vs-arrow">→</div>
       <div class="vs-new">
         <div class="vs-tag">AUTONOMI</div>
-        <p>No host to file with. <strong>Once it's etched, you cannot un-etch it</strong> — including by yourself. Cuts both ways: only publish what you're prepared to leave there.</p>
+        <p>No central host in the loop. Addresses are content-hashes, so what you publish today is what resolves tomorrow — <strong>only publish what you're prepared to leave there</strong>.</p>
       </div>
     </article>
 
@@ -882,10 +882,11 @@
   </div>
 
   <p class="cost-note">
-    <strong>The trade-off is honest.</strong> Permanence cuts both ways — no
-    takedown, no edits, no expirations. Self-custody cuts both ways — no
-    recovery emails, no support agent to call. You're trading a service-based
-    web for a content-addressed one. Quieter, more durable, and entirely on you.
+    <strong>The trade-off is honest.</strong> Permanence cuts both ways — the
+    protocol is immutable by design, so there are no edits and no expirations
+    either. Self-custody cuts both ways — no recovery emails, no support agent
+    to call. You're trading a service-based web for a content-addressed one.
+    Quieter, more durable, and entirely on you.
   </p>
 </section>
 
@@ -984,10 +985,10 @@
     </details>
 
     <details>
-      <summary>Can I take down something I etched?</summary>
+      <summary>Can I edit or remove something I etched?</summary>
       <div class="faq-body">
-        <p>No, and that's the point. Once chunks are paid for and replicated, they live across the network independently of you. There is no host to call, no admin to email — including yourself.</p>
-        <p>The corollary: <strong>only publish what you're prepared to leave there forever</strong>. If it's sensitive, etch privately (encrypted on the device first) or don't etch it at all.</p>
+        <p>Not from the app. The Autonomi network is content-addressed and stores each chunk across many peers, so the protocol itself doesn't expose a deletion or edit path — that's an architectural property of how content-addressing works, not a policy choice on our part. Neither the apps nor the etchit team operates a takedown channel.</p>
+        <p>The corollary: <strong>only publish what you're prepared to leave there</strong>. If it's sensitive, etch privately (encrypted on the device first), or don't etch it at all. To report content you've encountered through the fetch&gt;it viewer, contact us via the <a href="https://github.com/etchit-io/fetchit/issues/new" target="_blank" style="color: var(--copper); border-bottom: 1px solid var(--copper-dim);">fetchit repository</a>.</p>
       </div>
     </details>
 

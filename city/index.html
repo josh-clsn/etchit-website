@@ -384,7 +384,7 @@
       <span class="caveat">
         On Windows / macOS / Linux the desktop app is the main install — the browser
         extension just decorates and routes <code style="color: var(--copper);">autonomi://</code> links to it.
-        Safari and iOS aren't supported yet.
+        iOS is in TestFlight beta (invite-only while Apple reviews the public link); Safari isn't supported.
       </span>
     </div>
 
@@ -616,6 +616,23 @@
         </div>
       </a>
 
+      <a class="entry" href="autonomi://87b278cae1dd9ee80af89d04d70c1f90cc037175761df3ca89398c9e05652bed"
+         data-name="compound interest calculator aatonnomicc savings investment" data-kind="tool">
+        <div class="entry-head">
+          <div class="entry-name"><span class="chev">&gt;</span>compound calculator</div>
+          <div class="entry-kind">tool</div>
+        </div>
+        <div class="entry-author">@aatonnomicc</div>
+        <div class="entry-blurb">
+          Compound interest, contributions and fees modelled out. Year-by-year
+          schedule plus a chart. One screen, no signup.
+        </div>
+        <div class="entry-foot">
+          <code class="entry-addr">autonomi://<span class="c">87b278ca…05652bed</span></code>
+          <span class="entry-open">open ↗</span>
+        </div>
+      </a>
+
     </div>
   </div>
 
@@ -701,8 +718,8 @@
   var msg  = document.getElementById('os-msg');
 
   if (os === 'ios') {
-    pill.textContent = 'iOS — not yet';
-    msg.textContent = 'No iOS build yet. The links below will open in fetch>it on a desktop or Android device.';
+    pill.textContent = 'iOS — invite only';
+    msg.textContent = 'iOS is in TestFlight beta — invite-only for now while Apple reviews the public link. The links below will open in fetch>it on a desktop or Android device.';
   } else if (os === 'unknown') {
     pill.textContent = 'pick one';
     msg.textContent = "Don't have fetch>it? Pick the one for your platform.";

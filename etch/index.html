@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>etch/it — etch it once, fetch it forever</title>
-<meta name="description" content="Save text to Autonomi and share it with a single permanent address. Non-custodial, open source, reproducible. No servers, no accounts, no takedowns. The writer half of etchit — fetch/it reads it back.">
+<meta name="description" content="Save text to Autonomi and share it with a single permanent address. Non-custodial, open source, reproducible. No servers, no accounts, content-addressed and immutable by design. The writer half of etchit — fetch/it reads it back.">
 <link rel="canonical" href="https://etchit.io/etch/">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://etchit.io/etch/">
 <meta property="og:title" content="etch/it — etch it once, fetch it forever">
-<meta property="og:description" content="Save text to Autonomi and share it with a single permanent address. Non-custodial, open source, reproducible. No servers, no accounts, no takedowns. The writer half of etchit.">
+<meta property="og:description" content="Save text to Autonomi and share it with a single permanent address. Non-custodial, open source, reproducible. No servers, no accounts, content-addressed and immutable by design. The writer half of etchit.">
 <meta property="og:image" content="https://etchit.io/og-etch.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -950,8 +950,8 @@
     <p class="hero-pitch">
       etchit is how you save something to a <strong>decentralized network</strong>
       and share it with a single address. What you etch stays reachable as long as
-      the network runs, and <strong>nobody — including us —</strong>
-      can quietly take it down.
+      the network runs — addresses are content-hashes, so the bytes you publish
+      are the bytes that get served, byte-for-byte.
     </p>
 
   </div>
@@ -962,13 +962,13 @@
   <div class="marquee-track">
     <span>NON-CUSTODIAL</span><span class="sep">[/]</span>
     <span>NO ACCOUNTS</span><span class="sep">[/]</span>
-    <span>NO TAKEDOWNS</span><span class="sep">[/]</span>
+    <span>PERMANENT BY DESIGN</span><span class="sep">[/]</span>
     <span>REPRODUCIBLE BUILDS</span><span class="sep">[/]</span>
     <span>OPEN SOURCE</span><span class="sep">[/]</span>
     <span>READ FREE · PAY TO WRITE</span><span class="sep">[/]</span>
     <span>NON-CUSTODIAL</span><span class="sep">[/]</span>
     <span>NO ACCOUNTS</span><span class="sep">[/]</span>
-    <span>NO TAKEDOWNS</span><span class="sep">[/]</span>
+    <span>PERMANENT BY DESIGN</span><span class="sep">[/]</span>
     <span>REPRODUCIBLE BUILDS</span><span class="sep">[/]</span>
     <span>OPEN SOURCE</span><span class="sep">[/]</span>
     <span>READ FREE · PAY TO WRITE</span><span class="sep">[/]</span>
@@ -1019,8 +1019,8 @@
       </div>
       <p class="idea-body">
         Nothing routes through us. <strong>No account to sign up for</strong>,
-        no terms of service that change on you, no <em style="font-family:'Instrument Serif',serif;font-style:italic;">"this etch has been removed."</em>
-        Your etches are addressable forever, by anyone with the address.
+        no terms of service that change on you, no surprise migrations between
+        platforms. Your etches are addressable by anyone who has the address.
       </p>
     </div>
     <div class="idea">
@@ -1084,7 +1084,8 @@
         <p class="step-body">
           Anyone with the address retrieves <strong>exactly what you etched</strong>,
           byte-for-byte. Fetching is always free — you don't need a wallet to
-          fetch, only to etch. No edits, no takedowns, no accounts.
+          fetch, only to etch. The address is the content's hash, so the bytes
+          back out are verifiably the bytes that went in.
         </p>
         <div class="step-meta"><span class="ok">Free</span> · no wallet required</div>
       </div>
