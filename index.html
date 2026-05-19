@@ -615,17 +615,6 @@
       <span class="plat-label">Android</span>
     </a>
 
-    <!-- iOS: invite-only TestFlight while the public link is in Apple review.
-         Intentionally non-interactive (no href, pointer-events: none) until the
-         public link is approved. When ready: swap the <span> back to an <a> with
-         href="https://testflight.apple.com/join/<CODE>" (target=_blank, rel=noopener)
-         and change the tag back to "Beta". One TestFlight build covers iPhone + iPad. -->
-    <span class="plat plat-noop" role="img" aria-label="iOS — closed TestFlight beta; public join pending Apple review">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-      <span class="plat-label">iOS</span>
-      <span class="plat-tag">Closed beta</span>
-    </span>
-
   </div>
 </section>
 
@@ -684,7 +673,7 @@
       <span class="item">Browser extension</span><span class="sep">·</span>
       <span class="item">Mac</span><span class="sep">·</span>
       <span class="item">Windows</span><span class="sep">·</span>
-      <span class="item">iOS <em>closed beta</em></span><span class="sep">·</span>
+      <span class="item">Signed &amp; notarized</span><span class="sep">·</span>
       <span class="item">Blog composer</span><span class="sep">·</span>
       <span class="item">Screenshot → etch</span><span class="sep">·</span>
       <span class="item">Branded QR share</span>
@@ -724,11 +713,14 @@
       </ul>
       <div class="app-cta">
         <a href="/etch/" class="btn solid"><span class="ic">→</span> About etch/it</a>
-        <a href="https://github.com/etchit-io/etchit/releases/latest" class="btn ghost"><span class="ic">↓</span> Android APK</a>
       </div>
       <div class="app-more">
-        Also: <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">desktop build (Linux)</a> ·
-        <a href="https://github.com/etchit-io/etchit">source</a>
+        Get it: <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Mac</a> ·
+        <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Windows</a> ·
+        <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Linux</a> ·
+        <a href="https://github.com/etchit-io/etchit/releases/latest">Android</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/etchit-io/etchit-desktop">source</a>
       </div>
     </div>
 
@@ -752,10 +744,13 @@
       </ul>
       <div class="app-cta">
         <a href="/fetch/" class="btn solid"><span class="ic">→</span> About fetch/it</a>
-        <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk" class="btn ghost"><span class="ic">↓</span> Android APK</a>
       </div>
       <div class="app-more">
-        Also: <a href="https://github.com/etchit-io/fetchit">source</a> ·
+        Get it: <a href="https://github.com/etchit-io/fetchit/releases/latest">Mac</a> ·
+        <a href="https://github.com/etchit-io/fetchit/releases/latest">Windows</a> ·
+        <a href="https://github.com/etchit-io/fetchit/releases/latest">Linux</a> ·
+        <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">Android</a>
+        &nbsp;·&nbsp;
         <a href="/fetch/#live">try the live demo</a> — a whole site that lives on Autonomi
       </div>
     </div>
@@ -860,19 +855,28 @@
       <div class="cta-col">
         <div class="cta-col-name">etch<span class="m">/</span>it</div>
         <div class="cta-col-role">publish</div>
-        <a href="https://github.com/etchit-io/etchit/releases/latest" class="btn solid"><span class="ic">↓</span> Android APK</a>
-        <a href="/etch/" class="btn ghost"><span class="ic">→</span> What it does</a>
+        <a href="/etch/" class="btn solid"><span class="ic">→</span> What it does</a>
+        <div class="app-more" style="margin-top:14px">
+          Get it: <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Mac</a> ·
+          <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Windows</a> ·
+          <a href="https://github.com/etchit-io/etchit-desktop/releases/latest">Linux</a> ·
+          <a href="https://github.com/etchit-io/etchit/releases/latest">Android</a>
+        </div>
       </div>
       <div class="cta-col">
         <div class="cta-col-name">fetch<span class="m">&gt;</span>it</div>
         <div class="cta-col-role">read</div>
-        <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk" class="btn solid"><span class="ic">↓</span> Android APK</a>
-        <a href="/fetch/" class="btn ghost"><span class="ic">→</span> What it does</a>
+        <a href="/fetch/" class="btn solid"><span class="ic">→</span> What it does</a>
+        <div class="app-more" style="margin-top:14px">
+          Get it: <a href="https://github.com/etchit-io/fetchit/releases/latest">Mac</a> ·
+          <a href="https://github.com/etchit-io/fetchit/releases/latest">Windows</a> ·
+          <a href="https://github.com/etchit-io/fetchit/releases/latest">Linux</a> ·
+          <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">Android</a>
+        </div>
       </div>
     </div>
     <div class="cta-status">
-      <strong>Status:</strong> etch/it — Android &amp; desktop in beta. &nbsp;·&nbsp;
-      fetch/it — Android, desktop, &amp; iOS (TestFlight, invite). &nbsp;·&nbsp;
+      <strong>Status:</strong> both apps in public beta on Mac · Windows · Linux · Android. &nbsp;·&nbsp;
       <span class="ok">Read is free on both.</span>
     </div>
   </div>
