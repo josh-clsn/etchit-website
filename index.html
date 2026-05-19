@@ -132,6 +132,14 @@
     flex-wrap: wrap;
     align-items: flex-start;
   }
+  @media (max-width: 600px) {
+    .platforms-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
+      gap: 22px 14px;
+    }
+  }
   .plat {
     display: inline-flex;
     flex-direction: column;
