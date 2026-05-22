@@ -385,7 +385,7 @@
         On Windows / macOS / Linux you need <strong>both</strong>: the desktop app (does the actual fetching)
         and the browser extension (catches <code style="color: var(--copper);">autonomi://</code> clicks here and
         routes them to the app — without it, browsers silently block the scheme).
-        iOS is in private beta — limited slots; email <a href="mailto:hello@etchit.io" style="color: var(--copper);">hello@etchit.io</a> if you want one. Safari isn't supported yet.
+        iOS is a free public beta on <a href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener" style="color: var(--copper);">TestFlight</a>. Safari isn't supported yet.
       </span>
     </div>
 
@@ -405,8 +405,8 @@
       <a class="ib" data-os="extension" href="/release.html#extension">
         <span class="ic">◈</span> Browser extension <span class="arr">↓</span>
       </a>
-      <a class="ib" data-os="ios" href="mailto:hello@etchit.io">
-        <span class="ic"></span> iOS <em>(private beta)</em> <span class="arr">→</span>
+      <a class="ib" data-os="ios" href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener">
+        <span class="ic"></span> iOS <em>(TestFlight beta)</em> <span class="arr">↓</span>
       </a>
     </div>
   </div>
@@ -722,8 +722,8 @@
   var msg  = document.getElementById('os-msg');
 
   if (os === 'ios') {
-    pill.textContent = 'iOS — invite only';
-    msg.textContent = 'iOS is in TestFlight beta — invite-only for now while Apple reviews the public link. The links below will open in fetch>it on a desktop or Android device.';
+    pill.textContent = 'iOS — TestFlight';
+    msg.textContent = 'fetch>it for iOS is a free public beta on TestFlight — tap the iOS button below to install it, then scan an address from the city to open it in the app.';
   } else if (os === 'unknown') {
     pill.textContent = 'pick one';
     msg.textContent = "Don't have fetch>it? Pick the one for your platform.";

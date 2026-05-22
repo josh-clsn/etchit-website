@@ -566,6 +566,108 @@
     .plat-label { font-size: 9px; letter-spacing: 0.18em; }
   }
 
+  /* ── iOS launch modal ─────────────────────────────────── */
+  .ios-modal {
+    position: fixed; inset: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background: rgba(6, 6, 6, 0.82);
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    opacity: 0; transition: opacity 0.24s ease;
+  }
+  .ios-modal[hidden] { display: none; }
+  .ios-modal.show { opacity: 1; }
+  body.modal-open { overflow: hidden; }
+
+  .ios-modal-card {
+    position: relative;
+    width: 100%; max-width: 480px;
+    max-height: calc(100vh - 48px); overflow-y: auto;
+    background: var(--ink-2);
+    border: 1px solid var(--copper);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201, 115, 43, 0.15);
+    padding: 42px 36px 30px;
+    transform: translateY(14px) scale(0.97);
+    transition: transform 0.28s cubic-bezier(.2, .8, .2, 1);
+  }
+  .ios-modal.show .ios-modal-card { transform: none; }
+
+  .ios-modal-x {
+    position: absolute; top: 12px; right: 12px;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: 1px solid var(--line);
+    color: var(--ash); font-family: inherit; font-size: 17px; line-height: 1;
+    cursor: pointer; transition: color 0.16s, border-color 0.16s;
+  }
+  .ios-modal-x:hover { color: var(--bone); border-color: var(--copper); }
+
+  .ios-modal-kicker {
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--copper); font-weight: 700; margin-bottom: 14px;
+  }
+  .ios-modal-title {
+    font-size: 30px; font-weight: 800; letter-spacing: -0.035em;
+    line-height: 1.08; margin-bottom: 12px;
+  }
+  .ios-modal-title em {
+    font-family: 'Instrument Serif', serif; font-style: italic;
+    font-weight: 400; color: var(--copper); letter-spacing: -0.01em;
+  }
+  .ios-modal-title .m { color: var(--copper); }
+  .ios-modal-sub {
+    font-size: 13px; line-height: 1.65; color: var(--bone-dim);
+    margin-bottom: 24px;
+  }
+  .ios-modal-sub .m { color: var(--copper); }
+
+  .ios-modal-qrs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin-bottom: 22px;
+  }
+  .ios-qr {
+    border: 1px solid var(--line); background: var(--ink);
+    padding: 16px 12px 14px; text-align: center;
+  }
+  .ios-qr-num {
+    font-size: 10px; font-weight: 700; color: var(--copper);
+    letter-spacing: 0.12em; margin-bottom: 10px;
+  }
+  .ios-qr img {
+    width: 100%; max-width: 144px; height: auto;
+    display: block; margin: 0 auto 11px;
+    border-radius: 6px;
+  }
+  .ios-qr-label { font-size: 13px; font-weight: 700; color: var(--bone); margin-bottom: 3px; }
+  .ios-qr-label .m { color: var(--copper); }
+  .ios-qr-note { font-size: 10.5px; color: var(--ash); }
+
+  .ios-modal-cta {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 15px 20px;
+    background: var(--copper); color: var(--ink);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.02em;
+    border: 1px solid var(--copper);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(.2, .8, .2, 1);
+  }
+  .ios-modal-cta:hover {
+    background: var(--copper-bright); border-color: var(--copper-bright);
+    transform: translateY(-2px);
+  }
+  .ios-modal-url {
+    text-align: center; font-size: 11px; color: var(--ash);
+    margin-top: 12px; word-break: break-all;
+  }
+  .ios-modal-url a { color: var(--copper); }
+  .ios-modal-url a:hover { color: var(--copper-bright); }
+
+  @media (max-width: 480px) {
+    .ios-modal-card { padding: 38px 22px 26px; }
+    .ios-modal-title { font-size: 25px; }
+    .ios-modal-qrs { gap: 10px; }
+    .ios-qr { padding: 12px 8px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.001ms !important;
@@ -574,11 +676,48 @@
     }
     html { scroll-behavior: auto; }
     .fade-in { opacity: 1 !important; transform: none !important; }
+    .ios-modal-card { transform: none; }
   }
 </style>
 <noscript><style>.fade-in { opacity: 1; transform: none; }</style></noscript>
 </head>
 <body>
+
+<!-- ============ iOS LAUNCH MODAL ============ -->
+<div class="ios-modal" id="iosModal" role="dialog" aria-modal="true" aria-labelledby="iosModalTitle" hidden>
+  <div class="ios-modal-card">
+    <button class="ios-modal-x" type="button" aria-label="Close" data-close>&#215;</button>
+    <div class="ios-modal-kicker">// Now on iOS</div>
+    <h2 class="ios-modal-title" id="iosModalTitle">fetch<span class="m">&gt;</span>it lands on <em>iPhone &amp; iPad.</em></h2>
+    <p class="ios-modal-sub">
+      The reader is now a <strong style="color:var(--bone);font-weight:700">free public beta</strong> on
+      Apple's TestFlight. Scan the first code to install it — then, inside the app, scan the
+      second to walk straight into <span class="m">fetch&gt;it</span> city.
+    </p>
+    <div class="ios-modal-qrs">
+      <div class="ios-qr">
+        <div class="ios-qr-num">01 · INSTALL</div>
+        <img src="/qr-ios-testflight.png?v=1" width="144" height="144"
+             alt="QR code — join the fetch>it iOS public beta on TestFlight">
+        <div class="ios-qr-label">Join the beta</div>
+        <div class="ios-qr-note">Opens TestFlight</div>
+      </div>
+      <div class="ios-qr">
+        <div class="ios-qr-num">02 · EXPLORE</div>
+        <img src="/qr-ios-city.png?v=1" width="144" height="144"
+             alt="QR code for autonomi://ba9a8fca…ec94e764 — opens fetch>it city">
+        <div class="ios-qr-label">fetch<span class="m">&gt;</span>it city</div>
+        <div class="ios-qr-note">Scan inside the app</div>
+      </div>
+    </div>
+    <a class="ios-modal-cta" href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener">
+      Open TestFlight &rarr;
+    </a>
+    <p class="ios-modal-url">
+      <a href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener">testflight.apple.com/join/rmXaw727</a>
+    </p>
+  </div>
+</div>
 
 <nav>
   <a href="/" class="brand">
@@ -624,13 +763,12 @@
       <span class="plat-label">Android</span>
     </a>
 
-    <!-- iOS: private TestFlight beta (100 internal testers). Public
-         join becomes available when Apple approves external beta. -->
-    <span class="plat plat-noop" role="img" aria-label="iOS — private TestFlight beta">
+    <!-- iOS: free public TestFlight beta — testflight.apple.com/join/rmXaw727 -->
+    <a class="plat" href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener" aria-label="fetch>it for iOS — public TestFlight beta">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
       <span class="plat-label">iOS</span>
-      <span class="plat-tag">Private beta</span>
-    </span>
+      <span class="plat-tag">TestFlight</span>
+    </a>
 
     <a class="plat" href="/release.html#extension" aria-label="Browser extension">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-2 .9-2 2v3.8h1.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7s2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></svg>
@@ -696,7 +834,7 @@
       <span class="item">Mac</span><span class="sep">·</span>
       <span class="item">Windows</span><span class="sep">·</span>
       <span class="item">Signed &amp; notarized</span><span class="sep">·</span>
-      <span class="item">iOS <em>private beta</em></span><span class="sep">·</span>
+      <a class="item" href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-decoration-color:var(--copper-dim);text-underline-offset:3px">iOS <em>on TestFlight</em></a><span class="sep">·</span>
       <span class="item">Blog composer</span><span class="sep">·</span>
       <span class="item">Website builder</span><span class="sep">·</span>
       <span class="item">Screenshot → etch</span><span class="sep">·</span>
@@ -775,7 +913,7 @@
         <a href="https://github.com/etchit-io/fetchit/releases/latest">Linux</a> ·
         <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">Android</a> ·
         <a href="/release.html#extension">Extension</a> ·
-        <a href="mailto:hello@etchit.io">iOS beta</a>
+        <a href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener">iOS</a>
         &nbsp;·&nbsp;
         <a href="/fetch/#live">try the live demo</a> — a whole site that lives on Autonomi
       </div>
@@ -899,7 +1037,7 @@
           <a href="https://github.com/etchit-io/fetchit/releases/latest">Linux</a> ·
           <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">Android</a> ·
           <a href="/release.html#extension">Extension</a> ·
-          <a href="mailto:hello@etchit.io">iOS beta</a>
+          <a href="https://testflight.apple.com/join/rmXaw727" target="_blank" rel="noopener">iOS</a>
         </div>
       </div>
     </div>
@@ -938,6 +1076,36 @@
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ── iOS launch modal: show once, dismiss persists in localStorage ──
+  (function () {
+    const modal = document.getElementById('iosModal');
+    if (!modal) return;
+    const KEY = 'etchit-ios-launch-v1';
+    let seen = null;
+    try { seen = localStorage.getItem(KEY); } catch (e) {}
+    if (seen) return;
+
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    function close() {
+      modal.classList.remove('show');
+      document.body.classList.remove('modal-open');
+      document.removeEventListener('keydown', onKey);
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      setTimeout(() => { modal.hidden = true; }, 280);
+    }
+
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', onKey);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      modal.classList.add('show');
+      const x = modal.querySelector('.ios-modal-x');
+      if (x) x.focus();
+    }));
+  })();
 </script>
 
 </body>
