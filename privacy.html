@@ -201,7 +201,7 @@
     <li><b>The Autonomi peer-to-peer network</b>, to fetch the content at the address you ask for. The network is decentralised and operated by third-party node runners; the app sends only the cryptographic address you are asking for, not your identity.</li>
     <li><b>A single configuration URL</b> on GitHub (<code>raw.githubusercontent.com</code>) when you tap "Refresh from upstream" in Settings → Network. This downloads a plain-text list of currently healthy bootstrap peers from the WithAutonomi project's public <code>ant-node</code> repository. Standard HTTP request headers only — no identifying body.</li>
   </ul>
-  <p>Rendered HTML pages inside the app are confined to the Autonomi network by a WebKit content rule list. Every non-Autonomi URL — <code>https://</code>, <code>http://</code>, third-party fonts, scripts, images, analytics beacons, tracking pixels — is blocked at the WebKit request layer. The viewer is air-gapped from the open web by design.</p>
+  <p>Rendered HTML pages inside the app are confined to the Autonomi network by a WebKit content rule list. Every non-Autonomi URL — <code>https://</code>, <code>http://</code>, third-party fonts, scripts, images, analytics beacons, tracking pixels — is blocked at the WebKit request layer. The browser is air-gapped from the open web by design.</p>
 
   <h2>Camera</h2>
   <p>If you tap the QR scanner button, iOS asks for camera permission. The camera is used only to decode the QR code in front of it and extract an Autonomi address. No image, video, or recognition data is saved, stored, or transmitted. Decline the permission and the rest of the app works normally.</p>
