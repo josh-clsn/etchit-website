@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open this link with fetch/it — etchit</title>
+<meta name="description" content="This link points to content stored on the Autonomi network — a permanent, peer-to-peer web. Get fetch/it, the free read-only browser, to open it. Android, Mac, Windows, Linux.">
+<link rel="canonical" href="https://etchit.io/a/">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/etchit-favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="etchit">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://etchit.io/a/">
+<meta property="og:title" content="Open this link with fetch/it">
+<meta property="og:description" content="This link points to content on the Autonomi network — a permanent, peer-to-peer web. Get fetch/it, the free read-only browser, to open it.">
+<meta property="og:image" content="https://etchit.io/og-fetch.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fetch/it — paste an address, see what's there — etchit.io/fetch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open this link with fetch/it">
+<meta name="twitter:description" content="This link points to content on the Autonomi network. Get fetch/it, the free read-only browser, to open it.">
+<meta name="twitter:image" content="https://etchit.io/og-fetch.png">
+<meta name="twitter:image:alt" content="fetch/it — paste an address, see what's there — etchit.io/fetch">
+
+<link rel="preload" href="/fonts/jetbrains-mono-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jetbrains-mono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #141414;
+    --ink-3: #1c1c1c;
+    --copper: #c9732b;
+    --copper-bright: #e58a3f;
+    --copper-dim: #8a4e1d;
+    --bone: #f5f2eb;
+    --bone-dim: #d6cfc0;
+    --ash: #8a8a8a;
+    --ash-dim: #3a3a3a;
+    --line: #222;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400; line-height: 1.5; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--copper); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    padding: 20px 32px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+  .brand .mark { color: var(--copper); }
+  .nav-links { display: flex; gap: 26px; font-size: 13px; color: var(--ash); align-items: center; }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--copper); }
+  .nav-links .nav-dl { color: var(--copper); font-weight: 600; padding: 4px 10px; border: 1px solid var(--copper-dim); border-radius: 4px; transition: all 0.2s; }
+  .nav-links .nav-dl:hover { color: var(--ink); background: var(--copper); border-color: var(--copper); }
+
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 24px; position: relative; overflow: hidden; }
+  main::before {
+    content: '>'; position: absolute; left: -20px; top: -60px;
+    font-size: clamp(420px, 90vh, 900px); line-height: 0.75; color: var(--copper); opacity: 0.045; font-weight: 300; pointer-events: none;
+  }
+  .card { max-width: 620px; width: 100%; position: relative; z-index: 2; }
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ash); margin-bottom: 20px;
+  }
+  h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 18px; }
+  h1 .m { color: var(--copper); }
+  .lede { color: var(--bone-dim); font-size: 15px; margin-bottom: 28px; }
+  .lede strong { color: var(--bone); font-weight: 700; }
+
+  .addr-box {
+    background: var(--ink-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 28px; display: none;
+  }
+  .addr-box.show { display: block; }
+  .addr-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ash); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+  .addr-copy { color: var(--copper); background: none; border: 1px solid var(--copper-dim); border-radius: 4px; font: inherit; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; cursor: pointer; transition: all 0.2s; }
+  .addr-copy:hover { color: var(--ink); background: var(--copper); border-color: var(--copper); }
+  .addr-hex { color: var(--copper); font-size: 13px; word-break: break-all; line-height: 1.6; }
+
+  .btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 14px;
+    padding: 13px 22px; border-radius: 6px; transition: all 0.2s;
+  }
+  .btn.solid { background: var(--copper); color: var(--ink); }
+  .btn.solid:hover { background: var(--copper-bright); }
+  .btn.ghost { border: 1px solid var(--ash-dim); color: var(--bone-dim); }
+  .btn.ghost:hover { border-color: var(--copper); color: var(--copper); }
+  .btn .m { color: inherit; }
+  #openBtn { display: none; }
+  #openBtn.show { display: inline-flex; }
+
+  .platforms { font-size: 12px; color: var(--ash); margin-bottom: 36px; }
+  .platforms a { color: var(--bone-dim); border-bottom: 1px solid var(--ash-dim); transition: all 0.2s; }
+  .platforms a:hover { color: var(--copper); border-color: var(--copper); }
+
+  .how { border-top: 1px solid var(--line); padding-top: 24px; font-size: 13px; color: var(--ash); }
+  .how b { color: var(--bone-dim); font-weight: 700; }
+  .how .step { margin-bottom: 8px; display: flex; gap: 10px; }
+  .how .n { color: var(--copper); font-weight: 700; flex-shrink: 0; }
+
+  footer { padding: 22px 32px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--ash); }
+  .foot-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .foot-links a:hover { color: var(--copper); }
+  .foot-links .m { color: var(--copper); }
+  @media (max-width: 560px) { .nav-links a:not(.nav-dl) { display: none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand"><span class="mark">[/]</span><span>etchit</span></a>
+  <div class="nav-links">
+    <a href="/fetch/">What is fetch&gt;it?</a>
+    <a href="/learn.html">Learn</a>
+    <a href="https://github.com/etchit-io/fetchit/releases/latest" class="nav-dl">Download ↓</a>
+  </div>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="eyebrow">Autonomi link</div>
+    <h1>This content lives on a <span class="m">permanent</span> network.</h1>
+    <p class="lede">Someone shared a link to content stored on
+    <strong>Autonomi</strong> — a peer-to-peer network where data is addressed
+    by what it <em>is</em>, not where it sits. No server hosts it, so an
+    ordinary browser can't open it. <strong>fetch<span class="m">&gt;</span>it</strong>
+    can — it's free, open source, and read-only by design.</p>
+
+    <div class="addr-box" id="addrBox">
+      <div class="addr-label"><span>Content address</span>
+        <button class="addr-copy" id="copyBtn" type="button">Copy</button></div>
+      <div class="addr-hex" id="addrHex"></div>
+    </div>
+
+    <div class="btns">
+      <a class="btn solid" id="openBtn" href="#">Open in fetch<span class="m">&gt;</span>it</a>
+      <a class="btn ghost" href="https://github.com/etchit-io/fetchit/releases/latest">↓ Get fetch<span class="m">&gt;</span>it</a>
+    </div>
+    <div class="platforms">
+      <a href="https://github.com/etchit-io/fetchit/releases/latest/download/app-release.apk">Android</a> ·
+      <a href="https://github.com/etchit-io/fetchit/releases/latest">Mac</a> ·
+      <a href="https://github.com/etchit-io/fetchit/releases/latest">Windows</a> ·
+      <a href="https://github.com/etchit-io/fetchit/releases/latest">Linux</a> ·
+      <a href="/release.html#extension">Browser extension</a>
+    </div>
+
+    <div class="how">
+      <div class="step"><span class="n">1</span><span>Install fetch<span class="m">&gt;</span>it — nothing to sign up for, nothing to pay.</span></div>
+      <div class="step"><span class="n">2</span><span>Tap <b>Open</b> above (or paste the address into the app).</span></div>
+      <div class="step"><span class="n">3</span><span>The app fetches the content by its hash, straight from the network, and renders it — pages, images, music, video, books.</span></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-links">
+    <a href="/">etchit</a>
+    <a href="/fetch/">fetch<span class="m">&gt;</span>it</a>
+    <a href="https://autonomi.com" target="_blank">Autonomi ↗</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+  <div>© 2026 — Permanent by design</div>
+</footer>
+
+<script>
+  (function () {
+    var HEX64 = /^[0-9a-fA-F]{64}$/;
+    function readAddr() {
+      var raw = (location.hash || '').replace(/^#/, '');
+      raw = raw.replace(/^autonomi:\/\//i, '').replace(/^0x/i, '');
+      return HEX64.test(raw) ? raw.toLowerCase() : null;
+    }
+    function render() {
+      var addr = readAddr();
+      var box = document.getElementById('addrBox');
+      var open = document.getElementById('openBtn');
+      if (!addr) { box.className = 'addr-box'; open.className = 'btn solid'; open.removeAttribute('href'); return; }
+      document.getElementById('addrHex').textContent = 'autonomi://' + addr;
+      box.className = 'addr-box show';
+      open.className = 'btn solid show';
+      open.setAttribute('href', 'autonomi://' + addr);
+    }
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      var addr = readAddr();
+      if (!addr) return;
+      var btn = this;
+      function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText('autonomi://' + addr).then(done, function () {});
+      }
+    });
+    window.addEventListener('hashchange', render);
+    render();
+  })();
+</script>
+
+</body>
+</html>
